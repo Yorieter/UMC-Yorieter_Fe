@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 내부를 투명하게 설정 -->
+    <solid android:color="#00000000"/>
+
+    <!-- 선의 두께와 색상 설정 -->
+    <stroke android:color="@color/subColor5" android:width="1dp"/>
+
+    <!-- 둥근 모서리 반경 설정 -->
+    <corners android:radius="7dp"/>
+
+</shape>
