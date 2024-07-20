@@ -31,11 +31,13 @@
             android:src="@drawable/ic_backbutton"
             android:background="@color/ic_yorieter_background"/>
 
-        <ImageView
-            android:id="@+id/post_look_iv"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_look"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/mypost_search_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:queryHint="제목 검색"
+            app:layout_collapseMode="pin"
             android:layout_marginEnd="20dp"
             android:layout_gravity="end"/>
 

@@ -33,7 +33,7 @@
         android:textColor="@color/subColor5"
         android:textSize="13sp"
         android:textStyle="bold"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="18dp"
         app:layout_constraintStart_toEndOf="@+id/item_mypost_img_cardView"
         app:layout_constraintTop_toTopOf="parent" />

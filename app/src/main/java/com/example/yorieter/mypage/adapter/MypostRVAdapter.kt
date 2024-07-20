@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yorieter.databinding.ItemMypostBinding
-import com.example.yorieter.mypage.data.Mypost
+import com.example.yorieter.mypage.dataclass.Mypost
 
 class MypostRVAdapter(private val mypostList: ArrayList<Mypost>): RecyclerView.Adapter<MypostRVAdapter.ViewHolder>() {
 

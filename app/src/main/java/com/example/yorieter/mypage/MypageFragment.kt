@@ -6,13 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentMypageBinding
+import androidx.fragment.app.setFragmentResultListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.yorieter.login.LoginActivity
+import com.example.yorieter.mypage.dataclass.Mypost
+import com.example.yorieter.mypage.viewModel.ProfileViewModel
 
 class MypageFragment: Fragment() {
 
     lateinit var binding: FragmentMypageBinding
+    private val profileViewModel: ProfileViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +39,22 @@ class MypageFragment: Fragment() {
                 .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }
+
+        // ViewModel
+        profileViewModel.nickname.observe(viewLifecycleOwner, { nickname ->
+            binding.myProfileNameTv.text = nickname
+        })
+
+        profileViewModel.introduction.observe(viewLifecycleOwner, { introduction ->
+            binding.myIntroductionTv.text = introduction
+        })
+
+        profileViewModel.profileImageUri.observe(viewLifecycleOwner, { uri ->
+            Glide.with(this)
+                .load(uri)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.myProfileIv)
+        })
 
         // 더보기 버튼 클릭 시 (내가 작성한 게시물의 더보기)
         binding.moreIv.setOnClickListener {
@@ -58,13 +81,13 @@ class MypageFragment: Fragment() {
         }
 
         // 저장한 게시물 아이콘 클릭 시
-        binding.myBookmarkIv.setOnClickListener {
+        binding.myLikeIv.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.slide_in_right,
                     R.anim.slide_in_left,
                 )
-                .replace(R.id.main_frm, MyBookmarkFragment()) // 북마크 프래그먼트로 이동
+                .replace(R.id.main_frm, MyLikeFragment()) // 북마크 프래그먼트로 이동
                 .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }

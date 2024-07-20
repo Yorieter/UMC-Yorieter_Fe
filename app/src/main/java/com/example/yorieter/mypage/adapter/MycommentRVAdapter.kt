@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yorieter.databinding.ItemMycommentBinding
-import com.example.yorieter.mypage.data.Mycomment
+import com.example.yorieter.mypage.dataclass.Mycomment
 
 
 class MycommentRVAdapter(private val mycommentList: ArrayList<Mycomment>): RecyclerView.Adapter<MycommentRVAdapter.ViewHolder>() {

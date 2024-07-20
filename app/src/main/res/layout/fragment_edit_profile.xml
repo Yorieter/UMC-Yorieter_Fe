@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/ic_yorieter_background">
+    android:background="@color/ic_yorieter_background"
+    android:id="@+id/editProfileFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

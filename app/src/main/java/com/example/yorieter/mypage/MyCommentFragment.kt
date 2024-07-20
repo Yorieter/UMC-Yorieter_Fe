@@ -10,7 +10,7 @@ import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentMyCommentBinding
 import com.example.yorieter.mypage.adapter.DividerItemDecoration
 import com.example.yorieter.mypage.adapter.MycommentRVAdapter
-import com.example.yorieter.mypage.data.Mycomment
+import com.example.yorieter.mypage.dataclass.Mycomment
 
 class MyCommentFragment: Fragment() {
 

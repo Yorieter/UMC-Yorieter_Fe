@@ -1,4 +1,4 @@
-package com.example.yorieter.mypage.data
+package com.example.yorieter.mypage.dataclass
 
 data class Mypost(
     var coverImg: Int? = null,

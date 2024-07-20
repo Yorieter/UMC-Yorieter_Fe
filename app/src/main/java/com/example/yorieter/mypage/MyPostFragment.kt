@@ -4,19 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentMyPostBinding
 import com.example.yorieter.mypage.adapter.DividerItemDecoration
 import com.example.yorieter.mypage.adapter.MypostRVAdapter
-import com.example.yorieter.mypage.data.Mypost
+import com.example.yorieter.mypage.dataclass.Mypost
 
 class MyPostFragment: Fragment() {
 
     lateinit var binding: FragmentMyPostBinding
 
     private var mypostDatas = ArrayList<Mypost>()
+
+    private lateinit var mypostRVAdapter: MypostRVAdapter
+    private var filteredPosts = ArrayList<Mypost>() // 필터링된 게시물 리스트
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,10 +34,23 @@ class MyPostFragment: Fragment() {
             add(Mypost(R.drawable.mypage_mypost_image2, "간단한 루꼴라 샌드위치", "작성일자: 2024-03-12"))
             add(Mypost(R.drawable.mypage_mypost_basic_image, "완벽한 한끼 식사! 두부 유부초밥", "작성일자: 2024-02-24"))
             add(Mypost(R.drawable.mypage_mypost_image3, "냉장고 털이 계란 두부 카레덮밥", "작성일자: 2024-01-07"))
+            add(Mypost(R.drawable.mypage_mypost_image1, "누구나 손쉽게 만들 수 있는 두부 샐러드", "작성일자: 2024-06-29"))
+            add(Mypost(R.drawable.mypage_mypost_image2, "간단한 루꼴라 샌드위치", "작성일자: 2024-03-12"))
+            add(Mypost(R.drawable.mypage_mypost_basic_image, "완벽한 한끼 식사! 두부 유부초밥", "작성일자: 2024-02-24"))
+            add(Mypost(R.drawable.mypage_mypost_image3, "냉장고 털이 계란 두부 카레덮밥", "작성일자: 2024-01-07"))
+            add(Mypost(R.drawable.mypage_mypost_image1, "누구나 손쉽게 만들 수 있는 두부 샐러드", "작성일자: 2024-06-29"))
+            add(Mypost(R.drawable.mypage_mypost_image2, "간단한 루꼴라 샌드위치", "작성일자: 2024-03-12"))
+            add(Mypost(R.drawable.mypage_mypost_basic_image, "완벽한 한끼 식사! 두부 유부초밥", "작성일자: 2024-02-24"))
+            add(Mypost(R.drawable.mypage_mypost_image3, "냉장고 털이 계란 두부 카레덮밥", "작성일자: 2024-01-07"))
+            add(Mypost(R.drawable.mypage_mypost_image1, "누구나 손쉽게 만들 수 있는 두부 샐러드", "작성일자: 2024-06-29"))
+            add(Mypost(R.drawable.mypage_mypost_image2, "간단한 루꼴라 샌드위치", "작성일자: 2024-03-12"))
+            add(Mypost(R.drawable.mypage_mypost_basic_image, "완벽한 한끼 식사! 두부 유부초밥", "작성일자: 2024-02-24"))
+            add(Mypost(R.drawable.mypage_mypost_image3, "냉장고 털이 계란 두부 카레덮밥", "작성일자: 2024-01-07"))
         }
 
         // 어댑터와 데이터 리스트(더미데이터) 연결
-        val mypostRVAdapter = MypostRVAdapter(mypostDatas)
+        filteredPosts.addAll(mypostDatas)
+        mypostRVAdapter = MypostRVAdapter(filteredPosts)
 
         // 리사이클러뷰에 어댑터를 연결
         binding.mypostContentVp.adapter = mypostRVAdapter
@@ -63,6 +80,37 @@ class MyPostFragment: Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+        // SearchView 설정
+        binding.mypostSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                filterPosts(query)
+                return true
+            }
+        })
+
         return binding.root
+    }
+
+    private fun filterPosts(query: String?) {
+        filteredPosts.clear() // 현재 필터링된 게시물 리스트를 초기화 (이전의 필터링 결과를 지움)
+
+        if (query.isNullOrEmpty()) { // 검색어가 null이거나 빈 문자열인 경우, 모든 게시물을 필터링된 리스트에 추가
+            filteredPosts.addAll(mypostDatas)
+        } else {
+            val lowerCaseQuery = query.toLowerCase() // 검색어를 소문자로 변환하여 대소문자를 구분하지 않고 검색
+            for (post in mypostDatas) {
+                // title이 null일 수 있으므로, null을 처리하고 빈 문자열을 기본값으로 설정
+                val title = post.title?.toLowerCase() ?: ""
+                if (title.contains(lowerCaseQuery)) { // 제목이 검색어를 포함하는 경우
+                    filteredPosts.add(post) // 해당 게시물을 필터링
+                }
+            }
+        }
+
+        mypostRVAdapter.notifyDataSetChanged() // 어댑터에게 데이터가 변경되었음을 알림
     }
 }
