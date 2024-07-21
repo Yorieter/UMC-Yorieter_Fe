@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yorieter.data.Recipe
+import com.example.yorieter.databinding.ItemHomeRecipeBinding
 import com.example.yorieter.databinding.ItemRecipeBinding
 
 class HomeRecommendRecipeAdapter(val recipes: MutableList<Recipe>) : RecyclerView.Adapter<HomeRecommendRecipeAdapter.HomeRecommendRecipeHolder>() {
@@ -15,7 +16,7 @@ class HomeRecommendRecipeAdapter(val recipes: MutableList<Recipe>) : RecyclerVie
         parent: ViewGroup,
         viewType: Int
     ): HomeRecommendRecipeAdapter.HomeRecommendRecipeHolder {
-        val binding = ItemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemHomeRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeRecommendRecipeHolder(binding)
     }
 
@@ -26,7 +27,7 @@ class HomeRecommendRecipeAdapter(val recipes: MutableList<Recipe>) : RecyclerVie
         holder.bind(recipes[position])
     }
 
-    inner class HomeRecommendRecipeHolder(val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class HomeRecommendRecipeHolder(val binding: ItemHomeRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe) {
             binding.recipeImgIV.setImageResource(recipe.recipeImg!!)
             binding.recipeNameTV.text = recipe.name
