@@ -18,6 +18,7 @@ class SearchFragment: Fragment() {
 
     lateinit var binding: FragmentSearchBinding
 
+    // 수정
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
