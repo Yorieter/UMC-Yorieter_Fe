@@ -19,6 +19,7 @@ class HomeFragment: Fragment() {
     lateinit var binding: FragmentHomeBinding
     // lateinit var recommendRecipe: RecipeDatabase
 
+    // 수정 다시
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
