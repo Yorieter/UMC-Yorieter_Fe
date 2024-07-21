@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:layout_marginTop="10dp"
+    android:background="@color/subColor3">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_recipe_img_cardView"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <ImageView
+            android:id="@+id/item_recipe_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/recipe"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:text="여름에 무조건 먹어야 하는 냉면"
+        android:textStyle="bold"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="27dp"
+        app:layout_constraintStart_toEndOf="@id/item_recipe_img_cardView"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="100dp"
+        android:layout_height="15dp"
+        android:text="작성일자: 2024-07-19"
+        android:textSize="9dp"
+        android:textStyle="bold"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
