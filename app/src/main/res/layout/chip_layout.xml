@@ -4,4 +4,4 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/ingredients_chip"
-    style="@style/CustomChipChoice" />
+    style="@style/Widget.Material3.Chip.Filter.Elevated" />
