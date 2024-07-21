@@ -2,6 +2,100 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ic_yorieter_background">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/ic_yorieter_background"
+    android:id="@+id/loginActivity">
+
+    <ImageView
+        android:id="@+id/login_splash_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/splash"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/login_yorieter_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_yorieter"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/login_id_et"
+        android:layout_width="191dp"
+        android:layout_height="39dp"
+        android:hint="아이디"
+        android:textColorHint="@color/gray"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:inputType="text"
+        android:paddingLeft="10dp"
+        android:imeOptions="actionNext"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/login_edittext_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_yorieter_iv"/>
+
+    <EditText
+        android:id="@+id/login_pw_et"
+        android:layout_width="191dp"
+        android:layout_height="39dp"
+        android:hint="비밀번호"
+        android:textColorHint="@color/gray"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:imeOptions="actionDone"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_edittext_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_id_et"/>
+
+    <TextView
+        android:id="@+id/login_er_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="아이디 또는 비밀번호가 틀렸습니다."
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_pw_et"/>
+    
+    <android.widget.Button
+        android:id="@+id/login_bt"
+        android:layout_width="87dp"
+        android:layout_height="37dp"
+        android:text="로그인"
+        android:textSize="12sp"
+        android:textColor="@color/subColor5"
+        android:textStyle="bold"
+        android:background="@drawable/login_button_background"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_pw_et"/>
+
+    <TextView
+        android:id="@+id/signUp_message_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입을 아직 하지 않으셨나요?"
+        android:textSize="13sp"
+        android:textColor="@color/subColor5"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_bt"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
