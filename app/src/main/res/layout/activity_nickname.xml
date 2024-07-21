@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nicknameActivity">
+
+    <ImageView
+        android:id="@+id/splash_iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/splash"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:id="@+id/nickname_splash_tv"
+        android:layout_width="198dp"
+        android:layout_height="50dp"
+        android:text="다이어트하는\n우리 모두를 위한 레시피 앱"
+        android:textColor="@color/mainColor"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/yorieter_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_yorieter"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_splash_tv"/>
+
+    <TextView
+        android:id="@+id/nickname_message_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="닉네임을 입력하세요."
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/subColor5"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/yorieter_iv"/>
+
+    <EditText
+        android:id="@+id/nickname_et"
+        android:layout_width="252dp"
+        android:layout_height="45dp"
+        android:hint="최대 10글자까지 입력 가능"
+        android:textColorHint="@color/gray"
+        android:textSize="13sp"
+        android:paddingLeft="10dp"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:background="@drawable/login_nickname_edittext_background"
+        android:layout_marginTop="13dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_message_tv"/>
+
+    <TextView
+        android:id="@+id/nicknanme_er_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="이미 사용 중인 닉네임입니다."
+        android:textColor="#FF0000"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_et"/>
+
+    <android.widget.Button
+        android:id="@+id/save_bt"
+        android:layout_width="87dp"
+        android:layout_height="37dp"
+        android:text="확인"
+        android:textSize="12sp"
+        android:textColor="@color/subColor5"
+        android:textStyle="bold"
+        android:background="@drawable/login_button_background"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_et"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

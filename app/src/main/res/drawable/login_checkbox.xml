@@ -1,0 +1,10 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <!--체크 되었을 때-->
+  <item android:drawable="@drawable/login_ic_check_on"
+      android:state_checked="true"/>
+
+  <!--체크 안되었을 때-->
+  <item android:drawable="@drawable/login_ic_checkbox" />
+
+</selector>

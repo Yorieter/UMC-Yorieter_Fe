@@ -5,14 +5,300 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/ic_yorieter_background">
 
-    <TextView
+    <!-- 툴바 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mypage_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="마이페이지"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/mypage_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마이페이지"
+            android:textColor="@color/subColor5"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/mypage_edit_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="편집"
+            android:textSize="15sp"
+            android:textColor="@color/subColor5"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="end"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.93" />
+
+    <TextView
+        android:id="@+id/my_information_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="내 정보"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/subColor5"
+        android:layout_marginTop="90dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toTopOf="parent"/>
+        
+    <ImageView
+        android:id="@+id/my_information_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/mypage_ic_my_information"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/my_information_tv"
+        app:layout_constraintTop_toTopOf="@+id/my_information_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/my_information_tv"/>
+
+    <ImageView
+        android:id="@+id/my_profile_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/mypage_ic_yorieter_profile"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/my_information_tv"
+        app:layout_constraintTop_toBottomOf="@+id/my_information_tv"/>
+
+    <TextView
+        android:id="@+id/my_profile_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="샐러드"
+        android:textStyle="bold"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@+id/my_profile_iv"
+        app:layout_constraintTop_toTopOf="@+id/my_profile_iv"
+        app:layout_constraintBottom_toBottomOf="@+id/my_profile_iv"/>
+
+    <TextView
+        android:id="@+id/my_introduction_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="건강한 재료로 제한없이 먹고 싶은 것 모두 요리합니다 :)"
+        android:textColor="#802E293E"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/my_profile_iv"
+        app:layout_constraintTop_toBottomOf="@+id/my_profile_iv"/>
+
+    <TextView
+        android:id="@+id/my_post_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내가 작성한 게시물"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="@+id/my_introduction_tv"
+        app:layout_constraintTop_toBottomOf="@+id/my_introduction_tv" />
+
+    <ImageView
+        android:id="@+id/my_post_iv"
+        android:layout_width="25dp"
+        android:layout_height="0dp"
+        android:src="@drawable/mypage_ic_my_post"
+        app:layout_constraintStart_toEndOf="@+id/my_post_tv"
+        app:layout_constraintTop_toTopOf="@+id/my_post_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/my_post_tv"/>
+
+    <TextView
+        android:id="@+id/more_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="더보기"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/more_iv"
+        app:layout_constraintTop_toTopOf="@+id/more_iv"
+        app:layout_constraintBottom_toBottomOf="@+id/more_iv"/>
+
+    <ImageView
+        android:id="@+id/more_iv"
+        android:layout_width="10dp"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_nextbutton"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/my_post_iv"
+        app:layout_constraintBottom_toBottomOf="@+id/my_post_iv"/>
+
+    <TextView
+        android:id="@+id/no_my_post_tv"
+        android:layout_width="170dp"
+        android:layout_height="117dp"
+        android:text="내가 작성한 게시물이 없습니다."
+        android:textSize="11sp"
+        android:background="@drawable/mypage_post_message_background"
         android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/my_post_tv"/>
+
+    <ImageView
+        android:id="@+id/my_post_image1"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:src="@drawable/mypage_post_image1"
+        android:visibility="visible"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_post_tv"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"/>
+
+    <ImageView
+        android:id="@+id/my_post_image2"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:src="@drawable/mypage_post_image2"
+        android:visibility="visible"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/more_iv"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"/>
+
+    <TextView
+        android:id="@+id/my_comment_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내가 작성한 댓글"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/my_post_tv"/>
+
+    <ImageView
+        android:id="@+id/my_comment_iv"
+        android:layout_width="25dp"
+        android:layout_height="0dp"
+        android:src="@drawable/mypage_ic_my_comment"
+        android:layout_marginStart="3dp"
+        app:layout_constraintStart_toEndOf="@+id/my_comment_tv"
+        app:layout_constraintTop_toTopOf="@+id/my_comment_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/my_comment_tv"/>
+
+    <TextView
+        android:id="@+id/my_like_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내가 좋아요한 게시물"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/my_comment_tv"/>
+
+    <ImageView
+        android:id="@+id/my_like_iv"
+        android:layout_width="25dp"
+        android:layout_height="0dp"
+        android:src="@drawable/mypage_ic_like1"
+        android:layout_marginStart="3dp"
+        app:layout_constraintStart_toEndOf="@+id/my_like_tv"
+        app:layout_constraintTop_toTopOf="@+id/my_like_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/my_like_tv"/>
+
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/subColor5"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/my_like_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/logout_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그아웃"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_line"/>
+
+    <ImageView
+        android:id="@+id/logout_iv"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:src="@drawable/mypage_ic_logout"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@+id/logout_tv"
+        app:layout_constraintTop_toTopOf="@+id/logout_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/logout_tv"/>
+
+    <TextView
+        android:id="@+id/delete_account_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원탈퇴"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@+id/logout_tv"
+        app:layout_constraintTop_toBottomOf="@+id/logout_tv"/>
+
+    <ImageView
+        android:id="@+id/delete_account_iv"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:src="@drawable/mypage_ic_delete"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@+id/delete_account_tv"
+        app:layout_constraintTop_toTopOf="@+id/delete_account_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/delete_account_tv"/>
+
+    <TextView
+        android:id="@+id/agreement_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이용약관 및 개인정보처리방침"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@+id/delete_account_tv"
+        app:layout_constraintTop_toBottomOf="@+id/delete_account_tv"/>
+
+    <ImageView
+        android:id="@+id/agreement_iv"
+        android:layout_width="20dp"
+        android:layout_height="0dp"
+        android:src="@drawable/mypage_ic_agree"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@+id/agreement_tv"
+        app:layout_constraintTop_toTopOf="@+id/agreement_tv"
+        app:layout_constraintBottom_toBottomOf="@+id/agreement_tv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
