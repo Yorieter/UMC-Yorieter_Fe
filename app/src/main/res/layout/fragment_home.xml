@@ -6,24 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/ic_yorieter_background">
 
-    <View
-        android:id="@+id/bar1"
+     <Toolbar
+        android:id="@+id/myhome_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bar1">
+        android:layout_height="wrap_content"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
@@ -31,10 +19,9 @@
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold"
+            android:textColor="@color/subColor5"
+            android:layout_gravity="center" />
 
         <ImageView
             android:id="@+id/home_searchIV"
@@ -44,8 +31,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/search2" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:srcCompat="@drawable/search2"
+            android:layout_gravity="end"/>
+    </Toolbar>
 
     <ScrollView
         android:layout_width="0dp"
@@ -53,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/myhome_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
