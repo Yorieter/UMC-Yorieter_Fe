@@ -5,7 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.yorieter.community.CommunityFragment
+import com.example.yorieter.post.CommunityFragment
 import com.example.yorieter.databinding.ActivityMainBinding
 import com.example.yorieter.home.HomeFragment
 import com.example.yorieter.mypage.MypageFragment
