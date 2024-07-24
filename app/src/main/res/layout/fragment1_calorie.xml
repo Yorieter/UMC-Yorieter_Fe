@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- 툴바 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/calorie_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/calorie_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="칼로리 검색"
+            android:textColor="@color/subColor5"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/back_button_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_backbutton"
+            android:background="@color/ic_yorieter_background"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/calorie_background"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:src="@drawable/calorie_background_image"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calorie_toolbar"/>
+
+    <LinearLayout
+        android:id="@+id/calorie_layout"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:background="@drawable/calorie_background_color"
+        app:layout_constraintTop_toTopOf="@+id/calorie_background"
+        app:layout_constraintStart_toStartOf="@+id/calorie_background"
+        app:layout_constraintEnd_toEndOf="@+id/calorie_background">
+
+        <ImageView
+            android:id="@+id/calorie_plus_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/calorie_ic_plus"/>
+
+        <LinearLayout
+            android:id="@+id/edittext_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/material_et"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:hint="식재료"
+                android:textColorHint="@color/gray"
+                android:textSize="10sp"
+                android:paddingLeft="10dp"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:background="@drawable/calorie_edittext_background_color"/>
+
+            <EditText
+                android:id="@+id/gm_et"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:hint="g/ml"
+                android:textColorHint="@color/gray"
+                android:textSize="10sp"
+                android:paddingLeft="10dp"
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:background="@drawable/calorie_edittext_background_color"/>
+
+            <EditText
+                android:id="@+id/calorie_et"
+                android:layout_width="70dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:hint="칼로리(Kcal)"
+                android:textColorHint="@color/gray"
+                android:textSize="10sp"
+                android:paddingLeft="10dp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:background="@drawable/calorie_edittext_background_color"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.widget.Button
+        android:id="@+id/upload_bt"
+        android:layout_width="100dp"
+        android:layout_height="37dp"
+        android:text="업로드"
+        android:textSize="12sp"
+        android:textColor="@color/subColor5"
+        android:textStyle="bold"
+        android:background="@drawable/login_button_background"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/calorie_background"
+        app:layout_constraintTop_toBottomOf="@+id/calorie_background"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
