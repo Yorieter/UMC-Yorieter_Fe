@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     android:background="@color/ic_yorieter_background">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.95" />
+
      <Toolbar
         android:id="@+id/myhome_toolbar"
         android:layout_width="match_parent"
