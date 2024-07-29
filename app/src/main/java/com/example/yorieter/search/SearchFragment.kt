@@ -37,6 +37,7 @@ class SearchFragment: Fragment() {
             val chip: Chip = Chip(requireContext()).apply {
                 text = s
                 id = index
+                isCheckable = true  // Chip을 선택 가능하게 설정
             }
             ingredientsChipGroup.addView(chip)
         }
@@ -82,8 +83,17 @@ class SearchFragment: Fragment() {
 
         // 임시로 검색 버튼 누르면 search_result_view로 넘어감
         binding.searchBtn.setOnClickListener {
+            val selectedChips = ingredientsChipGroup.checkedChipIds.joinToString(", ") { id ->
+                ingredientsChipGroup.findViewById<Chip>(id).text
+            }
+            val bundle = Bundle().apply {
+                putString("selectedChips", selectedChips)
+            }
+            val searchResultFragment = SearchResultFragment().apply {
+                arguments = bundle
+            }
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.main_frm, SearchResultFragment())
+                .add(R.id.main_frm, searchResultFragment)
                 .commitAllowingStateLoss()
         }
 

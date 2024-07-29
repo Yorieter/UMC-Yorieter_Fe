@@ -20,7 +20,13 @@ class SearchResultFragment: Fragment() {
         binding = FragmentSearchResultBinding.inflate(inflater, container, false)
 
         // 선택한 chips 나타나게 함
-
+        val selectedChips = arguments?.getString("selectedChips")
+        selectedChips?.split(", ")?.forEach { chipText ->
+            val chip = Chip(requireContext()).apply {
+                text = chipText
+            }
+            binding.filteredChipGroup.addView(chip)
+        }
 
         // 뒤로가기 버튼을 누르면 다시 검색창으로 돌아감
         binding.searchBackIV.setOnClickListener {
