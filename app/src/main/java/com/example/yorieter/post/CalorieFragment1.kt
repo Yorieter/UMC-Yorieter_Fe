@@ -33,9 +33,9 @@ class CalorieFragment1: Fragment() {
         return binding.root
     }
 
-    private fun addNewEditTexts(){
+    private fun addNewEditTexts(){ // 새로운 EditText를 동적으로 추가하는 함수
 
-        // 새로운 ConstraintLayout 생성
+        // 새로운 ConstraintLayout 생성하여 EditText들을 담을 예정
         val newEditTextLayout = LinearLayout(requireContext()).apply {
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -47,29 +47,33 @@ class CalorieFragment1: Fragment() {
             gravity = android.view.Gravity.CENTER_VERTICAL
         }
 
-        // 기존 EditText에서 레이아웃 파라미터를 가져오는 방법을 개선합니다.
-        val existingEditTexts = binding.edittextContainer.children.toList()
+        // 기존 EditText들을 가져오기
+        val existingEditTexts = binding.edittextContainer.children.toList() // children: 레이아웃의 모든 자식 뷰들을 나타냄
         val firstEditText = existingEditTexts.firstOrNull() as? EditText
         val layoutParams = if (firstEditText != null) {
             LinearLayout.LayoutParams(firstEditText.layoutParams).apply {
-                // 기존 EditText와 동일한 간격을 설정합니다.
+                // 기존 EditText가 있으면 해당 레이아웃 파라미터를 사용
                 setMargins(15, 0, 10, 0)
             }
         } else {
+            // 기존 EditText가 없으면 기본 레이아웃 파라미터 설정
             LinearLayout.LayoutParams(70, LinearLayout.LayoutParams.WRAP_CONTENT).apply {
                 setMargins(15, 0, 10, 0)
             }
         }
 
+        // 새로 생성한 레이아웃에 새로운 EditText들 추가
         newEditTextLayout.addView(createEditText("식재료", layoutParams, android.view.inputmethod.EditorInfo.IME_ACTION_NEXT))
         newEditTextLayout.addView(createEditText("g/ml", layoutParams, android.view.inputmethod.EditorInfo.IME_ACTION_NEXT))
         newEditTextLayout.addView(createEditText("칼로리(Kcal)", layoutParams, android.view.inputmethod.EditorInfo.IME_ACTION_DONE))
 
+        // 새로 만든 레이아웃을 기존 calorieLayout에 추가
         binding.calorieLayout.addView(newEditTextLayout)
 
     }
 
-    private fun createEditText(hint: String, layoutParams: LinearLayout.LayoutParams, imeOptions: Int): EditText { // 새로운 editText 레이아웃 생성하는 함수
+    // 지정된 속성으로 EditText를 생성하는 함수
+    private fun createEditText(hint: String, layoutParams: LinearLayout.LayoutParams, imeOptions: Int): EditText {
         return EditText(requireContext()).apply {
             this.hint = hint
             setHintTextColor(resources.getColor(R.color.gray, null))
@@ -83,7 +87,7 @@ class CalorieFragment1: Fragment() {
         }
     }
 
-    // DP를 PX로 변환하는 함수
+    // DP를 PX(픽셀)로 변환하는 함수
     private fun dpToPx(dp: Float, context: Context): Int {
         val density = context.resources.displayMetrics.density
         return (dp * density).toInt()

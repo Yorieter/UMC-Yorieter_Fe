@@ -12,6 +12,7 @@ import com.example.yorieter.databinding.FragmentMyLikeBinding
 import com.example.yorieter.mypage.adapter.DividerItemDecoration
 import com.example.yorieter.mypage.adapter.MylikeRVAdapter
 import com.example.yorieter.mypage.dataclass.Mylike
+import com.example.yorieter.post.RecipeFragment
 
 class MyLikeFragment: Fragment() {
 
@@ -48,18 +49,18 @@ class MyLikeFragment: Fragment() {
         binding.mylikeContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
 
         // 어댑터 클릭 리스너 설정
-//        mybookmarkRVAdapter.itemClickListner = object: MybookmarkRVAdapter.OnItemClickListener{
-//            // 내 게시물 프래그먼트로 이동 (지금은 임의 HomeFragment)
-//            override fun onItemClick(view: View, position: Int) {
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.main_frm, HomeFragment())
-//                    .addToBackStack(null)
-//                    .commit()
-//
-//                // 바텀 네비게이션의 선택 상태 변경
-//                activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.homeFragment
-//            }
-//        }
+        mylikeRVAdapter.itemClickListner = object: MylikeRVAdapter.OnItemClickListener{
+            // 레시피 프래그먼트로 이동
+            override fun onItemClick(view: View, position: Int) {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, RecipeFragment())
+                    .addToBackStack(null)
+                    .commit()
+
+                // 바텀 네비게이션의 선택 상태 변경
+                //activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.homeFragment
+            }
+        }
 
         // 백버튼 클릭 시
         binding.backButtonIv.setOnClickListener {
