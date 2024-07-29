@@ -18,6 +18,7 @@ class HomeFragment: Fragment() {
 
     lateinit var binding: FragmentHomeBinding
     private val viewModel: RecipeViewModel by activityViewModels()
+    var homeWeekLike: Boolean = false
     // lateinit var recommendRecipe: RecipeDatabase
 
     // 수정 다시
@@ -46,6 +47,18 @@ class HomeFragment: Fragment() {
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.homeFragment, SearchFragment())
                 .commitAllowingStateLoss()
+        }
+
+        // 좋아요 구현
+        binding.homeWeekLikeIV.setOnClickListener {
+            if (!homeWeekLike) {
+                binding.homeWeekLikeIV.setImageResource(R.drawable.like_check)
+                homeWeekLike = true
+            }
+            else {
+                binding.homeWeekLikeIV.setImageResource(R.drawable.like_no_check)
+                homeWeekLike = false
+            }
         }
 
         return binding.root
