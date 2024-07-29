@@ -2,14 +2,15 @@ package com.example.yorieter.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yorieter.R
 import com.example.yorieter.data.Recipe
 import com.example.yorieter.data.RecipeViewModel
 import com.example.yorieter.databinding.ItemHomeRecipeBinding
 
-class HomeRecommendRecipeAdapter(val recipes: MutableList<Recipe>) : RecyclerView.Adapter<HomeRecommendRecipeAdapter.HomeRecommendRecipeHolder>() {
-    //private val recipes = ArrayList<Recipe>()
+class HomeRecommendRecipeAdapter(private val viewModel: RecipeViewModel) : RecyclerView.Adapter<HomeRecommendRecipeAdapter.HomeRecommendRecipeHolder>() {
+    private var recipes: List<Recipe> = listOf()
     //private val recipeViewModel: RecipeViewModel
 
     override fun getItemCount(): Int = recipes.size
@@ -36,23 +37,28 @@ class HomeRecommendRecipeAdapter(val recipes: MutableList<Recipe>) : RecyclerVie
             binding.recipeNameTV.text = recipe.name
 
             // 좋아요 구현
+            updateLikeButton(binding.recipeLikeIV, recipe.like)
             binding.recipeLikeIV.setOnClickListener {
-                if (!recipe.like) {
-                    binding.recipeLikeIV.setImageResource(R.drawable.like_check)
-                    recipe.like = true
-                }
-                else {
-                    binding.recipeLikeIV.setImageResource(R.drawable.like_no_check)
-                    recipe.like = false
-                }
+                viewModel.clickLike(pos)
             }
         }
+
+        private fun updateLikeButton(likeIV: ImageView, isLiked: Boolean) {
+            if (isLiked) {
+                likeIV.setImageResource(R.drawable.like_check)
+            } else {
+                likeIV.setImageResource(R.drawable.like_no_check)
+            }
+        }
+    }
+
+    fun updateRecipes(newRecipes: List<Recipe>) {
+        this.recipes = newRecipes
+        notifyDataSetChanged()
     }
 
     val foodID = arrayOf(
         R.drawable.food_example02, R.drawable.food_example02, R.drawable.food_example02,
         R.drawable.food_example02, R.drawable.food_example02, R.drawable.food_example02
     )
-
-
 }

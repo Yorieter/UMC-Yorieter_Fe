@@ -6,15 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.yorieter.R
 import com.example.yorieter.data.Recipe
+import com.example.yorieter.data.RecipeViewModel
 import com.example.yorieter.databinding.FragmentHomeBinding
 import com.example.yorieter.search.SearchFragment
 
 class HomeFragment: Fragment() {
 
     lateinit var binding: FragmentHomeBinding
+    private val viewModel: RecipeViewModel by activityViewModels()
     // lateinit var recommendRecipe: RecipeDatabase
 
     // 수정 다시
@@ -54,22 +57,32 @@ class HomeFragment: Fragment() {
         initRecyclerView()
     }
 
+//    private fun initRecyclerView() {
+//        // 임시 데이터
+//        val itemList = mutableListOf<Recipe>()
+//        itemList.add(Recipe("샐러드", 0, false))
+//        itemList.add(Recipe("샐러드", 0, false))
+//        itemList.add(Recipe("샐러드", 0, false))
+//        itemList.add(Recipe("샐러드", 0, false))
+//        itemList.add(Recipe("샐러드", 0, false))
+//        itemList.add(Recipe("샐러드", 0, false))
+//
+//        // 리사이클러 뷰 바인딩
+//        binding.homeRecommendRV.layoutManager = GridLayoutManager(context, 2)
+//
+//        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(itemList)
+//        binding.homeRecommendRV.adapter = recommendRecipeRVAdapter
+//    }
     private fun initRecyclerView() {
-        // 임시 데이터
-        val itemList = mutableListOf<Recipe>()
-        itemList.add(Recipe("샐러드", 0, false))
-        itemList.add(Recipe("샐러드", 0, false))
-        itemList.add(Recipe("샐러드", 0, false))
-        itemList.add(Recipe("샐러드", 0, false))
-        itemList.add(Recipe("샐러드", 0, false))
-        itemList.add(Recipe("샐러드", 0, false))
-
         // 리사이클러 뷰 바인딩
         binding.homeRecommendRV.layoutManager = GridLayoutManager(context, 2)
 
-        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(itemList)
+        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(viewModel)
         binding.homeRecommendRV.adapter = recommendRecipeRVAdapter
 
-        // 북마크 추가
+        // ViewModel의 데이터 변경을 관찰
+        viewModel.recipes.observe(viewLifecycleOwner, { recipes ->
+            recommendRecipeRVAdapter.updateRecipes(recipes)
+        })
     }
 }
