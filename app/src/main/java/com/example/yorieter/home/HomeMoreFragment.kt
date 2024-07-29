@@ -1,6 +1,5 @@
 package com.example.yorieter.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,43 +8,38 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.yorieter.R
 import com.example.yorieter.data.Recipe
-import com.example.yorieter.databinding.FragmentHomeBinding
+import com.example.yorieter.databinding.FragmentHomeMoreBinding
 import com.example.yorieter.search.SearchFragment
 
-class HomeFragment: Fragment() {
+class HomeMoreFragment: Fragment() {
+    lateinit var binding: FragmentHomeMoreBinding
 
-    lateinit var binding: FragmentHomeBinding
-    // lateinit var recommendRecipe: RecipeDatabase
-
-    // 수정 다시
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHomeMoreBinding.inflate(inflater, container, false)
 
-        // recommendRecipe = RecipeDatabase.getInstance(requireContext())!!
-
-        // 더보기 텍스트나 아이콘을 누르면 레시피 추천 더보기 창으로 넘어감
-        binding.homeMoreIV.setOnClickListener {
+        // 검색 버튼 전환 오류
+        binding.homeMoreSearchIV.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.main_frm, HomeMoreFragment())
-                .commitAllowingStateLoss()
-        }
-        binding.homeMoreTV.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.main_frm, HomeMoreFragment())
+                .replace(R.id.homeMoreFragment, SearchFragment())
                 .commitAllowingStateLoss()
         }
 
-        binding.homeSearchIV.setOnClickListener {
+        // 뒤로가기
+        binding.homeBackIV.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.homeFragment, SearchFragment())
+                .replace(R.id.main_frm, HomeFragment())
                 .commitAllowingStateLoss()
         }
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     // 리사이클러 뷰 데이터 바인딩
@@ -55,7 +49,6 @@ class HomeFragment: Fragment() {
     }
 
     private fun initRecyclerView() {
-        // 임시 데이터
         val itemList = mutableListOf<Recipe>()
         itemList.add(Recipe("샐러드", 0, false))
         itemList.add(Recipe("샐러드", 0, false))
@@ -65,11 +58,9 @@ class HomeFragment: Fragment() {
         itemList.add(Recipe("샐러드", 0, false))
 
         // 리사이클러 뷰 바인딩
-        binding.homeRecommendRV.layoutManager = GridLayoutManager(context, 2)
+        binding.homeRecommendMoreRV.layoutManager = GridLayoutManager(context, 2)
 
         val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(itemList)
-        binding.homeRecommendRV.adapter = recommendRecipeRVAdapter
-
-        // 북마크 추가
+        binding.homeRecommendMoreRV.adapter = recommendRecipeRVAdapter
     }
 }

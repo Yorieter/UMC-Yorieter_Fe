@@ -78,9 +78,6 @@ class SearchFragment: Fragment() {
             }
         }
 
-        // 검색 버튼 누르면 데이터 가져오기
-
-
         // 임시로 검색 버튼 누르면 search_result_view로 넘어감
         binding.searchBtn.setOnClickListener {
             val selectedChips = ingredientsChipGroup.checkedChipIds.joinToString(", ") { id ->
