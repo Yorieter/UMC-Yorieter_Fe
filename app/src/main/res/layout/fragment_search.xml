@@ -198,7 +198,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Add your calories selection options here -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/caloriesOptions"
             android:layout_width="match_parent"
