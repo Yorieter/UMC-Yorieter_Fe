@@ -20,8 +20,21 @@ class RecipeRVAdapter(private val recipelist : ArrayList<RecipeData>) : Recycler
         return MyViewHolder(binding)
     }
 
+    interface RecipeItemClickListener {
+        fun onItemClick(recipeData: RecipeData)
+    }
+
+    var mItemClickListener: RecipeItemClickListener? = null
+
+    fun setRecipeItemClickListener(itemClickListener: RecipeItemClickListener) {
+        mItemClickListener = itemClickListener
+    }
+
     override fun onBindViewHolder(holder: RecipeRVAdapter.MyViewHolder, position: Int) {
         holder.bind(recipelist[position])
+        holder.itemView.setOnClickListener {
+            mItemClickListener?.onItemClick(recipelist[position])
+        }
     }
 
     override fun getItemCount(): Int = recipelist.size

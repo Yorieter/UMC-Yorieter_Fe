@@ -7,25 +7,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/ic_yorieter_background">
 
-    <LinearLayout
+    <!-- 툴바 -->
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/layout_post_top"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ic_yorieter_background"
         app:layout_constraintTop_toTopOf="parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="게시물 작성"
-        android:textSize="23dp"
-        android:layout_marginTop="8dp"
+        android:text="레시피 작성"
+        android:textColor="@color/subColor5"
         android:textStyle="bold"
-        android:gravity="center"
-        app:layout_constraintStart_toEndOf="@+id/post_back_iv"
-        app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+        android:textSize="23sp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"/>
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- post 작성부분 시작 -->
     <ScrollView
@@ -38,58 +37,72 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/layout_input"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:background="@color/ic_yorieter_background"
+                app:layout_constraintGuide_percent="0.05" />
 
-                <EditText
-                    android:id="@+id/post_name"
-                    android:layout_width="380dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:hint=" 제목:(15자 이내)"
-                    android:textSize="15dp"
-                    android:inputType="text"
-                    android:background="@drawable/text_round"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/ic_yorieter_background"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <EditText
+                android:id="@+id/post_name"
+                android:layout_width="330dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/text_round"
+                android:hint=" 제목:(15자 이내)"
+                android:inputType="text"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/post_ingredient"
-                    android:layout_width="380dp"
+                    android:layout_width="330dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/text_round"
                     android:hint=" 식재료를 입력하세요:"
                     android:inputType="text"
                     android:textSize="15dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/post_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/post_name"
+                    app:layout_constraintStart_toStartOf="@id/guideline1"
+                    app:layout_constraintEnd_toEndOf="@id/guideline2"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"/>
 
                 <EditText
                     android:id="@+id/post_detail"
-                    android:layout_width="380dp"
+                    android:layout_width="330dp"
                     android:layout_height="230dp"
-                    android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:hint=" 게시글을 입력하세요:"
                     android:textSize="15dp"
                     android:inputType="text"
                     android:background="@drawable/text_round"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline1"
+                    app:layout_constraintEnd_toEndOf="@id/guideline2"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     app:layout_constraintTop_toBottomOf="@+id/post_ingredient" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layout_calory"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_input"
+                    app:layout_constraintTop_toBottomOf="@+id/post_detail"
                     app:layout_constraintStart_toStartOf="parent" >
 
                     <!-- 사진 수정해야함-->
@@ -153,12 +166,14 @@
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginStart="52dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/button_round"
                     android:backgroundTint="@color/gray"
                     android:text="이미지 첨부"
                     android:textColor="@color/subColor5"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline1"
+                    app:layout_constraintEnd_toEndOf="@id/guideline2"
                     app:layout_constraintTop_toBottomOf="@+id/layout_calory" />
 
                 <android.widget.Button
@@ -169,7 +184,7 @@
                     android:layout_marginEnd="20dp"
                     android:background="@drawable/button_round"
                     android:text="업로드"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guideline2"
                     app:layout_constraintTop_toBottomOf="@+id/add_img_btn" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

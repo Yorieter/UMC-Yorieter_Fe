@@ -7,33 +7,26 @@
     android:background="@color/ic_yorieter_background">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/layout_community_top"
+        android:id="@+id/layout_comment_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ic_yorieter_background"
         app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/arrow_left"
+            android:background="@color/white" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="레시피 작성"
+            android:text="댓글"
             android:textColor="@color/subColor5"
             android:textStyle="bold"
             android:textSize="23sp"
             android:layout_marginTop="8dp"
             android:layout_gravity="center"/>
-
-          <ImageView
-            android:id="@+id/post_search_iv"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="35dp"
-            android:background="@color/white"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_bottom_search_no_select"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
     </androidx.appcompat.widget.Toolbar>
 
     <View
@@ -42,17 +35,38 @@
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:background="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/layout_community_top"
+        app:layout_constraintTop_toBottomOf="@id/layout_comment_top"
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recipe_rv"
+        android:id="@+id/comment_rv"
         android:layout_width="match_parent"
         android:layout_height="680dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/community_bar"
+        app:layout_constraintTop_toBottomOf="@+id/layout_comment_top"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_recipe" />
+        tools:listitem="@layout/item_recipe_comment" />
+
+    <EditText
+        android:id="@+id/comment_box"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/text_round"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.widget.Button
+        android:layout_width="85dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="@color/mainColor"
+        android:text="등록"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/comment_box"
+        app:layout_constraintTop_toTopOf="@+id/comment_box" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
