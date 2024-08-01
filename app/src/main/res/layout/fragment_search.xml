@@ -6,28 +6,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/ic_yorieter_background">
 
-    <View
-        android:id="@+id/bar1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.05" />
 
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/search_rectangle"
-        android:queryBackground="@null"
-        android:searchIcon="@drawable/search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bar1" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <Toolbar
+        android:id="@+id/mysearch_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/search_rectangle"
+            android:queryBackground="@null"
+            android:searchIcon="@drawable/search"
+            android:layout_gravity="end"
+            android:layout_marginEnd="30dp"/>
+
+        <ImageView
+            android:id="@+id/search_backIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/arrow_left"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="start"/>
+    </Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
@@ -36,7 +55,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView">
+        app:layout_constraintTop_toBottomOf="@+id/mysearch_toolbar">
 
         <View
             android:id="@+id/bar2"
@@ -179,7 +198,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Add your calories selection options here -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/caloriesOptions"
             android:layout_width="match_parent"
@@ -241,14 +259,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-    <Button
+    <android.widget.Button
         android:id="@+id/searchBtn"
-        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:background="@color/mainColor"
+        android:background="@drawable/search_button"
         android:text="검색"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
