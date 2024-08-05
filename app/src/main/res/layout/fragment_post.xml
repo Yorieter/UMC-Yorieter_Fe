@@ -128,11 +128,11 @@
                         android:id="@+id/find_calory"
                         android:layout_width="80dp"
                         android:layout_height="25dp"
-                        android:layout_marginTop="15dp"
                         android:layout_marginStart="5dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/text_round"
                         android:hint=" 칼로리(Kcal)"
-                        android:textSize="12dp"
-                        android:background="@drawable/text_round"/>
+                        android:textSize="12dp" />
 
                     <TextView
                         android:layout_width="35dp"
@@ -161,6 +161,27 @@
 
                 </LinearLayout>
 
+            <!-- 레시피재료 추가 시 chip형태로 chipGroup에 저장됨 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout_chip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/layout_calory">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/post_ingredients_chip_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="15dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></com.google.android.material.chip.ChipGroup>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <android.widget.Button
                     android:id="@+id/add_img_btn"
                     android:layout_width="300dp"
@@ -174,7 +195,7 @@
                     android:textColor="@color/subColor5"
                     app:layout_constraintStart_toStartOf="@id/guideline1"
                     app:layout_constraintEnd_toEndOf="@id/guideline2"
-                    app:layout_constraintTop_toBottomOf="@+id/layout_calory" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout_chip" />
 
                 <android.widget.Button
                     android:id="@+id/add_post_btn"

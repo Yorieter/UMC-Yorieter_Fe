@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/ic_yorieter_background">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/ic_yorieter_background"
+        android:orientation="vertical"
         app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/ic_yorieter_background"
+        android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
     <Toolbar
@@ -33,19 +34,10 @@
             android:id="@+id/searchView"
             android:layout_width="300dp"
             android:layout_height="50dp"
+            android:layout_gravity="center"
             android:background="@drawable/search_rectangle"
             android:queryBackground="@null"
-            android:searchIcon="@drawable/search"
-            android:layout_gravity="end"
-            android:layout_marginEnd="30dp"/>
-
-        <ImageView
-            android:id="@+id/search_backIV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/arrow_left"
-            android:layout_marginStart="20dp"
-            android:layout_gravity="start"/>
+            android:searchIcon="@drawable/search" />
     </Toolbar>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,8 +45,8 @@
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/mysearch_toolbar">
 
         <View
@@ -83,6 +75,8 @@
             android:id="@+id/search_recipeRV"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,10 +99,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:animateLayoutChanges="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -138,36 +132,43 @@
                 app:srcCompat="@drawable/arrow_down" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/ingredients_chip_group"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
+            android:layout_height="match_parent">
 
-        </com.google.android.material.chip.ChipGroup>
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/ingredients_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></com.google.android.material.chip.ChipGroup>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <View
         android:id="@+id/bar3"
         android:layout_width="match_parent"
+        android:layout_marginStart="55dp"
+        android:layout_marginEnd="55dp"
         android:layout_height="1dp"
-        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:background="@color/gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/bar3">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -207,7 +208,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
@@ -262,12 +263,11 @@
     <android.widget.Button
         android:id="@+id/searchBtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
         android:background="@drawable/search_button"
         android:text="검색"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

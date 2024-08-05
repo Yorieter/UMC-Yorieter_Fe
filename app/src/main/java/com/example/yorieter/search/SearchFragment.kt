@@ -1,26 +1,28 @@
 package com.example.yorieter.search
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentSearchBinding
-import com.example.yorieter.home.HomeFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import java.lang.StringBuilder
 
-class SearchFragment: Fragment() {
+class SearchFragment: Fragment(), SearchAdapter.FragmentCallback {
 
     lateinit var binding: FragmentSearchBinding
     private val recentSearches = mutableListOf<String>()
@@ -38,17 +40,18 @@ class SearchFragment: Fragment() {
         // 최신 검색어
         val searchView: SearchView = binding.searchView
         binding.searchRecipeRV.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val adapter = SearchAdapter(requireContext(), recentSearches)
+        val adapter = SearchAdapter(requireContext(), recentSearches, this)
         binding.searchRecipeRV.adapter = adapter
 
         // SharedPreferences에서 최근 검색어 불러오기
         loadRecentSearches()
 
-        searchView.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     addRecentSearch(query)
                     adapter.notifyDataSetChanged()
+                    navigateToSearchResult(query)
                 }
 
                 return false // 키보드 검색 아이콘 클릭 시 키보드 내림
@@ -72,6 +75,11 @@ class SearchFragment: Fragment() {
                 id = index
                 isCheckable = true  // Chip을 선택 가능하게 설정
             }
+
+            chip.setOnCloseIconClickListener {
+                ingredientsChipGroup.removeView(chip)
+            }
+
             ingredientsChipGroup.addView(chip)
         }
 
@@ -87,13 +95,6 @@ class SearchFragment: Fragment() {
                 testTV.text = selectedIngredients
             }
         }
-
-        // 칼로리 설정
-        val minCalories = binding.minCalories.text
-        val maxCalories = binding.maxCalories.text
-//        setMinMaxFilter(minCalories, 200, 500)
-//        setMinMaxFilter(maxCalories, minCalories.text, 500)
-// 칼로리 범위 설정 피드백 -> 바 형식으로 하는 게 나을 것 같다 ex) 지그재그 가격 범위
 
         // 뷰 펼치기 닫기
         binding.selectIngredientsIV.setOnClickListener {
@@ -118,35 +119,64 @@ class SearchFragment: Fragment() {
             }
         }
 
-        // 뒤로가기 버튼
-        binding.searchBackIV.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    requireActivity().supportFragmentManager.popBackStack()
-                }
-            })
-        }
-
         // 임시로 검색 버튼 누르면 search_result_view로 넘어감
         binding.searchBtn.setOnClickListener {
-            val selectedChips = ingredientsChipGroup.checkedChipIds.joinToString(", ") { id ->
-                ingredientsChipGroup.findViewById<Chip>(id).text
-            } // 필터링 chips
+            val query = searchView.query.toString()
+            if (query.isNotEmpty()) {
+                addRecentSearch(query)
+                adapter.notifyDataSetChanged()
+                navigateToSearchResult(query)
+            }
+        }
 
-            val bundle = Bundle().apply {
-                putString("selectedChips", selectedChips)
-                putString("minCalories", minCalories.toString())
-                putString("maxCalories", maxCalories.toString())
+        // 화면 클릭 시 키보드 내리기
+        binding.root?.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                hideKeyboard(v)
             }
-            val searchResultFragment = SearchResultFragment().apply {
-                arguments = bundle
-            }
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.main_frm, searchResultFragment)
-                .commitAllowingStateLoss()
+            false
         }
 
         return binding.root
+    }
+
+    override fun onSearchTermClicked(query: String) {
+        val bundle = Bundle().apply {
+            putString("query", query)
+        }
+        val searchResultFragment = SearchResultFragment().apply {
+            arguments = bundle
+        }
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, searchResultFragment)
+            .addToBackStack("SearchResultFragment") // 백 스택 추가
+            .commitAllowingStateLoss()
+    }
+
+    private fun navigateToSearchResult(query: String) {
+        val selectedChips = binding.ingredientsChipGroup.checkedChipIds.joinToString(", ") { id ->
+            binding.ingredientsChipGroup.findViewById<Chip>(id).text
+        }
+
+        val minCalories = binding.minCalories.text.toString()
+        val maxCalories = binding.maxCalories.text.toString()
+
+        setMinMaxFilter(binding.minCalories, 200, 500)
+        setMinMaxFilter(binding.maxCalories, 200, 500)
+
+        val bundle = Bundle().apply {
+            putString("query", query)
+            putString("selectedChips", selectedChips)
+            putString("minCalories", minCalories)
+            putString("maxCalories", maxCalories)
+        }
+        val searchResultFragment = SearchResultFragment().apply {
+            arguments = bundle
+        }
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, searchResultFragment)
+            .addToBackStack("SearchResultFragment") // 백 스택 추가
+            .commitAllowingStateLoss()
     }
 
     private fun addRecentSearch(search: String) {
@@ -181,12 +211,18 @@ class SearchFragment: Fragment() {
                 if (input.isNotEmpty()) {
                     val value = input.toInt()
                     if (value < minValue || value > maxValue) {
-                        editText.error = "입력 값은 $minValue 에서 $maxValue 사이여야 합니다."
+                        editText.setText("")
                     }
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {}
         })
+    }
+
+    // 키보드 숨기기
+    fun hideKeyboard(view: View) {
+        val inputMethodManager = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

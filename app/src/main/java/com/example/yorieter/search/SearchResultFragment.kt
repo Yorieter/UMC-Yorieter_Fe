@@ -33,6 +33,10 @@ class SearchResultFragment: Fragment() {
             }
         }
 
+        // 검색어 불러오기
+        val searchWord = arguments?.getString("query")
+        binding.searchWordTv.text = "$searchWord"
+
         // 칼로리 불러오기 / 선택하지 않았으면 안보이게ㅁㅇ
         val minCalories = arguments?.getString("minCalories")
         val maxCalories = arguments?.getString("maxCalories")
