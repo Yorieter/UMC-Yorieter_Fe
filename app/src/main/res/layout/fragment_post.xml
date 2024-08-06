@@ -146,8 +146,7 @@
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"><
-                  /com.google.android.material.chip.ChipGroup>
+                    app:layout_constraintTop_toTopOf="parent"></com.google.android.material.chip.ChipGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

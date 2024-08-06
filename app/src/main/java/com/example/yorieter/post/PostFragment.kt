@@ -19,9 +19,6 @@ import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentPostBinding
 import com.example.yorieter.mypage.viewModel.ProfileViewModel
 import com.example.yorieter.post.viewModel.PostViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class PostFragment: Fragment() {
 
@@ -148,6 +145,6 @@ class PostFragment: Fragment() {
 //            override fun onFailure(call: Call<PostRecipeResponse>, t: Throwable) {
 //                Toast.makeText(requireContext(), "그냥 실패함: ${t.message}", Toast.LENGTH_SHORT).show()
 //            }
-        })
-    }
+
+
 }
