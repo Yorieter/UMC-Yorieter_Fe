@@ -14,6 +14,8 @@ import com.example.yorieter.databinding.ActivitySignUpBinding
 
 class SignUpActivity: AppCompatActivity() {
     lateinit var binding: ActivitySignUpBinding
+    private var username: String = ""
+    private var password: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,18 +38,22 @@ class SignUpActivity: AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val id = binding.signUpIdEt.text.toString()
-            val password = binding.signUpPwEt.text.toString()
+            username = binding.signUpIdEt.text.toString()
+            password = binding.signUpPwEt.text.toString()
 
             // 아이디와 비밀번호 조건 검사
-            if (isInputValid(id, password)){
+            if (isInputValid(username, password)){
 
                 // 닉네임 화면으로 이동
                 val intent = Intent(this, NicknameActivity::class.java)
+                intent.putExtra("username", username) // 아이디 전달
+                intent.putExtra("password", password) // 비밀번호 전달
+                startActivity(intent)
 
                 // 슬라이드 애니메이션 적용
                 val options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_in_left)
                 startActivity(intent, options.toBundle())
+
             } else {
                 // 오류 메시지 표시
                 binding.signUpErTv.visibility = View.VISIBLE
