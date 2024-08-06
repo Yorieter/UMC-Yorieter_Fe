@@ -126,18 +126,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/food_photo"
                 app:layout_constraintEnd_toEndOf="@id/guideline2"/>
 
-            <!-- 추후에 교체 예정-->
-            <TextView
-                android:id="@+id/recipe_ingredient"
-                android:layout_width="330dp"
-                android:layout_height="60dp"
-                app:layout_constraintTop_toBottomOf="@+id/calory_main_txt"
-                android:background="@color/subColor4"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="@id/guideline1"
-                app:layout_constraintEnd_toEndOf="@id/guideline2"
+            <!-- chip 구현 -->
+            <!-- 게시물 작성 후 추가한 재료들 chip형태로 chipGroup에 저장됨 -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/recipe_user_chip_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/calory_main_txt" />
 
             <TextView
                 android:id="@+id/recipe_txt"
@@ -147,7 +147,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:layout_marginTop="15dp"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_ingredient"
+                app:layout_constraintTop_toBottomOf="@+id/recipe_user_chip_group"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 android:layout_marginStart="20dp"/>
 

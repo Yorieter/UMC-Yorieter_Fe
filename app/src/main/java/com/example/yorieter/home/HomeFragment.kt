@@ -35,17 +35,20 @@ class HomeFragment: Fragment() {
         binding.homeMoreIV.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.main_frm, HomeMoreFragment())
+                .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }
         binding.homeMoreTV.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.main_frm, HomeMoreFragment())
+                .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }
 
         binding.homeSearchIV.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.homeFragment, SearchFragment())
+                .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }
 

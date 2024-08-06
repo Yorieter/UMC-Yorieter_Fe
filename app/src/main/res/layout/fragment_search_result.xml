@@ -34,16 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="검색 결과"
+            android:textColor="@color/subColor5"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_gravity="center"/>
-
-        <ImageView
-            android:id="@+id/searchIV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/search2"
-            android:layout_gravity="end"/>
 
         <ImageView
             android:id="@+id/search_backIV"
@@ -58,8 +52,8 @@
         android:id="@+id/constraintLayout5"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/mysearch_result_toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,11 +68,11 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="필터"
-                android:textSize="15sp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -98,12 +92,9 @@
             android:id="@+id/filtered_chip_group"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_calories_tv">
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout02">
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -111,9 +102,21 @@
             android:id="@+id/search_calories_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout02"
             android:text=""
-            android:textSize="12sp"/>
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filtered_chip_group" />
+
+        <TextView
+            android:id="@+id/search_word_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_calories_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,8 +126,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="@id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
