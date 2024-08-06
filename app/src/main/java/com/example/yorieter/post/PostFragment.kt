@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -19,6 +20,8 @@ import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentPostBinding
 import com.example.yorieter.mypage.viewModel.ProfileViewModel
 import com.example.yorieter.post.viewModel.PostViewModel
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 
 class PostFragment: Fragment() {
 
@@ -65,6 +68,42 @@ class PostFragment: Fragment() {
          binding.addImgBtn.setOnClickListener {
                     openGallery() // 갤러리에서 이미지 선택하는 함수 호출
                 }
+
+        // chip 적용
+        val ingredientsChipGroup: ChipGroup = binding.ingredientsChipGroup
+        val testList = listOf("닭고기", "돼지고기", "어류", "버섯", "채소", "기타")
+
+        // chipGroup 설정
+        testList.forEachIndexed { index, s ->
+            val chip: Chip = Chip(requireContext()).apply {
+                text = s
+                id = index
+                isCheckable = true  // Chip을 선택 가능하게 설정
+                checkedIcon
+                chipBackgroundColor = ContextCompat.getColorStateList(this.context, R.color.subColor1)
+            }
+
+            chip.setOnCloseIconClickListener {
+                ingredientsChipGroup.removeView(chip)
+            }
+
+            chip.setOnClickListener {
+                chip.chipBackgroundColor = ContextCompat.getColorStateList(requireContext(), R.color.mainColor)
+            }
+
+            ingredientsChipGroup.addView(chip)
+        }
+
+        // 뷰 펼치기 닫기
+        binding.selectIngredientsIV.setOnClickListener {
+            if (binding.ingredientsChipGroup.visibility == View.GONE) {
+                ingredientsChipGroup.visibility = View.VISIBLE
+                binding.selectIngredientsIV.setImageResource(R.drawable.arrow_up)
+            } else {
+                ingredientsChipGroup.visibility = View.GONE
+                binding.selectIngredientsIV.setImageResource(R.drawable.arrow_down)
+            }
+        }
 
         //post 추가하기
 //        binding.addPostBtn.setOnClickListener {
