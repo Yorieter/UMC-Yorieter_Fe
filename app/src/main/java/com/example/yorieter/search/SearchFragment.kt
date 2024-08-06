@@ -65,7 +65,7 @@ class SearchFragment: Fragment(), SearchAdapter.FragmentCallback {
 
         // chip 적용
         val ingredientsChipGroup: ChipGroup = binding.ingredientsChipGroup
-        val testList = listOf("닭가슴살", "브로콜리", "감자", "당근", "양파", "토마토", "파프리카")
+        val testList = listOf("닭고기", "돼지고기", "어류", "버섯", "채소", "기타")
 
         // chipGroup 설정
         testList.forEachIndexed { index, s ->
