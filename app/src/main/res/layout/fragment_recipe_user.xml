@@ -31,22 +31,28 @@
             android:textSize="23sp"
             android:textStyle="bold" />
 
-        <!--여기에 수정 삭제 들어가야함 -->
-        <!--        <TextView-->
-        <!--            android:id="@+id/post_date"-->
-        <!--            android:layout_width="100dp"-->
-        <!--            android:layout_height="19dp"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            android:layout_marginEnd="35dp"-->
-        <!--            android:scaleType="fitXY"-->
-        <!--            android:text="작성일자: 2024-07-20"-->
-        <!--            android:textSize="10dp" />-->
+        <TextView
+            android:id="@+id/delete_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제"
+            android:layout_marginEnd="40dp"
+            android:layout_gravity="end"/>
+
+        <TextView
+            android:id="@+id/repost_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수정"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="end" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:id="@+id/recipe_scroll"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="600dp"
         app:layout_constraintTop_toBottomOf="@+id/layout_recipe_user_top" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,7 +99,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="10dp"
-                android:src="@color/subColor4"
+                android:src="@drawable/recipe_user_img"
                 />
 
             <TextView
@@ -172,6 +178,23 @@
                 app:layout_constraintTop_toBottomOf="@+id/recipe_main"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 android:layout_marginStart="20dp"/>
+
+            <android.widget.Button
+                android:id="@+id/comment_page_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="댓글"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/comment_txt"
+                app:layout_constraintBottom_toBottomOf="parent
+"
+                android:layout_marginTop="23dp"
+                android:layout_marginBottom="13dp"
+                android:layout_marginEnd="18dp"
+                android:background="@drawable/comment_round"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

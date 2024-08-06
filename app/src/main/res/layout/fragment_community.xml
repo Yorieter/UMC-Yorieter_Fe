@@ -25,9 +25,9 @@
 
           <ImageView
             android:id="@+id/post_search_iv"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="18dp"
             android:layout_marginEnd="35dp"
             android:background="@color/white"
             android:scaleType="fitXY"
