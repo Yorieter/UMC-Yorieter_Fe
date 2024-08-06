@@ -5,6 +5,9 @@
     <!--외부 저장소 읽기 권한 (앨범 이미지)-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!--인터넷 권한-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
