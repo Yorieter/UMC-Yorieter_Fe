@@ -37,7 +37,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mylike_content_vp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="680dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"

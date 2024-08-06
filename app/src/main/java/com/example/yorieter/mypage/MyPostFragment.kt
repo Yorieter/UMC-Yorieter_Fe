@@ -12,6 +12,7 @@ import com.example.yorieter.databinding.FragmentMyPostBinding
 import com.example.yorieter.mypage.adapter.DividerItemDecoration
 import com.example.yorieter.mypage.adapter.MypostRVAdapter
 import com.example.yorieter.mypage.dataclass.Mypost
+import com.example.yorieter.post.RecipeFragment
 
 class MyPostFragment: Fragment() {
 
@@ -61,17 +62,17 @@ class MyPostFragment: Fragment() {
         // 리사이클러뷰에 간격 설정
         binding.mypostContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
 
-        // 어댑터 클릭 리스너 설정
+//        // 어댑터 클릭 리스너 설정
 //        mypostRVAdapter.itemClickListner = object: MypostRVAdapter.OnItemClickListener{
 //            // 내 게시물 프래그먼트로 이동 (지금은 임의 HomeFragment)
 //            override fun onItemClick(view: View, position: Int) {
 //                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.main_frm, HomeFragment())
+//                    .replace(R.id.main_frm, RecipeFragment()) // 추후에 수정&삭제有 fragment로 수정하기!!
 //                    .addToBackStack(null)
 //                    .commit()
 //
 //                // 바텀 네비게이션의 선택 상태 변경
-//                activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.homeFragment
+//                //activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.homeFragment
 //            }
 //        }
 
