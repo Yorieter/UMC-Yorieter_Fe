@@ -53,12 +53,4 @@ class CommunityFragment : Fragment() {
         return binding.root
     }
 
-//    fun initRecipeRecyclerView(){
-//        adapter = RecipeRVAdapter()
-//        binding.recipeRv.adapter = adapter //리사이클러뷰에 어댑터 연결
-//        binding.recipeRv.layoutManager = LinearLayoutManager(requireContext()) //레이아웃 매니저 연결
-//
-//        Log.d("CommunityFragment", "RecyclerView adapter set")
-//    }
-
 }

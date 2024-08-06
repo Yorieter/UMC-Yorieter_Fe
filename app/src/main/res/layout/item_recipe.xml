@@ -5,20 +5,37 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="115dp"
+    android:layout_height="95dp"
     android:layout_marginTop="10dp"
     android:background="@color/subColor3">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/ic_yorieter_background"
+        app:layout_constraintGuide_percent="0.95" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/item_recipe_img_cardView"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="20dp"
         app:cardCornerRadius="7dp"
         app:cardElevation="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="@id/guideline1">
+
         <ImageView
             android:id="@+id/item_recipe_img"
             android:layout_width="match_parent"
@@ -31,26 +48,39 @@
 
     <TextView
         android:id="@+id/title_tv"
-        android:layout_width="250dp"
+        android:layout_width="200dp"
         android:layout_height="30dp"
         android:text="여름에 무조건 먹어야 하는 냉면"
         android:textStyle="bold"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="27dp"
+        android:textColor="@color/black"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@id/item_recipe_img_cardView"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/community_like_iv"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginStart="10dp"
+        app:srcCompat="@drawable/like_no_check"
+        app:layout_constraintStart_toEndOf="@+id/title_tv"
         app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
         android:id="@+id/date_tv"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:text="작성일자: 2024-07-19"
         android:textSize="9dp"
         android:textStyle="bold"
-        android:layout_marginEnd="30dp"
+        android:textColor="@color/black"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

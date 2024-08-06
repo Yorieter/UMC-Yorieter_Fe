@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.yorieter.R
 import com.example.yorieter.databinding.ItemRecipeBinding
 
 class RecipeRVAdapter(private val recipelist : ArrayList<RecipeData>) : RecyclerView.Adapter<RecipeRVAdapter.MyViewHolder>() {
 
+    var communityLike: Boolean = false
     //만들어진 뷰홀더 없을때 뷰홀더(레이아웃) 생성하는 함수
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -16,6 +18,18 @@ class RecipeRVAdapter(private val recipelist : ArrayList<RecipeData>) : Recycler
     ): RecipeRVAdapter.MyViewHolder {
         val binding: ItemRecipeBinding =
             ItemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        // 좋아요 구현
+        binding.communityLikeIv.setOnClickListener {
+            if (!communityLike) {
+                binding.communityLikeIv.setImageResource(R.drawable.like_check)
+                communityLike = true
+            }
+            else {
+                binding.communityLikeIv.setImageResource(R.drawable.like_no_check)
+                communityLike = false
+            }
+        }
 
         return MyViewHolder(binding)
     }
