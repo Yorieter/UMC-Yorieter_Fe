@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,8 +65,6 @@ class SearchFragment: Fragment(), SearchAdapter.FragmentCallback {
 
         // chip 적용
         val ingredientsChipGroup: ChipGroup = binding.ingredientsChipGroup
-        val testTV: TextView = binding.chipTestTV
-
         val testList = listOf("닭가슴살", "브로콜리", "감자", "당근", "양파", "토마토", "파프리카")
 
         // chipGroup 설정
@@ -74,37 +73,28 @@ class SearchFragment: Fragment(), SearchAdapter.FragmentCallback {
                 text = s
                 id = index
                 isCheckable = true  // Chip을 선택 가능하게 설정
+                checkedIcon
+                chipBackgroundColor = ContextCompat.getColorStateList(this.context, R.color.subColor1)
             }
 
             chip.setOnCloseIconClickListener {
                 ingredientsChipGroup.removeView(chip)
             }
 
-            ingredientsChipGroup.addView(chip)
-        }
+            chip.setOnClickListener {
+                chip.chipBackgroundColor = ContextCompat.getColorStateList(requireContext(), R.color.mainColor)
+            }
 
-        ingredientsChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-            if (checkedIds.isEmpty()) {
-                // 아무것도 선택 안하면 동작 안함
-                testTV.text = ""
-            }
-            else {
-                val selectedIngredients = checkedIds.joinToString(", ") { id ->
-                    group.findViewById<Chip>(id).text
-                }
-                testTV.text = selectedIngredients
-            }
+            ingredientsChipGroup.addView(chip)
         }
 
         // 뷰 펼치기 닫기
         binding.selectIngredientsIV.setOnClickListener {
             if (binding.ingredientsChipGroup.visibility == View.GONE) {
                 ingredientsChipGroup.visibility = View.VISIBLE
-                testTV.visibility = View.VISIBLE
                 binding.selectIngredientsIV.setImageResource(R.drawable.arrow_up)
             } else {
                 ingredientsChipGroup.visibility = View.GONE
-                testTV.visibility = View.GONE
                 binding.selectIngredientsIV.setImageResource(R.drawable.arrow_down)
             }
         }
@@ -125,7 +115,54 @@ class SearchFragment: Fragment(), SearchAdapter.FragmentCallback {
             if (query.isNotEmpty()) {
                 addRecentSearch(query)
                 adapter.notifyDataSetChanged()
-                navigateToSearchResult(query)
+
+                val selectedChips = binding.ingredientsChipGroup.checkedChipIds.joinToString(", ") { id ->
+                    binding.ingredientsChipGroup.findViewById<Chip>(id).text
+                }
+
+                val minCalories = binding.minCalories.text.toString()
+                val maxCalories = binding.maxCalories.text.toString()
+
+                setMinMaxFilter(binding.minCalories, 200, 500)
+                setMinMaxFilter(binding.maxCalories, 200, 500)
+
+                val bundle = Bundle().apply {
+                    putString("query", query)
+                    putString("selectedChips", selectedChips)
+                    putString("minCalories", minCalories)
+                    putString("maxCalories", maxCalories)
+                }
+                val searchResultFragment = SearchResultFragment().apply {
+                    arguments = bundle
+                }
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, searchResultFragment)
+                    .addToBackStack("SearchResultFragment") // 백 스택 추가
+                    .commitAllowingStateLoss()
+            }
+            else {
+                val selectedChips = binding.ingredientsChipGroup.checkedChipIds.joinToString(", ") { id ->
+                    binding.ingredientsChipGroup.findViewById<Chip>(id).text
+                }
+
+                val minCalories = binding.minCalories.text.toString()
+                val maxCalories = binding.maxCalories.text.toString()
+
+                setMinMaxFilter(binding.minCalories, 200, 500)
+                setMinMaxFilter(binding.maxCalories, 200, 500)
+
+                val bundle = Bundle().apply {
+                    putString("selectedChips", selectedChips)
+                    putString("minCalories", minCalories)
+                    putString("maxCalories", maxCalories)
+                }
+                val searchResultFragment = SearchResultFragment().apply {
+                    arguments = bundle
+                }
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, searchResultFragment)
+                    .addToBackStack("SearchResultFragment") // 백 스택 추가
+                    .commitAllowingStateLoss()
             }
         }
 
@@ -202,7 +239,7 @@ class SearchFragment: Fragment(), SearchAdapter.FragmentCallback {
         recentSearches.addAll(searchSet)
     }
 
-    fun setMinMaxFilter(editText: EditText, minValue: Int, maxValue: Int) {
+    private fun setMinMaxFilter(editText: EditText, minValue: Int, maxValue: Int) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 

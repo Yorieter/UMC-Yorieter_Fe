@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentSearchResultBinding
@@ -28,6 +29,8 @@ class SearchResultFragment: Fragment() {
             selectedChips.split(", ").forEach { chipText ->
                 val chip = Chip(requireContext()).apply {
                     text = chipText
+                    isClickable = false
+                    chipBackgroundColor = ContextCompat.getColorStateList(this.context, R.color.subColor1) // 배경 컬러 설정
                 }
                 binding.filteredChipGroup.addView(chip)
             }
@@ -35,14 +38,20 @@ class SearchResultFragment: Fragment() {
 
         // 검색어 불러오기
         val searchWord = arguments?.getString("query")
-        binding.searchWordTv.text = "$searchWord"
+
+        if (searchWord.isNullOrEmpty()) {
+            binding.searchWordTv.visibility = View.GONE
+        }
+        else {
+            binding.searchWordTv.text = "$searchWord"
+        }
 
         // 칼로리 불러오기 / 선택하지 않았으면 안보이게ㅁㅇ
         val minCalories = arguments?.getString("minCalories")
         val maxCalories = arguments?.getString("maxCalories")
 
         if (minCalories.isNullOrEmpty() && maxCalories.isNullOrEmpty()) {
-            binding.searchCaloriesTv.text = ""
+            binding.searchCaloriesTv.visibility = View.GONE
         }
         else if (minCalories.isNullOrEmpty() && !maxCalories.isNullOrEmpty()) {
             binding.searchCaloriesTv.text = "0 Kcal ~ $maxCalories Kcal"

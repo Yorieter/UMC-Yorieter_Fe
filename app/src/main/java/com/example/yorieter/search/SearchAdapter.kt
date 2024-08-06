@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yorieter.R
 import com.example.yorieter.databinding.ItemChipSearchBinding
@@ -25,8 +26,8 @@ class SearchAdapter(private val context: Context,
         val chipText = searchTerms[position]
         val chip = Chip(context).apply {
             text = chipText
-            this.setCloseIconResource(R.drawable.close)
             isCloseIconVisible = true
+            chipBackgroundColor = ContextCompat.getColorStateList(this.context, R.color.subColor1)
         }
 
         chip.setOnCloseIconClickListener {
@@ -36,6 +37,7 @@ class SearchAdapter(private val context: Context,
 
         // chip 선택 시 그 결과 보여주기
         chip.setOnClickListener {
+            chip.chipBackgroundColor = ContextCompat.getColorStateList(this.context, R.color.mainColor)
             fragmentCallback.onSearchTermClicked(chipText)
         }
 
