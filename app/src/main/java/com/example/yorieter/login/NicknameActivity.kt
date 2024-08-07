@@ -89,8 +89,10 @@ class NicknameActivity: AppCompatActivity() {
                 if (resp != null){
                     Log.d("SIGNUP/SUCCESS22", response.toString())
                     if (resp.isSuccess){
+                        val id = resp.result.id // 사용자 아이디 저장 (memberId)
+                        Log.d("USERID/SUCCESS", id.toString())
                         Log.d("SIGNUP/SUCCESS333", response.toString())
-                        moveLoginActivity() // 회원가입 진행
+                        moveLoginActivity(resp) // 회원가입 진행
                     } else {
                         errormessage() // 오류 메시지 출력
                         Log.e("SIGNUP/FAILURE",
@@ -117,7 +119,25 @@ class NicknameActivity: AppCompatActivity() {
         binding.nicknameEt.text.clear()
     }
 
-    private fun moveLoginActivity(){
+    private fun saveId(id: Int){
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()){
+            putInt("UserId", id) // 아이디 값 전달
+            apply()
+        }
+    }
+
+    private fun moveLoginActivity(signUpResponse: SignUpResponse){
+
+        Log.d("message", signUpResponse.message)
+        Log.d("result", signUpResponse.result.id.toString())
+
+        // 회원가입 성공 후 받은 아이디 저장
+        var id: Int = signUpResponse.result.id
+        Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
+
+        saveId(id)
+
         // 로그인 화면으로 이동
         val intent = Intent(this, LoginActivity::class.java)
 
