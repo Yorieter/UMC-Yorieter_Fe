@@ -119,14 +119,6 @@ class NicknameActivity: AppCompatActivity() {
         binding.nicknameEt.text.clear()
     }
 
-    private fun saveId(id: Int){
-        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        with(sharedPref.edit()){
-            putInt("UserId", id) // 아이디 값 전달
-            apply()
-        }
-    }
-
     private fun moveLoginActivity(signUpResponse: SignUpResponse){
 
         Log.d("message", signUpResponse.message)
@@ -135,8 +127,6 @@ class NicknameActivity: AppCompatActivity() {
         // 회원가입 성공 후 받은 아이디 저장
         var id: Int = signUpResponse.result.id
         Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
-
-        saveId(id)
 
         // 로그인 화면으로 이동
         val intent = Intent(this, LoginActivity::class.java)
