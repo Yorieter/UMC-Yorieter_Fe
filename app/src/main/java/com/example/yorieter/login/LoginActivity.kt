@@ -99,6 +99,7 @@ class LoginActivity: AppCompatActivity() {
                 val resp: LoginResponse = response.body()!!
                 if (resp != null){
                     if (resp.isSuccess){
+                        Log.d("아이디 값", resp.result.id.toString())
                         moveMainActivity(resp) // 로그인 진행
                     } else {
                         binding.loginErTv.visibility = View.VISIBLE
@@ -129,6 +130,14 @@ class LoginActivity: AppCompatActivity() {
         }
     }
 
+    private fun saveId(id: Int){
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()){
+            putInt("UserId", id) // 아이디 값 전달
+            apply()
+        }
+    }
+
     private fun moveMainActivity(loginResponse: LoginResponse){
 
         Log.d("message", loginResponse.message)
@@ -138,7 +147,12 @@ class LoginActivity: AppCompatActivity() {
         var token: String = loginResponse.result.accessToken
         Log.d("토큰 값", token)
 
+        // 로그인 연동 후 받은 아이디 저장
+        var id: Int = loginResponse.result.id
+        Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
+
         saveToken(token)
+        saveId(id)
 
         // 메인 화면으로 이동
         val intent = Intent(this, MainActivity::class.java)
