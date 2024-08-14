@@ -25,6 +25,7 @@ class MyCommentFragment: Fragment() {
 
     lateinit var binding: FragmentMyCommentBinding
     private var mycommentDatas = ArrayList<Mycomment>()
+    private lateinit var mycommentRVAdapter: MycommentRVAdapter
     var currentPage = 1 // 현재 페이지 번호를 관리하는 변수
 
     // 토큰 값 가져오기
@@ -52,17 +53,17 @@ class MyCommentFragment: Fragment() {
 //            add(Mycomment(R.drawable.mypage_ic_yorieter_profile, "집에 있는 재료들로 만들어 먹을 수 있는 요리여서 더 자주 만들어 먹게 되는 것 같", "작성일자: 2024-02-09"))
 //        }
 //
-//        // 어댑터와 데이터 리스트(더미데이터) 연결
-//        val mycommentRVAdapter = MycommentRVAdapter(mycommentDatas)
-//
-//        // 리사이클러뷰에 어댑터를 연결
-//        binding.mycommentContentVp.adapter = mycommentRVAdapter
-//
-//        // 레이아웃 매니저 설정
-//        binding.mycommentContentVp.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//
-//        // 리사이클러뷰에 간격 설정
-//        binding.mycommentContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
+        // 어댑터와 데이터 리스트(더미데이터) 연결
+        mycommentRVAdapter = MycommentRVAdapter(mycommentDatas)
+
+        // 리사이클러뷰에 어댑터를 연결
+        binding.mycommentContentVp.adapter = mycommentRVAdapter
+
+        // 레이아웃 매니저 설정
+        binding.mycommentContentVp.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        // 리사이클러뷰에 간격 설정
+        binding.mycommentContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
 
         // 초기 데이터 로드
         loadMyLikedRecipes(currentPage)
@@ -100,7 +101,7 @@ class MyCommentFragment: Fragment() {
 
         // 내가 작성한 댓글 목록 조회 API 연동
         if (token != null){
-            myCommentService.getMyComments(token, memberId, page).enqueue(object: Callback<GetMyCommentResponse> {
+            myCommentService.getMyComments("Bearer $token", memberId, page).enqueue(object: Callback<GetMyCommentResponse> {
                 override fun onResponse(
                     call: Call<GetMyCommentResponse>,
                     response: Response<GetMyCommentResponse>
@@ -110,7 +111,19 @@ class MyCommentFragment: Fragment() {
                     if (resp != null) {
                         if(resp.isSuccess) { // 응답 성공 시
                             Log.d("MYCOMMENT/SUCCESS", "댓글 조회 성공")
-                            // 리사이클러뷰 적용
+
+                            // 서버에서 받은 댓글 데이터를 mycommentDatas에 추가
+                            val comments = resp.result.commentList.map { comment ->
+                                Mycomment(
+                                    coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
+                                    comment = comment.content,
+                                    date = "작성일자: ${comment.createdAt}"
+                                )
+                            }
+
+                            // 리스트에 새 데이터 추가
+                            mycommentDatas.addAll(comments)
+                            mycommentRVAdapter.notifyDataSetChanged() // 데이터 변경 알림
 
                         } else {
                             Log.e("MYCOMMENT/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
