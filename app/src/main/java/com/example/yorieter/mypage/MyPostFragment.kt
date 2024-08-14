@@ -64,29 +64,32 @@ class MyPostFragment: Fragment() {
 //        // 어댑터와 데이터 리스트(더미데이터) 연결
 //        filteredPosts.addAll(mypostDatas)
 //        mypostRVAdapter = MypostRVAdapter(filteredPosts)
-//
-//        // 리사이클러뷰에 어댑터를 연결
-//        binding.mypostContentVp.adapter = mypostRVAdapter
-//
-//        // 레이아웃 매니저 설정
-//        binding.mypostContentVp.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//
-//        // 리사이클러뷰에 간격 설정
-//        binding.mypostContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
 
-//        // 어댑터 클릭 리스너 설정
-//        mypostRVAdapter.itemClickListner = object: MypostRVAdapter.OnItemClickListener{
-//            // 내 게시물 프래그먼트로 이동 (지금은 임의 HomeFragment)
-//            override fun onItemClick(view: View, position: Int) {
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.main_frm, RecipeUserFragment())
-//                    .addToBackStack(null)
-//                    .commit()
-//
-//                // 바텀 네비게이션의 선택 상태 변경, 얘가 우선적으로 작동해서 페이지가 안 넘어가길래 일단 주석처리 했습니다.
-////                activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.communityFragment
-//            }
-//        }
+        // 어댑터와 데이터 리스트(더미데이터) 연결
+        mypostRVAdapter = MypostRVAdapter(mypostDatas)
+
+        // 리사이클러뷰에 어댑터를 연결
+        binding.mypostContentVp.adapter = mypostRVAdapter
+
+        // 레이아웃 매니저 설정
+        binding.mypostContentVp.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        // 리사이클러뷰에 간격 설정
+        binding.mypostContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
+
+        // 어댑터 클릭 리스너 설정
+        mypostRVAdapter.itemClickListner = object: MypostRVAdapter.OnItemClickListener{
+            // 내 게시물 프래그먼트로 이동 (지금은 임의 HomeFragment)
+            override fun onItemClick(view: View, position: Int) {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, RecipeUserFragment())
+                    .addToBackStack(null)
+                    .commit()
+
+                // 바텀 네비게이션의 선택 상태 변경, 얘가 우선적으로 작동해서 페이지가 안 넘어가길래 일단 주석처리 했습니다.
+//                activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.communityFragment
+            }
+        }
 
         // 초기 데이터 로드
         loadMyLikedRecipes(currentPage)
@@ -146,7 +149,20 @@ class MyPostFragment: Fragment() {
                     if (resp != null) {
                         if(resp.isSuccess) { // 응답 성공 시
                             Log.d("MYPOST/SUCCESS", "레시피 목록 조회 성공")
-                            // 리사이클러뷰 적용
+
+                            // 서버에서 받은 댓글 데이터를 mycommentDatas에 추가
+                            val posts = resp.result.recipeList.map { post ->
+                                Mypost (
+                                    coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
+                                    title = post.title,
+                                    date = "작성일자: ${post.createdAt}"
+                                )
+                            }
+
+                            // 리스트에 새 데이터 추가
+                            mypostDatas.addAll(posts)
+                            mypostRVAdapter.notifyDataSetChanged() // 데이터 변경 알림
+
 
                         } else {
                             Log.e("MYPOST/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
@@ -162,6 +178,12 @@ class MyPostFragment: Fragment() {
 
             })
         }
+    }
+
+    private fun showEmptyState() {
+        // 여기에서 빈 상태를 사용자에게 알려주는 로직을 구현합니다.
+        // 예를 들어, 리사이클러뷰를 숨기고 빈 데이터 메시지를 표시합니다.
+        binding.mypostContentVp.visibility = View.GONE // 리사이클러뷰 숨기기
     }
 
     private fun filterPosts(query: String?) {
