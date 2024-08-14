@@ -28,7 +28,7 @@ class MypostRVAdapter(private val mypostList: ArrayList<Mypost>): RecyclerView.A
 
     inner class ViewHolder(val binding: ItemMypostBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(mypost: Mypost){
-            //binding.itemMypostImgIv.setImageResource(mypost.coverImg!!)
+            binding.itemMypostImgIv.setImageResource(mypost.coverImg!!)
             binding.itemMypostTitleTv.text = mypost.title
             binding.mypostDate.text = mypost.date
 
