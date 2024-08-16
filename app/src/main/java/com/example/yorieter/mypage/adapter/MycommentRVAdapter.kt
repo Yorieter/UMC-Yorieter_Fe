@@ -8,7 +8,7 @@ import com.example.yorieter.databinding.ItemMycommentBinding
 import com.example.yorieter.mypage.dataclass.Mycomment
 
 
-class MycommentRVAdapter(private val mycommentList: ArrayList<Mycomment>): RecyclerView.Adapter<MycommentRVAdapter.ViewHolder>() {
+class MycommentRVAdapter(private val mycommentList: ArrayList<Mycomment>, private val onDeleteClick: (Int) -> Unit): RecyclerView.Adapter<MycommentRVAdapter.ViewHolder>() {
 
     interface OnItemClickListener { // 클릭리스너 인터페이스 생성
         fun onItemClick(view: View, position: Int)
@@ -23,6 +23,11 @@ class MycommentRVAdapter(private val mycommentList: ArrayList<Mycomment>): Recyc
 
     override fun onBindViewHolder(holder: MycommentRVAdapter.ViewHolder, position: Int) {
         holder.bind(mycommentList[position])
+
+        // 삭제 버튼 클릭 이벤트 처리
+        holder.binding.myCommentDelete.setOnClickListener {
+            onDeleteClick(position) // 삭제 콜백 호출
+        }
     }
 
     override fun getItemCount(): Int = mycommentList.size

@@ -2,6 +2,7 @@ package com.example.yorieter.home.API
 
 import com.google.gson.annotations.SerializedName
 
+// 소연
 data class HomeRecipesResponse(
     @SerializedName(value = "code") var code: String,
     @SerializedName(value = "message") var message: String,

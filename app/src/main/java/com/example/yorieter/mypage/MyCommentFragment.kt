@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentMyCommentBinding
+import com.example.yorieter.mypage.Comment.CommentItf
+import com.example.yorieter.mypage.Comment.UserCommentResponse
 import com.example.yorieter.mypage.adapter.DividerItemDecoration
 import com.example.yorieter.mypage.adapter.MycommentRVAdapter
 import com.example.yorieter.mypage.api.MypageItf
@@ -53,8 +55,23 @@ class MyCommentFragment: Fragment() {
 //            add(Mycomment(R.drawable.mypage_ic_yorieter_profile, "집에 있는 재료들로 만들어 먹을 수 있는 요리여서 더 자주 만들어 먹게 되는 것 같", "작성일자: 2024-02-09"))
 //        }
 //
+        //댓글 삭제
+        mycommentRVAdapter = MycommentRVAdapter(mycommentDatas) { position ->
+            // 삭제 버튼 클릭 시 호출되는 콜백
+            val comment = mycommentDatas[position]
+            Log.d("fragment 활동중", "리스트 제거 전")
+
+            deleteComment(comment.commentId) // API 호출
+            Log.d("fragment 활동중", "에이피아이 호출 후")
+
+            mycommentDatas.removeAt(position) // 리스트에서 제거
+            Log.d("fragment 활동중", "리스트 제거 됨")
+
+            mycommentRVAdapter.notifyItemRemoved(position) // 어댑터에 변경사항 반영
+        }
+
         // 어댑터와 데이터 리스트(더미데이터) 연결
-        mycommentRVAdapter = MycommentRVAdapter(mycommentDatas)
+        //mycommentRVAdapter = MycommentRVAdapter(mycommentDatas)
 
         // 리사이클러뷰에 어댑터를 연결
         binding.mycommentContentVp.adapter = mycommentRVAdapter
@@ -117,7 +134,8 @@ class MyCommentFragment: Fragment() {
                                 Mycomment(
                                     coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
                                     comment = comment.content,
-                                    date = "작성일자: ${comment.createdAt}"
+                                    date = "작성일자: ${comment.createdAt}",
+                                    commentId = 2
                                 )
                             }
 
@@ -139,5 +157,42 @@ class MyCommentFragment: Fragment() {
 
             })
         }
+    }
+
+    fun deleteComment(commentId: Int) {
+        val token = getToken() ?: return
+        val deleteService = MypageObj.getRetrofit().create(CommentItf::class.java)
+
+        Log.d("API_CALL", "Deleting comment with commentId: $commentId")
+
+        deleteService.deleteComment2("Bearer $token", commentId)
+            .enqueue(object : Callback<UserCommentResponse> {
+                override fun onResponse(
+                    call: Call<UserCommentResponse>,
+                    response: Response<UserCommentResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null && responseBody.isSuccess) {
+                            Log.d("DELETE_API 성공", "Comment deleted successfully")
+                        } else {
+                            Log.e(
+                                "DELETE_API 실패",
+                                "Failed to delete comment: ${responseBody?.message}"
+                            )
+                        }
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        Log.e(
+                            "DELETE_API 실패",
+                            "Failed to delete comment: ${response.code()} - $errorBody"
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<UserCommentResponse>, t: Throwable) {
+                    Log.e("DELETE_API 실패", "Error deleting comment", t)
+                }
+            })
     }
 }

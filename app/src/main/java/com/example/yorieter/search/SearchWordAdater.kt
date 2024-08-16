@@ -51,6 +51,7 @@ class SearchWordAdapter(private val context: Context,
     override fun getItemCount() = searchTerms.size
 
     private fun removeSearchTerm(position: Int) {
+        searchTerms.removeAt(position)  // 목록에서 항목 제거
         notifyItemRemoved(position)
         updateSharedPreferences()
     }
