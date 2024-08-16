@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.yorieter.R
 import com.example.yorieter.databinding.ItemRecipeBinding
 
-class RecipeRVAdapter(private val recipelist : ArrayList<RecipeData>) : RecyclerView.Adapter<RecipeRVAdapter.MyViewHolder>() {
+class RecipeRVAdapter(private val recipelist : ArrayList<Recipe>) : RecyclerView.Adapter<RecipeRVAdapter.MyViewHolder>() {
 
     var communityLike: Boolean = false
     //만들어진 뷰홀더 없을때 뷰홀더(레이아웃) 생성하는 함수
@@ -35,7 +36,7 @@ class RecipeRVAdapter(private val recipelist : ArrayList<RecipeData>) : Recycler
     }
 
     interface RecipeItemClickListener {
-        fun onItemClick(recipeData: RecipeData)
+        fun onItemClick(recipe: Recipe)
     }
 
     var mItemClickListener: RecipeItemClickListener? = null
@@ -60,16 +61,31 @@ class RecipeRVAdapter(private val recipelist : ArrayList<RecipeData>) : Recycler
 
     inner class MyViewHolder(val binding: ItemRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(recipeData: RecipeData) {
+        fun bind(recipe: Recipe) {
             //binding.itemRecipeImg.=recipeData.recipe_image
-            binding.itemRecipeImg.setImageResource(recipeData.recipe_image!!)
-            binding.titleTv.text = recipeData.recipe_title
-            binding.dateTv.text = recipeData.recipe_date
+            recipe.imageUrl?.let {
+                Glide.with(binding.root.context)
+                    .load(it)
+                    .placeholder(R.drawable.food_example02)
+                    .into(binding.itemRecipeImg)
+            } ?: binding.itemRecipeImg.setImageResource(R.drawable.food_example02) // 이미지가 없는 경우
+
+            binding.titleTv.text = recipe.title
+            binding.dateTv.text = recipe.createdAt
+
+            binding.communityLikeIv.setOnClickListener {
+                if (!communityLike) {
+                    binding.communityLikeIv.setImageResource(R.drawable.like_check)
+                    communityLike = true
+                } else {
+                    binding.communityLikeIv.setImageResource(R.drawable.like_no_check)
+                    communityLike = false
+                }
+            }
         }
 //        val coverImg : ImageView = binding.itemRecipeImg
 //        val title : TextView = binding.titleTv
 //        val date : TextView = binding.dateTv
-
     }
 }
 
