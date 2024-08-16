@@ -56,8 +56,8 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/layout_comment_top"
-        app:layout_constraintStart_toStartOf="@id/guideline1"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/item_recipe_comment" />
 
     <EditText
@@ -71,6 +71,7 @@
         app:layout_constraintStart_toStartOf="@id/guideline1" />
 
     <android.widget.Button
+        android:id="@+id/commentUp_bt"
         android:layout_width="65dp"
         android:layout_height="48dp"
         android:layout_marginStart="2.5dp"

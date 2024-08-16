@@ -3,6 +3,8 @@ package com.example.yorieter.post
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.yorieter.R
 import com.example.yorieter.databinding.ItemRecipeBinding
 import com.example.yorieter.databinding.ItemRecipeCommentBinding
 
