@@ -78,16 +78,16 @@ class MyPostFragment: Fragment() {
         binding.mypostContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
 
         // 어댑터 클릭 리스너 설정
+        // RecipeUserFragment로 이동 (레시피 수정)
         mypostRVAdapter.itemClickListner = object: MypostRVAdapter.OnItemClickListener{
-            // 내 게시물 프래그먼트로 이동 (지금은 임의 HomeFragment)
             override fun onItemClick(view: View, position: Int) {
+                val selectedRecipeId = mypostDatas[position].recipeId // 클릭된 아이템의 레시피 아이디 가져오기
+                Log.d("전달하는 레시피 아이디", selectedRecipeId.toString())
+                val recipeUserFragment = RecipeUserFragment.newInstance(selectedRecipeId)
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_frm, RecipeUserFragment())
+                    .replace(R.id.main_frm, recipeUserFragment)
                     .addToBackStack(null)
                     .commit()
-
-                // 바텀 네비게이션의 선택 상태 변경, 얘가 우선적으로 작동해서 페이지가 안 넘어가길래 일단 주석처리 했습니다.
-//                activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.communityFragment
             }
         }
 
@@ -115,17 +115,17 @@ class MyPostFragment: Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        // SearchView 설정
-        binding.mypostSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(query: String?): Boolean {
-                //filterPosts(query)
-                return true
-            }
-        })
+//        // SearchView 설정
+//        binding.mypostSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                filterPosts(newText)
+//                return true
+//            }
+//        })
 
         return binding.root
     }
@@ -155,7 +155,8 @@ class MyPostFragment: Fragment() {
                                 Mypost (
                                     coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
                                     title = post.title,
-                                    date = "작성일자: ${post.createdAt}"
+                                    date = "작성일자: ${post.createdAt}",
+                                    recipeId = post.recipeId
                                 )
                             }
 
