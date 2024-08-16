@@ -3,8 +3,6 @@ package com.example.yorieter.search.SearchAPI
 import com.google.gson.annotations.SerializedName
 
 data class SearchRequest(
-    @SerializedName(value = "maxCalorie") val maxCalorie: Int,
-    @SerializedName(value = "minCalorie") val minCalorie: Int,
     @SerializedName(value = "ingredientNames") val ingredientNames: List<String>
 )
 
