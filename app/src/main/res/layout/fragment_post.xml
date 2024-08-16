@@ -69,62 +69,20 @@
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+            <EditText
+                android:id="@+id/post_ingredients"
                 android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/post_title"
-                app:layout_constraintStart_toStartOf="@id/guideline1"
-                app:layout_constraintEnd_toEndOf="@id/guideline2"
-                android:layout_marginTop="10dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="식재료 선택"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/select_ingredientsIV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/textView6"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/arrow_down" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/ingredients_chip_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"></com.google.android.material.chip.ChipGroup>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@drawable/text_round"
+                android:hint=" 식재료를 입력하세요: "
+                android:inputType="text"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                app:layout_constraintTop_toBottomOf="@+id/post_title" />
 
             <EditText
                 android:id="@+id/post_context"
@@ -139,43 +97,43 @@
                 app:layout_constraintEnd_toEndOf="@id/guideline2"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/post_ingredients" />
 
 
-            <LinearLayout
-                android:id="@+id/layout_calory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/guideline1"
-                app:layout_constraintTop_toBottomOf="@+id/post_context"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="25dp">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/layout_calory"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintStart_toStartOf="@id/guideline1"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/post_context"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginStart="25dp">-->
 
-                <TextView
-                    android:id="@+id/search_calory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:text="칼로리 검색"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
+<!--                <TextView-->
+<!--                    android:id="@+id/search_calory"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:text="칼로리 검색"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="15dp"-->
 
-                    app:layout_constraintStart_toStartOf="@id/guideline1"
-                    app:layout_constraintTop_toBottomOf="@+id/post_detail" />
+<!--                    app:layout_constraintStart_toStartOf="@id/guideline1"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/post_detail" />-->
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_bottom_search_no_select"
-                    app:layout_constraintStart_toEndOf="@id/search_calory"
-                    app:layout_constraintTop_toBottomOf="@+id/post_detail" />
+<!--                <ImageView-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:src="@drawable/ic_bottom_search_no_select"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/search_calory"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/post_detail" />-->
 
-            </LinearLayout>
-          
+<!--            </LinearLayout>-->
+<!--          -->
             <ImageView
                 android:id="@+id/recipe_img_iv"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                app:layout_constraintTop_toBottomOf="@id/layout_calory"
+                app:layout_constraintTop_toBottomOf="@+id/post_context"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="15dp"
