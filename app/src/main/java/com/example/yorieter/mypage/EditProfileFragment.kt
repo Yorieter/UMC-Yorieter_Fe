@@ -25,6 +25,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.widget.Toast
+import com.bumptech.glide.signature.ObjectKey
 import com.example.yorieter.mypage.api.ResponseData.GetMypageResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -174,6 +175,9 @@ class EditProfileFragment: Fragment() {
             // 선택된 이미지의 URI를 가져옴
             val imageUri: Uri = data.data!!
 
+            // 이미지뷰의 이전 이미지를 제거!!
+            binding.profileIv.setImageDrawable(null)
+
             // 이미지 압축 및 리사이즈
             val compressedUri = getCompressedImageUri(imageUri)
 
@@ -191,6 +195,7 @@ class EditProfileFragment: Fragment() {
             Glide.with(this)
                 .load(compressedUri)
                 .apply(RequestOptions.circleCropTransform())
+                .signature(ObjectKey(System.currentTimeMillis().toString())) // 캐시 무효화
                 .into(binding.profileIv)
 
             // ViewModel에 선택된 이미지 URI를 설정하여 저장
