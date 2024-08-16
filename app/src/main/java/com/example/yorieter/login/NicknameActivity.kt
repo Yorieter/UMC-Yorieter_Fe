@@ -13,6 +13,7 @@ import androidx.core.app.ActivityOptionsCompat
 import com.example.yorieter.MainActivity
 import com.example.yorieter.R
 import com.example.yorieter.databinding.ActivityNicknameBinding
+import com.example.yorieter.login.api.ResponseData.LoginResponse
 import com.example.yorieter.login.api.ResponseData.SignUpResponse
 import com.example.yorieter.login.api.SignUpClient
 import com.example.yorieter.login.api.UserRetrofitItf
@@ -85,20 +86,33 @@ class NicknameActivity: AppCompatActivity() {
         authService.signUp(SignUpClient(username, password, nickname)).enqueue(object: Callback<SignUpResponse>{
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
                 Log.d("SIGNUP/SUCCESS", response.toString())
-                val resp: SignUpResponse = response.body()!!
-                if (resp != null){
-                    Log.d("SIGNUP/SUCCESS22", response.toString())
-                    if (resp.isSuccess){
-                        Log.d("SIGNUP/SUCCESS333", response.toString())
-                        moveLoginActivity() // 회원가입 진행
-                    } else {
-                        errormessage() // 오류 메시지 출력
-                        Log.e("SIGNUP/FAILURE",
-                            "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
-                        //return
+
+                when (response.code()){
+                    200 -> {
+                        val resp: SignUpResponse = response.body()!!
+                        if (resp != null){
+                            if (resp.isSuccess) {
+                                val id = resp.result.id // 사용자 아이디 저장 (memberId)
+                                Log.d("USERID/SUCCESS", id.toString())
+                                moveLoginActivity(resp) // 회원가입 성공 시 로그인 화면으로 이동
+                            } else {
+                                Log.e("SIGNUP/FAILURE", "응답 코드: ${resp.code}, 응답 메시지: ${resp.message}")
+
+                                // code가 MEMBER400일 때 오류 메시지 출력
+                                if (resp.code == "MEMBER400") {
+                                    errormessage() // 오류 메시지 출력
+                                }
+                            }
+
+                        } else {
+                            Log.d("SIGNUP/FAILURE", "Response body is null")
+                            Log.e("SIGNUP/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
+
+                        }
                     }
-                } else {
-                    Log.d("SIGNUP/FAILURE", "Response body is null")
+                    else -> {
+                        errormessage()
+                    }
                 }
             }
 
@@ -117,7 +131,15 @@ class NicknameActivity: AppCompatActivity() {
         binding.nicknameEt.text.clear()
     }
 
-    private fun moveLoginActivity(){
+    private fun moveLoginActivity(signUpResponse: SignUpResponse){
+
+        Log.d("message", signUpResponse.message)
+        Log.d("result", signUpResponse.result.id.toString())
+
+        // 회원가입 성공 후 받은 아이디 저장
+        var id: Int = signUpResponse.result.id
+        Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
+
         // 로그인 화면으로 이동
         val intent = Intent(this, LoginActivity::class.java)
 

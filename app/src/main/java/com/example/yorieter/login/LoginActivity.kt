@@ -18,6 +18,7 @@ import com.example.yorieter.login.api.ResponseData.LoginResponse
 import com.example.yorieter.login.api.LoginClient
 import com.example.yorieter.login.api.UserRetrofitItf
 import com.example.yorieter.login.api.UserRetrofitObj
+import com.example.yorieter.mypage.api.ResponseData.GetMypageResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -96,18 +97,33 @@ class LoginActivity: AppCompatActivity() {
         authService.login(LoginClient(username, password)).enqueue(object: Callback<LoginResponse>{
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 Log.d("LOGIN/SUCCESS", response.toString())
-                val resp: LoginResponse = response.body()!!
-                if (resp != null){
-                    if (resp.isSuccess){
-                        moveMainActivity(resp) // 로그인 진행
-                    } else {
-                        binding.loginErTv.visibility = View.VISIBLE
-                        Log.e("LOGIN/FAILURE",
-                            "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
-                        //return
+
+                when (response.code()){
+                    200 -> {
+                        val resp: LoginResponse = response.body()!!
+                        if (resp != null){
+                            if (resp.isSuccess){
+                                Log.d("아이디 값", resp.result.id.toString())
+                                moveMainActivity(resp) // 로그인 진행
+                            } else {
+                                Log.e("LOGIN/FAILURE",
+                                    "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
+
+                                // code가 MEMBER400일 때 오류 메시지 출력
+                                if (resp.code == "MEMBER401" || response.code() == 500 || response.code() == 400) {
+                                    binding.loginErTv.visibility = View.VISIBLE
+                                }
+                            }
+
+                        } else {
+                            Log.e("실패", response.message())
+                            Log.e("LOGIN/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
+
+                        }
                     }
-                } else {
-                    Log.d("LOGIN/FAILURE", "Response body is null")
+                    else -> {
+                        binding.loginErTv.visibility = View.VISIBLE
+                    }
                 }
             }
 
@@ -129,6 +145,14 @@ class LoginActivity: AppCompatActivity() {
         }
     }
 
+    private fun saveId(id: Int){
+        val sharedPref = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        with(sharedPref.edit()){
+            putInt("UserId", id) // 아이디 값 전달
+            apply()
+        }
+    }
+
     private fun moveMainActivity(loginResponse: LoginResponse){
 
         Log.d("message", loginResponse.message)
@@ -138,7 +162,12 @@ class LoginActivity: AppCompatActivity() {
         var token: String = loginResponse.result.accessToken
         Log.d("토큰 값", token)
 
+        // 로그인 연동 후 받은 아이디 저장
+        var id: Int = loginResponse.result.id
+        Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
+
         saveToken(token)
+        saveId(id)
 
         // 메인 화면으로 이동
         val intent = Intent(this, MainActivity::class.java)

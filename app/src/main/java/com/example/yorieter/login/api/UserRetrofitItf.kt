@@ -6,6 +6,7 @@ import com.example.yorieter.login.api.ResponseData.SignUpResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface UserRetrofitItf {
@@ -20,5 +21,5 @@ interface UserRetrofitItf {
 
     // 로그아웃
     @GET("auth/logout")
-    fun logout(): Call<LogoutResponse>
+    fun logout(@Header("Authorization") token: String): Call<LogoutResponse>
 }

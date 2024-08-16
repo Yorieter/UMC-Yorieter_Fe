@@ -14,5 +14,6 @@ data class LoginResult(
     @SerializedName(value = "accessToken") var accessToken: String,
     @SerializedName(value = "tokenExpiresIn") var tokenExpiresIn: Long,
     @SerializedName(value = "username") var username: String,
-    @SerializedName(value = "nickname") var nickname: String
+    @SerializedName(value = "nickname") var nickname: String,
+    @SerializedName(value = "id") var id: Int
 )

@@ -15,6 +15,7 @@
         tools:layout_editor_absoluteX="46dp">
 
         <ImageButton
+            android:id="@+id/back_icon_ib"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/arrow_left"
@@ -26,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="레시피 작성"
+            android:text="레시피"
             android:textColor="@color/subColor5"
             android:textSize="23sp"
             android:textStyle="bold" />

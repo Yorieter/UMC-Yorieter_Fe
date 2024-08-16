@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="287dp"
+    android:layout_height="200dp"
+    android:background="@color/ic_yorieter_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/logout_iv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_logout_waring"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/logout_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="로그아웃 하시겠습니까?"
+        android:textColor="@color/subColor5"
+        android:textSize="15sp"
+        android:textFontWeight="200"
+        android:layout_marginBottom="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logout_iv"
+        app:layout_constraintBottom_toBottomOf="@id/logout_cancel_btn"/>
+
+    <Button
+        android:id="@+id/logout_cancel_btn"
+        android:layout_width="140dp"
+        android:layout_height="65dp"
+        android:backgroundTint="@color/gray"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textFontWeight="500"
+        android:text="취소"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/logout_check_btn"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="2dp"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="@id/logout_cancel_btn"
+        app:layout_constraintBottom_toBottomOf="@id/logout_cancel_btn"
+        app:layout_constraintStart_toEndOf="@id/logout_cancel_btn"
+        app:layout_constraintEnd_toStartOf="@id/logout_check_btn"/>
+
+    <Button
+        android:id="@+id/logout_check_btn"
+        android:layout_width="140dp"
+        android:layout_height="65dp"
+        android:backgroundTint="@color/mainColor"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textFontWeight="200"
+        android:text="확인"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/logout_cancel_btn"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
