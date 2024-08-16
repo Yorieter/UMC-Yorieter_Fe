@@ -103,10 +103,6 @@ class SearchResultFragment: Fragment() {
         // 검색어 불러오기
         val searchWord = arguments?.getString("query")
 
-        // 칼로리 불러오기 / 선택하지 않았으면 안보이게
-        val minCalories = 0
-        val maxCalories = 500
-
         // API Token
         val token = getToken()
 
@@ -116,8 +112,6 @@ class SearchResultFragment: Fragment() {
             // 필터링 검색 API
             // Construct the request body
             val requestBody = SearchRequest(
-                maxCalorie = maxCalories,
-                minCalorie = minCalories,
                 ingredientNames = chipList
             )
 
