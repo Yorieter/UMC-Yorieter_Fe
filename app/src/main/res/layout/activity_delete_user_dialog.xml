@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="287dp"
+    android:layout_height="200dp"
+    android:background="@color/ic_yorieter_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/delete_iv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_delete_waring"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/delete_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="정말 탈퇴하시겠어요?"
+        android:textColor="@color/subColor5"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textFontWeight="200"
+        android:layout_marginBottom="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete_iv"
+        app:layout_constraintBottom_toBottomOf="@id/delete_cancel_btn"/>
+
+    <TextView
+        android:id="@+id/delete_description_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="탈퇴 버튼 클릭 시, 계정은 삭제되며 복구되지 않습니다."
+        android:textColor="@color/subColor5"
+        android:textSize="10sp"
+        android:textFontWeight="200"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete_title_tv" />
+
+    <Button
+        android:id="@+id/delete_cancel_btn"
+        android:layout_width="140dp"
+        android:layout_height="65dp"
+        android:backgroundTint="@color/gray"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textFontWeight="500"
+        android:text="취소"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/delete_check_btn"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="2dp"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="@id/delete_cancel_btn"
+        app:layout_constraintBottom_toBottomOf="@id/delete_cancel_btn"
+        app:layout_constraintStart_toEndOf="@id/delete_cancel_btn"
+        app:layout_constraintEnd_toStartOf="@id/delete_check_btn"/>
+
+    <Button
+        android:id="@+id/delete_check_btn"
+        android:layout_width="140dp"
+        android:layout_height="65dp"
+        android:backgroundTint="@color/mainColor"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:textFontWeight="200"
+        android:text="확인"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/delete_cancel_btn"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
