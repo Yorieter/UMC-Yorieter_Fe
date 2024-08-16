@@ -128,10 +128,10 @@ class EditProfileFragment: Fragment() {
 
             // 이미지 파일이 있을 경우 MultipartBody.Part로 변환
             val imagePart: MultipartBody.Part? = selectedImageUri?.let { uri ->
-                val file = File(getRealPathFromURI(uri))
+//                val file = File(getRealPathFromURI(uri))
+//                val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+                val file = getFileFromUri(uri)
                 val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-//                val file = getFileFromUri(uri)
-//                val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
                 MultipartBody.Part.createFormData("image", file.name, requestFile)
             }
 
@@ -175,44 +175,95 @@ class EditProfileFragment: Fragment() {
             val imageUri: Uri = data.data!!
 
             // 이미지 압축 및 리사이즈
-            //val compressedUri = getCompressedImageUri(imageUri)
+            val compressedUri = getCompressedImageUri(imageUri)
 
             // 선택된 이미지 URI를 사용하여 ImageView에 설정
-            binding.profileIv.setImageURI(imageUri)
-            //binding.profileIv.setImageURI(compressedUri)
+            //binding.profileIv.setImageURI(imageUri)
+
+            // 압축된 이미지를 ImagView에 설정
+            binding.profileIv.setImageURI(compressedUri)
 
             // Glide를 사용하여 원형 이미지로 로드
-            Glide.with(this)
-                .load(imageUri)
-                .apply(RequestOptions.circleCropTransform())
-                .into(binding.profileIv)
 //            Glide.with(this)
-//                .load(compressedUri)
+//                .load(imageUri)
 //                .apply(RequestOptions.circleCropTransform())
 //                .into(binding.profileIv)
+            Glide.with(this)
+                .load(compressedUri)
+                .apply(RequestOptions.circleCropTransform())
+                .into(binding.profileIv)
 
             // ViewModel에 선택된 이미지 URI를 설정하여 저장
-            profileViewModel.setProfileImageUri(imageUri)
-            //profileViewModel.setProfileImageUri(compressedUri)
+            //profileViewModel.setProfileImageUri(imageUri)
+            profileViewModel.setProfileImageUri(compressedUri)
 
             // selectedImageUri를 선택된 이미지의 URI로 업데이트
-            selectedImageUri = imageUri
-            //selectedImageUri = compressedUri
+            //selectedImageUri = imageUri
+            selectedImageUri = compressedUri
         }
     }
 
     // Uri를 실제 경로로 변환하는 함수
-    private fun getRealPathFromURI(uri: Uri): String {
-        var path = ""
-        val cursor = context?.contentResolver?.query(uri, null, null, null, null)
-        if (cursor != null){
-            cursor.moveToFirst()
-            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            path = cursor.getString(idx)
-            cursor.close()
+//    private fun getRealPathFromURI(uri: Uri): String {
+//        var path = ""
+//        val cursor = context?.contentResolver?.query(uri, null, null, null, null)
+//        if (cursor != null){
+//            cursor.moveToFirst()
+//            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+//            path = cursor.getString(idx)
+//            cursor.close()
+//        }
+//
+//        // 경로를 로그로 출력
+//        Log.d("EditProfileFragment", "Selected image path: $path")
+//
+//        // 경로가 유효한지 확인
+//        if (path != null) {
+//            val file = File(path)
+//            if (file.exists()) {
+//                Log.d("EditProfileFragment", "File exists at path: $path")
+//            } else {
+//                Log.e("EditProfileFragment", "File does not exist at path: $path")
+//            }
+//        } else {
+//            Log.e("EditProfileFragment", "Failed to get real path from URI")
+//        }
+//
+//        return path
+//    }
+
+    // Uri에서 File 객체를 생성하는 함수
+    private fun getFileFromUri(uri: Uri): File {
+        val inputStream = requireContext().contentResolver.openInputStream(uri)
+        val tempFile = File.createTempFile("temp_image", ".jpg", requireContext().cacheDir)
+        inputStream.use { input ->
+            tempFile.outputStream().use { output ->
+                input?.copyTo(output)
+            }
         }
-        return path
+        Log.d("EditProfileFragment", "Temp file path: ${tempFile.absolutePath}")
+        return tempFile
     }
+
+    // 이미지 압축 함수
+    private fun getCompressedImageUri(uri: Uri): Uri {
+        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+
+        // 이미지 크기를 줄이기 위한 비율 설정 (50%로 설정)
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.width / 2, bitmap.height / 2, true)
+
+        // 압축된 이미지 파일을 저장할 임시 파일 생성
+        val compressedFile = File(requireContext().cacheDir, "compressed_image.jpg")
+        val outputStream = FileOutputStream(compressedFile)
+
+        // 압축 품질 설정 (85%로 설정)
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream)
+        outputStream.flush()
+        outputStream.close()
+
+        return Uri.fromFile(compressedFile)
+    }
+
 
 //    // Uri에서 이미지를 압축 및 리사이즈하는 함수
 //    private fun getCompressedImageUri(uri: Uri): Uri {
@@ -260,19 +311,36 @@ class EditProfileFragment: Fragment() {
                     response: Response<GetMypageResponse>
                 ) {
                     Log.d("RETROFIT/SUCCESS", response.toString())
-                    val resp: GetMypageResponse = response.body()!!
-                    if (resp != null){
+                    Log.e("Response code: ", "${response.code()}")
+                    Log.e("Error body: ", "${response.errorBody()?.string()}")
 
-                        Log.d("MYPAGE_UPDATE/SUCCESS", response.toString())
-                        Toast.makeText(context, "프로필 수정 완료", Toast.LENGTH_SHORT).show()
-                        parentFragmentManager.popBackStack()
+                    when (response.code()){
+                        200 -> {
+                            // 프로필 편집 성공 시
+                            val resp: GetMypageResponse = response.body()!!
+                            if (resp != null){
 
-                    } else {
-                        Log.e("실패", response.message())
-                        Log.e("MYPAGE_UPDATE/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
+                                Log.d("MYPAGE_UPDATE/SUCCESS", response.toString())
+                                Toast.makeText(context, "프로필 수정 완료", Toast.LENGTH_SHORT).show()
+                                parentFragmentManager.popBackStack()
 
-                        Toast.makeText(context, "프로필 수정 실패", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Log.e("실패", response.message())
+                                Log.e("MYPAGE_UPDATE/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
+
+                                Toast.makeText(context, "프로필 수정 실패", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        400 -> {
+                            // 프로필 수정 실패 이유: 동일한 닉네임 입력
+                            Toast.makeText(context, "이미 닉네임이 존재합니다", Toast.LENGTH_SHORT).show()
+                        }
+                        else -> {
+                            Log.e("Error", "응답 코드: ${response.code()}, 응답 메시지: ${response.message()}")
+                            Toast.makeText(context, "프로필 수정 실패", Toast.LENGTH_SHORT).show()
+                        }
                     }
+
                 }
 
                 override fun onFailure(call: Call<GetMypageResponse>, t: Throwable) {
