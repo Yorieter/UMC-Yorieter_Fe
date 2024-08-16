@@ -42,6 +42,18 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
+        android:id="@+id/my_comment_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제"
+        android:textSize="11dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="30dp"
+        />
+
+    <TextView
         android:id="@+id/mycomment_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
