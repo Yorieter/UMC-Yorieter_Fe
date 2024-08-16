@@ -21,5 +21,6 @@ data class RecipeResult(
 
 data class RecipeList(
     @SerializedName(value = "title") var title: String,
+    @SerializedName(value = "recipeId") var recipeId: Int,
     @SerializedName(value = "createdAt") var createdAt: String
 )
