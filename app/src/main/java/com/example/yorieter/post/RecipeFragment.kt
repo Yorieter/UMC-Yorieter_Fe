@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentRecipeBinding
+import com.example.yorieter.home.API.HomeRecipesResponse
 import com.example.yorieter.mypage.EditProfileFragment
 import com.example.yorieter.mypage.MyCommentFragment
 import com.google.android.material.chip.Chip
@@ -88,13 +89,13 @@ class RecipeFragment : Fragment() {
 //
         if (token != null) {
             homeService.getRecipeDetail("Bearer $token", 2)
-                .enqueue(object : Callback<HomeRecipesResponse> {
+                .enqueue(object : Callback<HomeRecipeResponse> {
                     override fun onResponse(
-                        call: Call<HomeRecipesResponse>,
-                        response: Response<HomeRecipesResponse>
+                        call: Call<HomeRecipeResponse>,
+                        response: Response<HomeRecipeResponse>
                     ) {
                         Log.d("RETROFIT/SUCCESS", response.toString())
-                        val resp: HomeRecipesResponse = response.body()!!
+                        val resp: HomeRecipeResponse = response.body()!!
                         if (resp != null) {
                             if (resp.isSuccess) {
                                 Log.d("DETAIL/SUCCESS", "레시피 상세 조회 성공")
@@ -136,7 +137,7 @@ class RecipeFragment : Fragment() {
                         }
                     }
 
-                    override fun onFailure(call: Call<HomeRecipesResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<HomeRecipeResponse>, t: Throwable) {
                         Log.e("RETROFIT/FAILURE", t.message.toString())
                     }
 

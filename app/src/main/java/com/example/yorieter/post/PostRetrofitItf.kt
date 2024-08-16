@@ -34,7 +34,7 @@ interface PostRetrofitItf {
     fun getRecipeDetail(
         @Header("Authorization") token: String,
         @Path(value = "recipeId") recipeId: Int
-    ): Call<HomeRecipesResponse>
+    ): Call<HomeRecipeResponse>
 
     // 댓글 전체 읽어오기
     @GET("recipes/{recipeId}/comments")
