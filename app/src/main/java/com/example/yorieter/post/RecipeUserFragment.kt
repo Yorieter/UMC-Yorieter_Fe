@@ -52,7 +52,7 @@ class RecipeUserFragment : Fragment() {
         // 삭제 버튼 클릭 시
         binding.deleteTxt.setOnClickListener {
             val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-            Log.d("레시피 아이디 확인3", recipeId.toString())
+            Log.d("RecipeUserFragment 레시피 아이디 전달 받음", recipeId.toString())
 
             // RecipeDeleteDialogActivity 호출
             val intent = Intent(requireContext(), RecipeDeleteDialogActivity::class.java)
@@ -63,7 +63,7 @@ class RecipeUserFragment : Fragment() {
         // 수정 버튼 클릭 시
         binding.repostTxt.setOnClickListener {
             val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-            Log.d("레시피 아이디 확인2", recipeId.toString())
+            Log.d("RecipeUserFragment 레시피 아이디 전달 받음", recipeId.toString())
 
             // Bundle 생성 및 레시피 아이디 추가
             val bundle = Bundle()
@@ -107,7 +107,7 @@ class RecipeUserFragment : Fragment() {
 
         // 전달받은 레시피 아이디 가져오기
         val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-        Log.d("전달받은 레시피 아이디 확인", recipeId.toString())
+        Log.d("RecipeUserFragment에서 레시피 아이디 전달 받음", recipeId.toString())
 
         // 레시피 상세 조회 API
         val token = getToken()
@@ -132,7 +132,7 @@ class RecipeUserFragment : Fragment() {
                             Log.d("DETAIL/SUCCESS", "레시피 상세 조회 성공")
 
                             // 타이틀 적용
-                            binding.recipeMainUserTitle.text = resp.result.title
+                            binding.recipeMainUserTitle.text = resp.result.title ?: "No Title Available"
 
 //                            // 사진 적용
 //                            Glide.with(this@RecipeUserFragment)
@@ -151,21 +151,43 @@ class RecipeUserFragment : Fragment() {
                                 .into(binding.foodPhoto)
 
 
+//                            // 식재료 적용
+//                            val ingredientNames = resp.result.ingredientNames
+//                            for (ingredient in ingredientNames){
+//                                val chip = Chip(requireContext())
+//                                chip.text = ingredient
+//                                chip.isClickable = false
+//                                chip.isCheckable = false
+//                                binding.recipeUserChipGroup.addView(chip)
+//                            }
+
                             // 식재료 적용
                             val ingredientNames = resp.result.ingredientNames
-                            for (ingredient in ingredientNames){
+                            if (ingredientNames.isNullOrEmpty()) {
+                                // 식재료가 없을 때 임의의 텍스트를 추가
                                 val chip = Chip(requireContext())
-                                chip.text = ingredient
+                                chip.text = "No Ingredients Available"
                                 chip.isClickable = false
                                 chip.isCheckable = false
                                 binding.recipeUserChipGroup.addView(chip)
+                            } else {
+                                // 식재료가 있을 때 처리
+                                for (ingredient in ingredientNames) {
+                                    val chip = Chip(requireContext())
+                                    chip.text = ingredient
+                                    chip.isClickable = false
+                                    chip.isCheckable = false
+                                    binding.recipeUserChipGroup.addView(chip)
+                                }
                             }
 
                             // 칼로리 적용
-                            binding.caloryMainTxt.text = resp.result.calories.toString() + "Kcal"
+                            //binding.caloryMainTxt.text = resp.result.calories.toString() + "Kcal"
+                            binding.caloryMainTxt.text = (resp.result.calories?.toString() ?: "N/A") + "Kcal"
 
                             // 레시피 내용 적용
-                            binding.recipeMain.text = resp.result.description
+                            //binding.recipeMain.text = resp.result.description
+                            binding.recipeMain.text = resp.result.description ?: "No Recipe Description Available"
 
                         } else {
                             Log.e("DETAIL/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")

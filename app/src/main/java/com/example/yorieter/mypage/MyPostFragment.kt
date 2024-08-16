@@ -82,7 +82,7 @@ class MyPostFragment: Fragment() {
         mypostRVAdapter.itemClickListner = object: MypostRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val selectedRecipeId = mypostDatas[position].recipeId // 클릭된 아이템의 레시피 아이디 가져오기
-                Log.d("전달하는 레시피 아이디", selectedRecipeId.toString())
+                Log.d("MyPostFragment 레시피 아이디", selectedRecipeId.toString())
                 val recipeUserFragment = RecipeUserFragment.newInstance(selectedRecipeId)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.main_frm, recipeUserFragment)
