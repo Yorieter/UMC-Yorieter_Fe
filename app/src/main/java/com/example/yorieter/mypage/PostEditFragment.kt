@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentPostEditBinding
 import com.example.yorieter.mypage.api.MypageItf
@@ -157,6 +158,9 @@ class PostEditFragment: Fragment() {
             // 선택된 이미지의 URI를 가져옴
             val imageUri: Uri = data.data!!
 
+            // 이미지뷰의 이전 이미지를 제거!!
+            binding.recipeImgIv.setImageDrawable(null)
+
             // 이미지 압축 및 리사이즈
             val compressedUri = getCompressedImageUri(imageUri)
 
@@ -170,9 +174,11 @@ class PostEditFragment: Fragment() {
 //            Glide.with(this)
 //                .load(imageUri)
 //                .into(binding.recipeImgIv)
+            // Glide를 사용하여 새 이미지 로드 (캐시 무효화)
             Glide.with(this)
                 .load(compressedUri)
                 .apply(RequestOptions.circleCropTransform())
+                .signature(ObjectKey(System.currentTimeMillis().toString())) // 캐시 무효화
                 .into(binding.recipeImgIv)
 
             // ViewModel에 선택된 이미지 URI를 설정하여 저장
