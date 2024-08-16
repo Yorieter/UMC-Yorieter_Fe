@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 다이얼로그 스타일 테마 정의 -->
+    <style name="Theme.AppCompat.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowMinWidthMajor">75%</item>
+        <item name="android:windowMinWidthMinor">75%</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>
