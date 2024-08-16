@@ -99,24 +99,15 @@
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
-            android:id="@+id/search_calories_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/filtered_chip_group" />
-
-        <TextView
             android:id="@+id/search_word_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text=""
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_calories_tv" />
+            app:layout_constraintTop_toBottomOf="@+id/filtered_chip_group" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

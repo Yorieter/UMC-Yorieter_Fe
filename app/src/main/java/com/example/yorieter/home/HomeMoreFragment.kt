@@ -1,5 +1,6 @@
 package com.example.yorieter.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.yorieter.R
-import com.example.yorieter.data.Recipe
 import com.example.yorieter.data.RecipeViewModel
 import com.example.yorieter.databinding.FragmentHomeMoreBinding
 import com.example.yorieter.search.SearchFragment
@@ -16,6 +16,7 @@ import com.example.yorieter.search.SearchFragment
 class HomeMoreFragment: Fragment() {
     lateinit var binding: FragmentHomeMoreBinding
     private val viewModel: RecipeViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,26 +51,12 @@ class HomeMoreFragment: Fragment() {
         initRecyclerView()
     }
 
-//    private fun initRecyclerView() {
-//        val itemList = mutableListOf<Recipe>()
-//        itemList.add(Recipe("샐러드", 0, false))
-//        itemList.add(Recipe("샐러드", 0, false))
-//        itemList.add(Recipe("샐러드", 0, false))
-//        itemList.add(Recipe("샐러드", 0, false))
-//        itemList.add(Recipe("샐러드", 0, false))
-//        itemList.add(Recipe("샐러드", 0, false))
-//
-//        // 리사이클러 뷰 바인딩
-//        binding.homeRecommendMoreRV.layoutManager = GridLayoutManager(context, 2)
-//
-//        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(itemList)
-//        binding.homeRecommendMoreRV.adapter = recommendRecipeRVAdapter
-//    }
     private fun initRecyclerView() {
+
         // 리사이클러 뷰 바인딩
         binding.homeRecommendMoreRV.layoutManager = GridLayoutManager(context, 2)
 
-        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(viewModel)
+        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(viewModel, requireActivity().supportFragmentManager, requireActivity())
         binding.homeRecommendMoreRV.adapter = recommendRecipeRVAdapter
 
         // ViewModel의 데이터 변경을 관찰
