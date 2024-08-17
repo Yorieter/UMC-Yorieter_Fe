@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.yorieter.mypage.api.ResponseData.DetailResponse
 import com.example.yorieter.R
@@ -16,6 +17,8 @@ import com.example.yorieter.login.api.UserRetrofitObj
 import com.example.yorieter.mypage.PostEditFragment
 import com.example.yorieter.mypage.RecipeDeleteDialogActivity
 import com.example.yorieter.mypage.api.MypageItf
+import com.example.yorieter.mypage.viewModel.PostEdit
+import com.example.yorieter.mypage.viewModel.PostEditViewModel
 import com.google.android.material.chip.Chip
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,6 +26,7 @@ import retrofit2.Response
 
 class RecipeUserFragment : Fragment() {
     lateinit var binding: FragmentRecipeUserBinding
+    private val posteditviewModel: PostEditViewModel by activityViewModels()
 
     companion object {
         private const val ARG_RECIPE_ID = "recipeId"
@@ -130,6 +134,15 @@ class RecipeUserFragment : Fragment() {
                     if (resp != null){
                         if (resp.isSuccess){
                             Log.d("DETAIL/SUCCESS", "레시피 상세 조회 성공")
+                            // ViewModel에 레시피 데이터 저장
+                            val postEdit = PostEdit(
+                                title = resp.result.title ?: "No Title Available",
+                                description = resp.result.description ?: "No Recipe Description Available",
+                                imageUrl = resp.result.imageUrl ?: "",
+                                ingredientNames = resp.result.ingredientNames ?: emptyList(),
+                                calories = resp.result.calories?.toString() ?: "N/A"
+                            )
+                            posteditviewModel.setRecipe(postEdit)
 
                             // 타이틀 적용
                             binding.recipeMainUserTitle.text = resp.result.title ?: "No Title Available"
