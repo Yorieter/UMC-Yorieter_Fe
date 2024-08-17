@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="작성일자: 2024-06-29"
-        android:textSize="13dp"
+        android:textSize="11dp"
         android:textColor="@color/subColor5"
         android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
