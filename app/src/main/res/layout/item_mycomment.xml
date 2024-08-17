@@ -61,18 +61,16 @@
         android:text="작성일자: 2024-06-29"
         android:textSize="10dp"
         android:textColor="@color/subColor5"
-        android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/my_comment_delete"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <View
         android:id="@+id/horizontal_line"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="@color/gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/mycomment_date"
+        app:layout_constraintStart_toStartOf="@+id/item_mycomment_img_cardView"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
