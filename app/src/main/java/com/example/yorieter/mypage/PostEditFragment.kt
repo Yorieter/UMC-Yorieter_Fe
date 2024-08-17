@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,6 +26,7 @@ import com.example.yorieter.mypage.api.MypageObj
 import com.example.yorieter.mypage.api.ResponseData.EditRecipeResponse
 import com.example.yorieter.mypage.dataclass.Ingredient2
 import com.example.yorieter.mypage.dataclass.RecipeRequest2
+import com.example.yorieter.mypage.viewModel.PostEditViewModel
 import com.example.yorieter.post.CalorieFragment1
 import com.example.yorieter.post.viewModel.PostViewModel
 import com.google.android.material.chip.Chip
@@ -54,6 +56,7 @@ class PostEditFragment: Fragment() {
     private val postViewModel : PostViewModel by activityViewModels()
     private var selectedImageUri: Uri? = null // 선택된 이미지의 URI를 저장하기 위한 변수
     private var recipeId: Int = -1 // 전달받은 레시피 아이디 저장
+    private val posteditviewModel: PostEditViewModel by activityViewModels()
 
     // 토큰 값 가져오기
     private fun getToken(): String?{
@@ -67,6 +70,21 @@ class PostEditFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPostEditBinding.inflate(inflater, container, false)
+
+        // ViewModel에서 레시피 데이터 가져오기
+        posteditviewModel.recipe.observe(viewLifecycleOwner) { recipe ->
+            binding.editPostTitle.setText(recipe.title)
+            binding.editPostContext.setText(recipe.description)
+            binding.postIngredient.setText(recipe.ingredientNames.joinToString(", "))
+
+            Glide.with(this)
+                .load(recipe.imageUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .placeholder(R.drawable.mypage_ic_yorieter_profile)
+                .error(R.drawable.food_example)
+                .into(binding.recipeImgIv)
+            binding.recipeImgIv.visibility = View.VISIBLE
+        }
 
         // Bundle에서 recipeId 가져오기
         recipeId = arguments?.getInt("recipeId") ?: -1
@@ -139,6 +157,11 @@ class PostEditFragment: Fragment() {
         // 수정 버튼 클릭 시
         binding.editPostBtn.setOnClickListener {
             editPosts()
+        }
+
+        // 백버튼 클릭 시
+        binding.editPostBackIv.setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
 
         return binding.root
@@ -339,6 +362,8 @@ class PostEditFragment: Fragment() {
 
                                 if (resp.isSuccess) { // 응답 성공 시
                                     Log.d("EDITRECIPE/SUCCESS", "레시피 수정 성공")
+                                    Toast.makeText(context, "수정 되었습니다!", Toast.LENGTH_SHORT).show()
+                                    parentFragmentManager.popBackStack()
                                 } else {
                                     Log.e(
                                         "EDITRECIPE/FAILURE",
