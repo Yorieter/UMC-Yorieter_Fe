@@ -185,6 +185,9 @@ class PostEditFragment: Fragment() {
             //postViewModel.setPostImageUri(imageUri)
             //postViewModel.setProfileImageUri(compressedUri)
 
+            // ImageView를 VISIBLE로 설정
+            binding.recipeImgIv.visibility = View.VISIBLE
+
             selectedImageUri = compressedUri
         }
     }
