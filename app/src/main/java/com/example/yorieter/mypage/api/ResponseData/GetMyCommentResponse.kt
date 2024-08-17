@@ -23,5 +23,6 @@ data class CommentList(
     @SerializedName(value = "username") var username: String,
     @SerializedName(value = "content") var content: String,
     @SerializedName(value = "commentId") var commendId: Int,
+    @SerializedName(value = "imageUrl") var imageUrl: String,
     @SerializedName(value = "createdAt") var createdAt: String
 )

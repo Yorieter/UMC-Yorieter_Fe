@@ -153,7 +153,7 @@ class MyPostFragment: Fragment() {
                             // 서버에서 받은 댓글 데이터를 mycommentDatas에 추가
                             val posts = resp.result.recipeList.map { post ->
                                 Mypost (
-                                    coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
+                                    coverImg = post.imageUrl,
                                     title = post.title,
                                     date = "작성일자: ${post.createdAt}",
                                     recipeId = post.recipeId
