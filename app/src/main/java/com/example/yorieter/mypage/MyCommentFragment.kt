@@ -132,7 +132,7 @@ class MyCommentFragment: Fragment() {
                             // 서버에서 받은 댓글 데이터를 mycommentDatas에 추가
                             val comments = resp.result.commentList.map { comment ->
                                 Mycomment(
-                                    coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
+                                    coverImg = comment.imageUrl, // 고정된 이미지 사용
                                     comment = comment.content,
                                     date = "작성일자: ${comment.createdAt}",
                                     commentId = comment.commendId

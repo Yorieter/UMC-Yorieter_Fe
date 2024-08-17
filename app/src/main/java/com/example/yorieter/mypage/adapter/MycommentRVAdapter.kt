@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.yorieter.databinding.ItemMycommentBinding
 import com.example.yorieter.mypage.dataclass.Mycomment
 
@@ -34,7 +35,9 @@ class MycommentRVAdapter(private val mycommentList: ArrayList<Mycomment>, privat
 
     inner class ViewHolder(val binding: ItemMycommentBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(mycomment: Mycomment){
-            binding.itemMycommentImgIv.setImageResource(mycomment.coverImg!!)
+            Glide.with(binding.itemMycommentImgIv.context)
+                .load(mycomment.coverImg)
+                .into(binding.itemMycommentImgIv)
             binding.itemMycommentTv.text = mycomment.comment
             binding.mycommentDate.text = mycomment.date
 
