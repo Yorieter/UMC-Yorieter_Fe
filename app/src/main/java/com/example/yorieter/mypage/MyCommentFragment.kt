@@ -29,6 +29,7 @@ class MyCommentFragment: Fragment() {
     private var mycommentDatas = ArrayList<Mycomment>()
     private lateinit var mycommentRVAdapter: MycommentRVAdapter
     var currentPage = 1 // 현재 페이지 번호를 관리하는 변수
+    private var recipeId: Int = -1
 
     // 토큰 값 가져오기
     private fun getToken(): String?{
@@ -48,6 +49,12 @@ class MyCommentFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMyCommentBinding.inflate(inflater, container, false)
+
+        // Bundle로 전달된 데이터 수신
+        arguments?.let {
+            recipeId = it.getInt("recipe_id", -1) // 기본값 -1로 설정
+        }
+        Log.d("MyCommentFragment", "Received recipeId: $recipeId")
 
 //        // mycomment 데이터 리스트 생성 (더미 데이터) --> API 받기 전까지 임시 더미데이터 생성
 //        mycommentDatas.apply {
@@ -159,13 +166,14 @@ class MyCommentFragment: Fragment() {
         }
     }
 
+    // 댓글 삭제 API
     fun deleteComment(commentId: Int) {
         val token = getToken() ?: return
         val deleteService = MypageObj.getRetrofit().create(CommentItf::class.java)
 
         Log.d("API_CALL", "Deleting comment with commentId: $commentId")
 
-        deleteService.deleteComment2("Bearer $token", commentId)
+        deleteService.deleteComment("Bearer $token", recipeId, commentId)
             .enqueue(object : Callback<UserCommentResponse> {
                 override fun onResponse(
                     call: Call<UserCommentResponse>,
