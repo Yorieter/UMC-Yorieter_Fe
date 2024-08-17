@@ -84,17 +84,17 @@ class PostEditFragment: Fragment() {
             imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
         }
 
-        //칼로리 버튼 클릭시 칼로리 추가 창 이동
-        binding.layoutCalory.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_right,
-                    R.anim.slide_in_left,
-                )
-                .replace(R.id.main_frm, CalorieFragment1()) // 댓글 프래그먼트로 이동
-                .addToBackStack(null) // 백 스택 추가
-                .commitAllowingStateLoss()
-        }
+//        //칼로리 버튼 클릭시 칼로리 추가 창 이동
+//        binding.layoutCalory.setOnClickListener {
+//            parentFragmentManager.beginTransaction()
+//                .setCustomAnimations(
+//                    R.anim.slide_in_right,
+//                    R.anim.slide_in_left,
+//                )
+//                .replace(R.id.main_frm, CalorieFragment1()) // 댓글 프래그먼트로 이동
+//                .addToBackStack(null) // 백 스택 추가
+//                .commitAllowingStateLoss()
+//        }
 
         binding.addImgBtn.setOnClickListener {
             openGallery() // 갤러리에서 이미지 선택하는 함수 호출
