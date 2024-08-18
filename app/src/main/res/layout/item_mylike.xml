@@ -39,7 +39,7 @@
             android:id="@+id/like_iv"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/mypage_ic_like2"
+            android:src="@drawable/mypage_ic_like"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/item_mylike_iv" />

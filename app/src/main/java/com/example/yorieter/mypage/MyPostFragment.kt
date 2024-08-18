@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentMyPostBinding
 import com.example.yorieter.mypage.adapter.DividerItemDecoration
@@ -22,6 +25,10 @@ import com.example.yorieter.mypage.api.ResponseData.RecipeResult
 import com.example.yorieter.mypage.dataclass.Mypost
 import com.example.yorieter.post.RecipeUserFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +40,7 @@ class MyPostFragment: Fragment() {
     private lateinit var mypostRVAdapter: MypostRVAdapter
     private var filteredPosts = ArrayList<Mypost>() // 필터링된 게시물 리스트
     var currentPage = 1 // 현재 페이지 번호를 관리하는 변수
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     // 토큰 값 가져오기
     private fun getToken(): String?{
@@ -65,6 +73,32 @@ class MyPostFragment: Fragment() {
 //        filteredPosts.addAll(mypostDatas)
 //        mypostRVAdapter = MypostRVAdapter(filteredPosts)
 
+        // 스와이프 리프레쉬 레이아웃 초기화
+        swipeRefreshLayout = binding.swipeRefreshLayout
+        swipeRefreshLayout.setColorSchemeColors(
+            // 스와이프 리프레쉬 레이아웃 색깔 변경 -> 블랙, 화이트
+            ContextCompat.getColor(requireContext(), R.color.black),
+            ContextCompat.getColor(requireContext(), R.color.white)
+        )
+
+        // 스와이프 리프레쉬 레이아웃 관련 동작 설정
+        swipeRefreshLayout.setOnRefreshListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                isLoading(true)
+                currentPage = 1 // 페이지를 1로 리셋
+                mypostDatas.clear() // 데이터 초기화
+                loadMyLikedRecipes(currentPage)
+                delay(1500)
+                isLoading(false)
+                swipeRefreshLayout.isRefreshing = false // 새로고침 완료 시 리프레시 아이콘 감추기
+            }
+        }
+
+//        // 초기 화면은 항상 최신화 상태 유지
+//        CoroutineScope(Dispatchers.Main).launch {
+//            loadMyLikedRecipes(currentPage)
+//        }
+
         // 어댑터와 데이터 리스트(더미데이터) 연결
         mypostRVAdapter = MypostRVAdapter(mypostDatas)
 
@@ -82,7 +116,7 @@ class MyPostFragment: Fragment() {
         mypostRVAdapter.itemClickListner = object: MypostRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val selectedRecipeId = mypostDatas[position].recipeId // 클릭된 아이템의 레시피 아이디 가져오기
-                Log.d("전달하는 레시피 아이디", selectedRecipeId.toString())
+                Log.d("MyPostFragment 레시피 아이디", selectedRecipeId.toString())
                 val recipeUserFragment = RecipeUserFragment.newInstance(selectedRecipeId)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.main_frm, recipeUserFragment)
@@ -92,7 +126,7 @@ class MyPostFragment: Fragment() {
         }
 
         // 초기 데이터 로드
-        loadMyLikedRecipes(currentPage)
+        //loadMyLikedRecipes(currentPage)
 
         // 스크롤 리스너 추가
         binding.mypostContentVp.addOnScrollListener(object: RecyclerView.OnScrollListener(){
@@ -130,6 +164,18 @@ class MyPostFragment: Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+//        if (isFirstLoad) {
+//            isFirstLoad = false // 첫 로드가 완료되었음을 표시
+//            loadMyLikedRecipes(currentPage)
+//        }
+        // 현재 페이지를 1로 리셋하고 데이터를 다시 로드
+        currentPage = 1
+        mypostDatas.clear() // 기존 데이터를 초기화
+        loadMyLikedRecipes(currentPage)
+    }
+
     private fun loadMyLikedRecipes(page: Int){
 
         val token = getToken()
@@ -153,7 +199,7 @@ class MyPostFragment: Fragment() {
                             // 서버에서 받은 댓글 데이터를 mycommentDatas에 추가
                             val posts = resp.result.recipeList.map { post ->
                                 Mypost (
-                                    coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
+                                    coverImg = post.imageUrl,
                                     title = post.title,
                                     date = "작성일자: ${post.createdAt}",
                                     recipeId = post.recipeId
@@ -208,5 +254,19 @@ class MyPostFragment: Fragment() {
 
     private fun formatDate(date: String): String {
         return date
+    }
+
+    // 새로고침 상태 여부에 따른 shimmer effect 설정
+    private fun isLoading(isLoading: Boolean){
+        if(isLoading){
+            binding.shimmerLayout.startShimmer()
+            binding.shimmerLayout.visibility = View.VISIBLE
+            binding.mypostContentVp.visibility = View.GONE
+        }
+        else {
+            binding.shimmerLayout.stopShimmer()
+            binding.shimmerLayout.visibility = View.GONE
+            binding.mypostContentVp.visibility = View.VISIBLE
+        }
     }
 }

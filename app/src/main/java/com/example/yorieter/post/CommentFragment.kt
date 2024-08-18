@@ -168,6 +168,9 @@ class CommentFragment : Fragment()  {
                             // 댓글 입력 필드 초기화
                             binding.commentBox.text.clear()
 
+                            // 해당 레시피 아이디 저장하는 함수 호출
+                            saveRecipeId(resp)
+
 
                         } else {
                             Log.e("COMMENT/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
@@ -183,6 +186,30 @@ class CommentFragment : Fragment()  {
 
             })
         }
+    }
+
+    private fun saveRecipeId(postcomment: PostCommentResponse){
+        // 레시피 아이디 저장
+        var recipeId = postcomment.result.recipeId
+
+        // MyCommentFragment로 이동하면서 recipeId를 전달하는 Bundle 생성
+        val bundle = Bundle().apply {
+            putInt("recipe_id", recipeId) // recipeId를 Bundle에 저장
+        }
+        Log.d("CommentFragment", "Received recipeId: $recipeId")
+
+        // MyCommentFragment 생성
+        val myCommentFragment = MyCommentFragment()
+
+        // Bundle을 MyCommentFragment에 전달
+        myCommentFragment.arguments = bundle
+
+        // MyCommentFragment로 이동
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, myCommentFragment)
+            .addToBackStack(null)
+            .commit()
+
     }
 }
 

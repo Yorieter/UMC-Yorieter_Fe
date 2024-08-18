@@ -140,11 +140,17 @@ class NicknameActivity: AppCompatActivity() {
         var id: Int = signUpResponse.result.id
         Log.d("Nickname액티비티 사용자 아이디 값", id.toString())
 
+        // 첫 번째 Toast 메시지 표시 (회원가입 완료)
+        Toast.makeText(this, "회원가입이 완료되었습니다!", Toast.LENGTH_SHORT).show()
+
         // 로그인 화면으로 이동
         val intent = Intent(this, LoginActivity::class.java)
 
         // 슬라이드 효과 적용
-        val options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_in_left)
+        val options = ActivityOptionsCompat.makeCustomAnimation(this, R.anim.fade_in, R.anim.fade_out)
         startActivity(intent, options.toBundle())
+
+        // 두 번째 Toast 메시지 표시 (로그인 안내)
+        Toast.makeText(this, "로그인을 진행해 주세요 :)", Toast.LENGTH_SHORT).show()
     }
 }

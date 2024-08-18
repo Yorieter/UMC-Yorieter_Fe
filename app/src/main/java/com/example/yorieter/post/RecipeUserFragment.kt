@@ -1,5 +1,6 @@
 package com.example.yorieter.post
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.yorieter.mypage.api.ResponseData.DetailResponse
 import com.example.yorieter.R
@@ -16,6 +18,8 @@ import com.example.yorieter.login.api.UserRetrofitObj
 import com.example.yorieter.mypage.PostEditFragment
 import com.example.yorieter.mypage.RecipeDeleteDialogActivity
 import com.example.yorieter.mypage.api.MypageItf
+import com.example.yorieter.mypage.viewModel.PostEdit
+import com.example.yorieter.mypage.viewModel.PostEditViewModel
 import com.google.android.material.chip.Chip
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,8 +27,10 @@ import retrofit2.Response
 
 class RecipeUserFragment : Fragment() {
     lateinit var binding: FragmentRecipeUserBinding
+    private val posteditviewModel: PostEditViewModel by activityViewModels()
 
     companion object {
+        private const val DELETE_RECIPE_REQUEST_CODE = 1
         private const val ARG_RECIPE_ID = "recipeId"
 
         fun newInstance(recipeId: Int): RecipeUserFragment {
@@ -52,7 +58,7 @@ class RecipeUserFragment : Fragment() {
         // 삭제 버튼 클릭 시
         binding.deleteTxt.setOnClickListener {
             val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-            Log.d("레시피 아이디 확인3", recipeId.toString())
+            Log.d("RecipeUserFragment 레시피 아이디 전달 받음", recipeId.toString())
 
             // RecipeDeleteDialogActivity 호출
             val intent = Intent(requireContext(), RecipeDeleteDialogActivity::class.java)
@@ -63,7 +69,7 @@ class RecipeUserFragment : Fragment() {
         // 수정 버튼 클릭 시
         binding.repostTxt.setOnClickListener {
             val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-            Log.d("레시피 아이디 확인2", recipeId.toString())
+            Log.d("RecipeUserFragment 레시피 아이디 전달 받음", recipeId.toString())
 
             // Bundle 생성 및 레시피 아이디 추가
             val bundle = Bundle()
@@ -107,7 +113,7 @@ class RecipeUserFragment : Fragment() {
 
         // 전달받은 레시피 아이디 가져오기
         val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-        Log.d("전달받은 레시피 아이디 확인", recipeId.toString())
+        Log.d("RecipeUserFragment에서 레시피 아이디 전달 받음", recipeId.toString())
 
         // 레시피 상세 조회 API
         val token = getToken()
@@ -130,9 +136,18 @@ class RecipeUserFragment : Fragment() {
                     if (resp != null){
                         if (resp.isSuccess){
                             Log.d("DETAIL/SUCCESS", "레시피 상세 조회 성공")
+                            // ViewModel에 레시피 데이터 저장
+                            val postEdit = PostEdit(
+                                title = resp.result.title ?: "No Title Available",
+                                description = resp.result.description ?: "No Recipe Description Available",
+                                imageUrl = resp.result.imageUrl ?: "",
+                                ingredientNames = resp.result.ingredientNames ?: emptyList(),
+                                calories = resp.result.calories?.toString() ?: "N/A"
+                            )
+                            posteditviewModel.setRecipe(postEdit)
 
                             // 타이틀 적용
-                            binding.recipeMainUserTitle.text = resp.result.title
+                            binding.recipeMainUserTitle.text = resp.result.title ?: "No Title Available"
 
 //                            // 사진 적용
 //                            Glide.with(this@RecipeUserFragment)
@@ -147,25 +162,47 @@ class RecipeUserFragment : Fragment() {
                             Glide.with(this@RecipeUserFragment)
                                 .load(resp.result.imageUrl)
                                 .placeholder(R.drawable.mypage_ic_yorieter_profile) // 로드 중일 때 표시할 이미지
-                                .error(R.drawable.food_example) // 에러 시 표시할 이미지
+                                .error(R.drawable.mypage_ic_yorieter_profile) // 에러 시 표시할 이미지
                                 .into(binding.foodPhoto)
 
 
+//                            // 식재료 적용
+//                            val ingredientNames = resp.result.ingredientNames
+//                            for (ingredient in ingredientNames){
+//                                val chip = Chip(requireContext())
+//                                chip.text = ingredient
+//                                chip.isClickable = false
+//                                chip.isCheckable = false
+//                                binding.recipeUserChipGroup.addView(chip)
+//                            }
+
                             // 식재료 적용
                             val ingredientNames = resp.result.ingredientNames
-                            for (ingredient in ingredientNames){
+                            if (ingredientNames.isNullOrEmpty()) {
+                                // 식재료가 없을 때 임의의 텍스트를 추가
                                 val chip = Chip(requireContext())
-                                chip.text = ingredient
+                                chip.text = "No Ingredients Available"
                                 chip.isClickable = false
                                 chip.isCheckable = false
                                 binding.recipeUserChipGroup.addView(chip)
+                            } else {
+                                // 식재료가 있을 때 처리
+                                for (ingredient in ingredientNames) {
+                                    val chip = Chip(requireContext())
+                                    chip.text = ingredient
+                                    chip.isClickable = false
+                                    chip.isCheckable = false
+                                    binding.recipeUserChipGroup.addView(chip)
+                                }
                             }
 
                             // 칼로리 적용
-                            binding.caloryMainTxt.text = resp.result.calories.toString() + "Kcal"
+                            //binding.caloryMainTxt.text = resp.result.calories.toString() + "Kcal"
+                            binding.caloryMainTxt.text = (resp.result.calories?.toString() ?: "N/A") + "Kcal"
 
                             // 레시피 내용 적용
-                            binding.recipeMain.text = resp.result.description
+                            //binding.recipeMain.text = resp.result.description
+                            binding.recipeMain.text = resp.result.description ?: "No Recipe Description Available"
 
                         } else {
                             Log.e("DETAIL/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
@@ -183,6 +220,15 @@ class RecipeUserFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    // onActivityResult에서 결과 처리
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == DELETE_RECIPE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // RecipeUserFragment 종료하고 MypostFragment로 돌아가기
+            parentFragmentManager.popBackStack()
+        }
     }
 
 }

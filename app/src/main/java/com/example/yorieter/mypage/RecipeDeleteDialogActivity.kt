@@ -1,8 +1,10 @@
 package com.example.yorieter.mypage
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.yorieter.databinding.ActivityRecipeDeleteDialogBinding
 import com.example.yorieter.mypage.api.MypageItf
@@ -50,9 +52,6 @@ class RecipeDeleteDialogActivity: AppCompatActivity() {
 
         val token = getToken()
 
-        // 레시피 아이디는 임의로 넣었어요.
-        // 모든 레시피 조회할 때 받은 레시피 아이디 저장해서 이 프래그먼트에 전달하면 될 것 같아요.
-
         val deleteRecipeService = MypageObj.getRetrofit().create(MypageItf::class.java)
 
         if (token != null) {
@@ -67,8 +66,10 @@ class RecipeDeleteDialogActivity: AppCompatActivity() {
                     if (resp != null) {
                         if (resp.isSuccess) {
                             Log.d("DELETERECIPE/SUCCESS", "레시피 삭제 성공")
+                            Toast.makeText(this@RecipeDeleteDialogActivity, "레시피가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
 
-                            // 액티비티 종료
+                            // 삭제 성공 시 결과 전달
+                            setResult(Activity.RESULT_OK)
                             finish()
 
                         } else {

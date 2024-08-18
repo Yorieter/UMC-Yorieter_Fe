@@ -73,4 +73,10 @@ dependencies {
 
     // lottie
     implementation("com.airbnb.android:lottie:5.0.2")
+
+    // shimmer effect
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // swipe refresh
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }
