@@ -4,6 +4,7 @@ import com.example.yorieter.mypage.api.ResponseData.DetailResponse
 import com.example.yorieter.mypage.api.ResponseData.DeleteRecipeResponse
 import com.example.yorieter.mypage.api.ResponseData.EditRecipeResponse
 import com.example.yorieter.mypage.api.ResponseData.GetMyCommentResponse
+import com.example.yorieter.mypage.api.ResponseData.GetMyLikeResponse
 import com.example.yorieter.mypage.api.ResponseData.GetMypageResponse
 import com.example.yorieter.mypage.api.ResponseData.GetRecipeResponse
 import okhttp3.MultipartBody
@@ -51,7 +52,7 @@ interface MypageItf {
         @Header("Authorization") token: String,
         @Path(value = "memberId") memberId: Int,
         @Query(value = "page") page: Int
-    ): Call<GetRecipeResponse>
+    ): Call<GetMyLikeResponse>
 
     // 내가 작성한 댓글 목록 조회
     @GET("my-page/{memberId}/comments")
