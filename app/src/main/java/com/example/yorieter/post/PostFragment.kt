@@ -101,7 +101,7 @@ class PostFragment: Fragment() {
                     R.anim.slide_in_right,
                     R.anim.slide_in_left,
                 )
-                .replace(R.id.main_frm, RecipeUserFragment()) // 내가 작성한 화면으로 이동
+                .replace(R.id.main_frm, RecipeFragment()) // 내가 작성한 화면으로 이동
                 .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }

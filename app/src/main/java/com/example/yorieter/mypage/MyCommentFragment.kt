@@ -135,7 +135,7 @@ class MyCommentFragment: Fragment() {
                                     coverImg = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
                                     comment = comment.content,
                                     date = "작성일자: ${comment.createdAt}",
-                                    commentId = 2
+                                    commentId = comment.commendId
                                 )
                             }
 

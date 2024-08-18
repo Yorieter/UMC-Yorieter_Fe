@@ -133,9 +133,9 @@
                 android:id="@+id/recipe_user_chip_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="30dp"
                 app:layout_constraintEnd_toEndOf="@id/guideline2"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintTop_toBottomOf="@+id/calory_main_txt" />
@@ -155,18 +155,15 @@
             <!--영역 위치 보라고 색상 뒤에 잡아놓음 실제로는 색상 없음 영역 포인트 다른건 레시피랑 시작 댓글 같으려면 영역이 조금 달라야함-->
             <TextView
                 android:id="@+id/recipe_main"
-                android:layout_width="330dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="1. 댓글을 쓴다."
-                android:textSize="15dp"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_txt"
-                android:background="@color/subColor4"
-                app:layout_constraintStart_toStartOf="@id/guideline1"
-                app:layout_constraintEnd_toEndOf="@id/guideline2"
-                android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                />
+                android:background="@color/ic_yorieter_background"
+                android:text="1.게시글을 쓴다."
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="@id/recipe_txt"
+                app:layout_constraintTop_toBottomOf="@+id/recipe_txt" />
 
             <TextView
                 android:id="@+id/comment_txt"

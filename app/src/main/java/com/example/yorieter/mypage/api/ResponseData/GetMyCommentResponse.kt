@@ -22,5 +22,6 @@ data class GetCommentResult(
 data class CommentList(
     @SerializedName(value = "username") var username: String,
     @SerializedName(value = "content") var content: String,
+    @SerializedName(value = "commentId") var commendId: Int,
     @SerializedName(value = "createdAt") var createdAt: String
 )
