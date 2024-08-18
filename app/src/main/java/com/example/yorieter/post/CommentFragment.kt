@@ -36,16 +36,16 @@ class CommentFragment : Fragment()  {
     ): View? {
         binding = FragmentCommentBinding.inflate(inflater, container, false)
 
-        commentDatas.apply {
-            add(
-                CommentData(
-                    R.drawable.recipe,
-                    "불타는 여우",
-                    "5일전",
-                    "넣고 싶은 야채들을 모두 넣을 수 있어서 냉장고 털이할 때 딱이겠네요!"
-                )
-            )
-        }
+//        commentDatas.apply {
+//            add(
+//                CommentData(
+//                    R.drawable.recipe,
+//                    "불타는 여우",
+//                    "5일전",
+//                    "넣고 싶은 야채들을 모두 넣을 수 있어서 냉장고 털이할 때 딱이겠네요!"
+//                )
+//            )
+//        }
 
 //        //리사이클러 뷰에 연결
 //        val commentRVAdapter = CommentRVAdapter(commentDatas)
