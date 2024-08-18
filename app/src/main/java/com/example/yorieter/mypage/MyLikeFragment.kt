@@ -19,6 +19,7 @@ import com.example.yorieter.mypage.adapter.MylikeRVAdapter
 import com.example.yorieter.mypage.api.MypageItf
 import com.example.yorieter.mypage.api.MypageObj
 import com.example.yorieter.mypage.api.ResponseData.GetMyCommentResponse
+import com.example.yorieter.mypage.api.ResponseData.GetMyLikeResponse
 import com.example.yorieter.mypage.api.ResponseData.GetRecipeResponse
 import com.example.yorieter.mypage.dataclass.Mylike
 import com.example.yorieter.mypage.dataclass.Mylike2
@@ -31,10 +32,11 @@ import retrofit2.Response
 class MyLikeFragment: Fragment() {
 
     //private var mylikeDatas = ArrayList<Mylike>()
-    private var mylikeDatas = ArrayList<Mylike2>()
+    private var mylikeDatas = ArrayList<Mylike>()
     lateinit var binding: FragmentMyLikeBinding
     private val mylikeViewModel: MyLikeViewModel by activityViewModels()
     var currentPage = 1 // 현재 페이지 번호를 관리하는 변수
+    private lateinit var mylikeRVAdapter: MylikeRVAdapter
 
     // 토큰 값 가져오기
     private fun getToken(): String?{
@@ -63,32 +65,33 @@ class MyLikeFragment: Fragment() {
 //            add(Mylike(R.drawable.mypage_bookmark_image2, "지중해식 샐러드"))
 //        }
 //
-//        // 어댑터와 데이터 리스트(더미데이터) 연결
-//        val mylikeRVAdapter = MylikeRVAdapter(mylikeDatas)
-//
-//        // 리사이클러뷰에 어댑터를 연결
-//        binding.mylikeContentVp.adapter = mylikeRVAdapter
-//
-//        // GridLayoutManager 설정
-//        val layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-//        binding.mylikeContentVp.layoutManager = layoutManager
-//
-//        // 리사이클러뷰에 간격 설정
-//        binding.mylikeContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
-//
-//        // 어댑터 클릭 리스너 설정
-//        mylikeRVAdapter.itemClickListner = object: MylikeRVAdapter.OnItemClickListener{
-//            // 레시피 프래그먼트로 이동
-//            override fun onItemClick(view: View, position: Int) {
+        // 어댑터와 데이터 리스트(더미데이터) 연결
+        mylikeRVAdapter = MylikeRVAdapter(mylikeDatas)
+
+        // 리사이클러뷰에 어댑터를 연결
+        binding.mylikeContentVp.adapter = mylikeRVAdapter
+
+        // GridLayoutManager 설정
+        val layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        binding.mylikeContentVp.layoutManager = layoutManager
+
+        // 리사이클러뷰에 간격 설정
+        binding.mylikeContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
+
+        // 어댑터 클릭 리스너 설정
+        mylikeRVAdapter.itemClickListner = object: MylikeRVAdapter.OnItemClickListener{
+            // 레시피 프래그먼트로 이동
+            override fun onItemClick(view: View, position: Int) {
+                val selectedRecipeId = mylikeDatas[position].recipeId
+                Log.d("MyLikeFragment 레시피 아이디", selectedRecipeId.toString())
+                // 레시피 프래그먼트로 아이디 전달
+//                val recipeFragment: RecipeFragment()
 //                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.main_frm, RecipeFragment())
+//                    .replace(R.id.main_frm, recipeFragment)
 //                    .addToBackStack(null)
 //                    .commit()
-//
-//                // 바텀 네비게이션의 선택 상태 변경
-//                //activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.homeFragment
-//            }
-//        }
+            }
+        }
 
         // 초기 데이터 로드
         loadMyLikedRecipes(currentPage)
@@ -98,7 +101,7 @@ class MyLikeFragment: Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val layoutManager = recyclerView.layoutManager as GridLayoutManager
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
@@ -126,16 +129,30 @@ class MyLikeFragment: Fragment() {
 
         if (token != null){
             // 내가 좋아요한 레시피 목록 조회 API 연동
-            myLikeService.getMyRecipeLikes(token, memberId, page).enqueue(object:
-                Callback<GetRecipeResponse> {
+            myLikeService.getMyRecipeLikes("Bearer $token", memberId, page).enqueue(object:
+                Callback<GetMyLikeResponse> {
                 override fun onResponse(
-                    call: Call<GetRecipeResponse>,
-                    response: Response<GetRecipeResponse>
+                    call: Call<GetMyLikeResponse>,
+                    response: Response<GetMyLikeResponse>
                 ) {
                     Log.d("RETROFIT/SUCCESS", response.toString())
-                    val resp: GetRecipeResponse = response.body()!!
+                    val resp: GetMyLikeResponse = response.body()!!
+                    Log.d("리스트", resp.result.recipeLikeList.toString())
                     if (resp != null) {
                         if(resp.isSuccess) { // 응답 성공 시
+                            Log.d("MYLIKE/SUCCESS", "좋아요 조회 성공")
+                            Log.d("리스트", resp.result.recipeLikeList.toString())
+
+                            val newLikes = resp.result.recipeLikeList.map { recipe ->
+                                Mylike(
+                                    coverImg = recipe.imageUrl,
+                                    title = recipe.title,
+                                    recipeId = recipe.recipeId)
+                            }
+                            mylikeDatas.addAll(newLikes)
+
+                            mylikeRVAdapter.notifyDataSetChanged()
+
 
                             // 추후에 레시피 좋아요 연동되면 적용하기!
 //                        // RecipeList에서 데이터를 Mylike로 변환하여 추가
@@ -148,7 +165,7 @@ class MyLikeFragment: Fragment() {
 //                        binding.mylikeContentVp.adapter?.notifyDataSetChanged()
                             // 추후에 레시피 좋아요 연동되면 적용하기!
 
-                            Log.d("MYLIKE/SUCCESS", "좋아요 조회 성공")
+
 
                         } else {
                             Log.e("MYLIKE/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
@@ -158,7 +175,7 @@ class MyLikeFragment: Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<GetRecipeResponse>, t: Throwable) {
+                override fun onFailure(call: Call<GetMyLikeResponse>, t: Throwable) {
                     Log.d("RETROFIT/FAILURE", t.message.toString())
                 }
             })
@@ -170,38 +187,38 @@ class MyLikeFragment: Fragment() {
 //        initMyLikeRecyclerView()
 //    }
 
-    private fun initMyLikeRecyclerView(){
-        // viewModel에 어댑터를 연결
-        val mylikeRVAdapter = MylikeRVAdapter(mylikeViewModel)
-
-        // 리사이클러뷰에 어댑터를 연결
-        binding.mylikeContentVp.adapter = mylikeRVAdapter
-        binding.mylikeContentVp.setHasFixedSize(true)
-
-        // GridLayoutManager 설정
-        val layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-        binding.mylikeContentVp.layoutManager = layoutManager
-
-        // 리사이클러뷰에 간격 설정
-        binding.mylikeContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
-
-        // ViewModel의 데이터 변경을 관찰
-        mylikeViewModel.mylikeList.observe(viewLifecycleOwner, { mylikeList ->
-            mylikeRVAdapter.submitList(mylikeList)
-        })
-
-        // 어댑터 클릭 리스너 설정
-        mylikeRVAdapter.itemClickListner = object: MylikeRVAdapter.OnItemClickListener{
-            // 레시피 프래그먼트로 이동
-            override fun onItemClick(view: View, position: Int) {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_frm, RecipeFragment())
-                    .addToBackStack(null)
-                    .commit()
-
-                // 바텀 네비게이션의 선택 상태 변경
-                //activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.homeFragment
-            }
-        }
-    }
+//    private fun initMyLikeRecyclerView(){
+//        // viewModel에 어댑터를 연결
+//        val mylikeRVAdapter = MylikeRVAdapter(mylikeViewModel)
+//
+//        // 리사이클러뷰에 어댑터를 연결
+//        binding.mylikeContentVp.adapter = mylikeRVAdapter
+//        binding.mylikeContentVp.setHasFixedSize(true)
+//
+//        // GridLayoutManager 설정
+//        val layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+//        binding.mylikeContentVp.layoutManager = layoutManager
+//
+//        // 리사이클러뷰에 간격 설정
+//        binding.mylikeContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
+//
+//        // ViewModel의 데이터 변경을 관찰
+//        mylikeViewModel.mylikeList.observe(viewLifecycleOwner, { mylikeList ->
+//            mylikeRVAdapter.submitList(mylikeList)
+//        })
+//
+//        // 어댑터 클릭 리스너 설정
+//        mylikeRVAdapter.itemClickListner = object: MylikeRVAdapter.OnItemClickListener{
+//            // 레시피 프래그먼트로 이동
+//            override fun onItemClick(view: View, position: Int) {
+//                parentFragmentManager.beginTransaction()
+//                    .replace(R.id.main_frm, RecipeFragment())
+//                    .addToBackStack(null)
+//                    .commit()
+//
+//                // 바텀 네비게이션의 선택 상태 변경
+//                //activity?.findViewById<BottomNavigationView>(R.id.main_bnv)?.selectedItemId = R.id.homeFragment
+//            }
+//        }
+//    }
 }

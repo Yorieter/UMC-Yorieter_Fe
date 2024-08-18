@@ -5,15 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.yorieter.R
 import com.example.yorieter.databinding.ItemMylikeBinding
 import com.example.yorieter.mypage.dataclass.Mylike
 import com.example.yorieter.mypage.viewModel.MyLikeViewModel
 
 
-class MylikeRVAdapter(private val viewModel: MyLikeViewModel): RecyclerView.Adapter<MylikeRVAdapter.ViewHolder>() {
+class MylikeRVAdapter(private val mylikeList: ArrayList<Mylike>): RecyclerView.Adapter<MylikeRVAdapter.ViewHolder>() {
 
-    private var mylikeList: List<Mylike> = emptyList()
+    //private var mylikeList: List<Mylike> = emptyList()
     interface OnItemClickListener { // 클릭리스너 인터페이스 생성
         fun onItemClick(view: View, position: Int)
     }
@@ -33,18 +34,21 @@ class MylikeRVAdapter(private val viewModel: MyLikeViewModel): RecyclerView.Adap
 
     inner class ViewHolder(val binding: ItemMylikeBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(mylike: Mylike, pos: Int){
-            binding.itemMylikeIv.setImageResource(mylike.coverImg!!)
-            binding.itemMylikeTitleTv.text = mylike.title
+            Glide.with(binding.itemMylikeIv.context)
+                .load(mylike.coverImg)
+                .error(R.drawable.mypage_ic_yorieter_profile)
+                .into(binding.itemMylikeIv)
+            binding.itemMylikeTitleTv.text = mylike.title ?: "제목 없음"
 
             itemView.setOnClickListener {
                 itemClickListner?.onItemClick(it, adapterPosition)
             }
 
-            // 좋아요 유무
-            updateLikeIcon(binding.likeIv, mylike.isLiked)
-            binding.likeIv.setOnClickListener {
-                viewModel.clickMyLike(pos)
-            }
+//            // 좋아요 유무
+//            updateLikeIcon(binding.likeIv, mylike.isLiked)
+//            binding.likeIv.setOnClickListener {
+//                viewModel.clickMyLike(pos)
+//            }
         }
 
         private fun updateLikeIcon(likeIV: ImageView, isLiked: Boolean){
@@ -56,9 +60,9 @@ class MylikeRVAdapter(private val viewModel: MyLikeViewModel): RecyclerView.Adap
         }
     }
 
-    fun submitList(list: List<Mylike>){
-        mylikeList = list
-        notifyDataSetChanged()
-    }
+//    fun submitList(list: List<Mylike>){
+//        mylikeList = list
+//        notifyDataSetChanged()
+//    }
 
 }

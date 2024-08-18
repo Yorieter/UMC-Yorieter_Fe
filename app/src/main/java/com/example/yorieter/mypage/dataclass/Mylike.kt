@@ -1,7 +1,7 @@
 package com.example.yorieter.mypage.dataclass
 
 data class Mylike(
-    var coverImg: Int? = null,
+    var coverImg: String? = null,
     var title: String? = "",
-    var isLiked: Boolean
+    var recipeId: Int
 )
