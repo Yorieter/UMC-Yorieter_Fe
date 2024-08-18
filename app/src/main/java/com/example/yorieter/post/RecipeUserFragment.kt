@@ -160,7 +160,7 @@ class RecipeUserFragment : Fragment() {
                             Glide.with(this@RecipeUserFragment)
                                 .load(resp.result.imageUrl)
                                 .placeholder(R.drawable.mypage_ic_yorieter_profile) // 로드 중일 때 표시할 이미지
-                                .error(R.drawable.food_example) // 에러 시 표시할 이미지
+                                .error(R.drawable.mypage_ic_yorieter_profile) // 에러 시 표시할 이미지
                                 .into(binding.foodPhoto)
 
 
