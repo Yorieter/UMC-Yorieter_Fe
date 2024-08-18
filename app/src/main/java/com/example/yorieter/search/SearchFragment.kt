@@ -36,7 +36,7 @@ class SearchFragment: Fragment(), SearchWordAdapter.FragmentCallback {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
         // 최신 검색어
-        val searchView: SearchView = binding.searchView
+        val searchView: androidx.appcompat.widget.SearchView = binding.searchView
         binding.searchRecipeRV.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val adapter = SearchWordAdapter(requireContext(), recentSearches, this)
         binding.searchRecipeRV.adapter = adapter
@@ -44,7 +44,8 @@ class SearchFragment: Fragment(), SearchWordAdapter.FragmentCallback {
         // SharedPreferences에서 최근 검색어 불러오기
         loadRecentSearches()
 
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     addRecentSearch(query)
