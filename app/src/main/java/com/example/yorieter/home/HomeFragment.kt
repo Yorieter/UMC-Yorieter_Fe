@@ -37,7 +37,6 @@ class HomeFragment: Fragment() {
 
     lateinit var binding: FragmentHomeBinding
     private val viewModel: RecipeViewModel by activityViewModels()
-    var homeWeekLike: Boolean = false
     private var firstRecipeId: Int? = null
 
 
@@ -79,8 +78,9 @@ class HomeFragment: Fragment() {
         }
 
         binding.homeRecipeWeekIV.setOnClickListener {
+            val recipeFragment = RecipeFragment.newInstance(2)
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.homeFragment, RecipeFragment())
+                .add(R.id.homeFragment, recipeFragment)
                 .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }
@@ -159,13 +159,12 @@ class HomeFragment: Fragment() {
         // 리사이클러 뷰 바인딩
         binding.homeRecommendRV.layoutManager = GridLayoutManager(context, 2)
 
-        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(viewModel, requireActivity().supportFragmentManager, requireActivity())
+        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(requireActivity().supportFragmentManager, requireActivity())
         binding.homeRecommendRV.adapter = recommendRecipeRVAdapter
         binding.homeRecommendRV.setHasFixedSize(true)
 
         recommendRecipeRVAdapter.mItemClickListener = object : HomeRecommendRecipeAdapter.RecipeItemClickListener {
             override fun onItemClick(recipe: Recipe) {
-                val recipeFragment = RecipeFragment.newInstance(recipe.recipeId)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.main_frm, HomeFragment())
                     .addToBackStack(null)

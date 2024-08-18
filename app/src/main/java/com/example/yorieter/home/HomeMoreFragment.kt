@@ -56,12 +56,14 @@ class HomeMoreFragment: Fragment() {
         // 리사이클러 뷰 바인딩
         binding.homeRecommendMoreRV.layoutManager = GridLayoutManager(context, 2)
 
-        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(viewModel, requireActivity().supportFragmentManager, requireActivity())
+        val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(requireActivity().supportFragmentManager, requireActivity())
         binding.homeRecommendMoreRV.adapter = recommendRecipeRVAdapter
 
         // ViewModel의 데이터 변경을 관찰
         viewModel.recipes.observe(viewLifecycleOwner, { recipes ->
-            recommendRecipeRVAdapter.updateRecipes(recipes)
+            // 레시피 리스트를 최대 6개로 제한
+            val limitedRecipes = recipes.take(10)
+            recommendRecipeRVAdapter.updateRecipes(limitedRecipes)
         })
     }
 }
