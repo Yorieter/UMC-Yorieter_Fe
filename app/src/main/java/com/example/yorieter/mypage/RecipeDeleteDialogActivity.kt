@@ -1,5 +1,6 @@
 package com.example.yorieter.mypage
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -67,7 +68,8 @@ class RecipeDeleteDialogActivity: AppCompatActivity() {
                             Log.d("DELETERECIPE/SUCCESS", "레시피 삭제 성공")
                             Toast.makeText(this@RecipeDeleteDialogActivity, "레시피가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
 
-                            // 액티비티 종료
+                            // 삭제 성공 시 결과 전달
+                            setResult(Activity.RESULT_OK)
                             finish()
 
                         } else {
