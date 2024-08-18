@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="95dp"
-    android:background="@color/subColor3">
+    android:layout_height="wrap_content"
+    android:background="@color/ic_yorieter_background">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -30,6 +30,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
         app:cardCornerRadius="7dp"
         app:cardElevation="0dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -91,10 +92,20 @@
         android:text="댓글 달기"
         android:textSize="10dp"
         android:textColor="@color/black"
-
         app:layout_constraintStart_toStartOf="@+id/comment_user_name"
         app:layout_constraintTop_toBottomOf="@+id/comment_content"
-        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="5dp"
         />
+
+    <View
+        android:id="@+id/horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/again_comment_txt"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

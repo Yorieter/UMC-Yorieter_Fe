@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="레시피 작성"
+            android:text="레시피"
             android:textColor="@color/subColor5"
             android:textSize="23sp"
             android:textStyle="bold" />

@@ -13,6 +13,7 @@ import com.example.yorieter.databinding.FragmentRecipeBinding
 import com.example.yorieter.home.API.HomeRecipesResponse
 import com.example.yorieter.mypage.EditProfileFragment
 import com.example.yorieter.mypage.MyCommentFragment
+import com.example.yorieter.mypage.adapter.MypostRVAdapter
 import com.google.android.material.chip.Chip
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,11 +22,24 @@ import retrofit2.Response
 class RecipeFragment : Fragment() {
     lateinit var binding: FragmentRecipeBinding
 
+    companion object {
+        private const val ARG_RECIPE_ID = "recipeId"
+
+        fun newInstance(recipeId: Int): RecipeFragment {
+            val fragment = RecipeFragment()
+            val args = Bundle()
+            args.putInt(ARG_RECIPE_ID, recipeId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     // 토큰 값 가져오기
     private fun getToken(): String? {
         val sharedPref = activity?.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return sharedPref?.getString("token", null)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,30 +48,20 @@ class RecipeFragment : Fragment() {
     ): View? {
         binding = FragmentRecipeBinding.inflate(inflater, container, false)
 
+//        binding.backRecipeBtn.setOnClickListener {
+//            parentFragmentManager.beginTransaction()
+//                .setCustomAnimations(
+//                    R.anim.slide_in_right,
+//                    R.anim.slide_in_left,
+//                )
+//                .replace(R.id.main_frm, CommunityFragment()) // 프로필 편집 프래그먼트로 이동
+//                .addToBackStack(null) // 백 스택 추가
+//                .commitAllowingStateLoss()
+//        }
+
         binding.backRecipeBtn.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_right,
-                    R.anim.slide_in_left,
-                )
-                .replace(R.id.main_frm, CommunityFragment()) // 프로필 편집 프래그먼트로 이동
-                .addToBackStack(null) // 백 스택 추가
-                .commitAllowingStateLoss()
+            parentFragmentManager.popBackStack()
         }
-//        binding.commentPageBtn.setOnClickListener {
-//            val transaction = activity?.supportFragmentManager?.beginTransaction()
-//            transaction?.replace(this, FragmentComment)
-//            transaction?.addToBackStack(null)
-//            transaction?.commit()
-//        }
-
-
-//        binding.commentPageBtn.setOnClickListener {
-//            val transaction = activity?.supportFragmentManager?.beginTransaction()
-//            transaction?.replace(this, FragmentComment)
-//            transaction?.addToBackStack(null)
-//            transaction?.commit()
-//        }
 
         binding.commentPageBtn.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -70,25 +74,16 @@ class RecipeFragment : Fragment() {
                 .commitAllowingStateLoss()
         }
 
-
-//        val recipeId = arguments?.getInt("recipeId") ?: return binding.root
-//        Log.d("레시피에서 레시피 아이디 확인", recipeId.toString())
-
         val token = getToken()
 
-        // 레시피 아이디는 임의로 넣었어요.
-        // 모든 레시피 조회할 때 받은 레시피 아이디 저장해서 이 프래그먼트에 전달하면 될 것 같아요.
+        // 전달받은 레시피 아이디 가져오기
+        val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
+        Log.d("전달받은 레시피 아이디 확인", recipeId.toString())
 
         val homeService = PostRetrofitObj.getRetrofit().create(PostRetrofitItf::class.java)
-//        val recipeNumber = binding.postTitle.text.toString() // 제목
-//
-//        val detailResult = DetailResult(
-//            recipeId = recipeNumber
-//        )
 
-//
         if (token != null) {
-            homeService.getRecipeDetail("Bearer $token", 2)
+            homeService.getRecipeDetail("Bearer $token", recipeId)
                 .enqueue(object : Callback<HomeRecipeResponse> {
                     override fun onResponse(
                         call: Call<HomeRecipeResponse>,

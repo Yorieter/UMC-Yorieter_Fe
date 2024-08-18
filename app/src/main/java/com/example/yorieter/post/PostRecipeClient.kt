@@ -10,7 +10,7 @@ data class Ingredient(
 data class RecipeRequest(
     @SerializedName("title") val title: String,
     @SerializedName("description") val description: String,
-    val ingredientList: List<Ingredient>
+    @SerializedName("ingredientList") val ingredientList: List<Ingredient>
 )
 
 data class PostResponse(

@@ -19,6 +19,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.signature.ObjectKey
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentPostBinding
 import com.example.yorieter.mypage.viewModel.ProfileViewModel
@@ -91,6 +92,9 @@ class PostFragment: Fragment() {
                 }
 
 
+        //이미지 첨부시 이미지가 나타나게
+        binding.recipeImgIv.visibility = View.VISIBLE
+
         // 업로드 버튼 클릭 시
         binding.addPostBtn.setOnClickListener {
             //parseIngredients(ingredientInput)
@@ -146,16 +150,12 @@ class PostFragment: Fragment() {
             // 이미지 압축 및 리사이즈
             val compressedUri = getCompressedImageUri(imageUri)
 
-            // 선택된 이미지 URI를 사용하여 ImageView에 설정
-            binding.recipeImgIv.setImageURI(compressedUri)
-
             // Glide를 사용하여 원본 이미지 첨부
             Glide.with(this)
                 .load(compressedUri)
+                .apply(RequestOptions.circleCropTransform())
+                .signature(ObjectKey(System.currentTimeMillis().toString())) // 캐시 무효화
                 .into(binding.recipeImgIv)
-
-            // ViewModel에 선택된 이미지 URI를 설정하여 저장
-            postViewModel.setPostImageUri(imageUri)
 
             selectedImageUri = compressedUri
         }
@@ -231,7 +231,7 @@ class PostFragment: Fragment() {
 
         // 이미지 파일이 있을 경우 MultipartBody.Part로 변환
         val imagePart: MultipartBody.Part? = selectedImageUri?.let { uri ->
-            val file = File(getRealPathFromURI(uri))
+            val file = getFileFromUri(uri)
             val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
             MultipartBody.Part.createFormData("image", file.name, requestFile)
         }
