@@ -51,9 +51,17 @@ interface PostRetrofitItf {
         @Body commentRequest: CommentRequest
     ): Call<PostCommentResponse>
 
-//    @PATCH("recipes/{recipeId}")
-//    fun patchRecipes(@Path("recipeId"))
-//
-//    @DELETE("recipes/{recipeId}")
-//    fun deleteRecipes(@Path("recipeId"))
+    //레시피 좋아요 누르기
+    @POST("recipes/{recipeId}/liked")
+    fun recipesLike (
+        @Header("Authorization") token: String,
+        @Path(value = "recipeId") recipeId: Int,
+    ) :Call<CommunitylikeResponse>
+
+    @DELETE("recipes/{recipeId}/delete")
+    fun recipeDelete (
+        @Header("Authorization") token: String,
+        @Path(value = "recipeId") recipeId: Int,
+    ) :Call<CommunitylikeResponse>
+
 }

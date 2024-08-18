@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.yorieter.R
 import com.example.yorieter.data.Recipe
 import com.example.yorieter.data.RecipeViewModel
@@ -20,8 +21,14 @@ import com.example.yorieter.home.API.LikeResponse
 import com.example.yorieter.home.API.LikeRetrofitObj
 import com.example.yorieter.home.API.UnLikeResponse
 import com.example.yorieter.login.api.UserRetrofitObj
+import com.example.yorieter.post.HomeRecipeResponse
+import com.example.yorieter.post.PostRetrofitItf
+import com.example.yorieter.post.PostRetrofitObj
 import com.example.yorieter.post.RecipeFragment
+import com.example.yorieter.post.RecipeRVAdapter
+import com.example.yorieter.post.RecipeUserFragment
 import com.example.yorieter.search.SearchFragment
+import com.google.android.material.chip.Chip
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +38,7 @@ class HomeFragment: Fragment() {
     lateinit var binding: FragmentHomeBinding
     private val viewModel: RecipeViewModel by activityViewModels()
     var homeWeekLike: Boolean = false
+    private var firstRecipeId: Int? = null
 
 
     // 토큰 값 가져오기
@@ -91,7 +99,7 @@ class HomeFragment: Fragment() {
         // API Token
         val token = getToken()
 
-        // 모든 레시피 조회 API
+        //모든 레시피 조회 API
         val homeService = UserRetrofitObj.getRetrofit().create(HomeItf::class.java)
         if (token != null){
             homeService.getRecipes("Bearer $token").enqueue(object: Callback<HomeRecipesResponse>{
@@ -104,6 +112,18 @@ class HomeFragment: Fragment() {
                     if (resp != null){
                         if (resp.isSuccess){
                             Log.d("HOME/SUCCESS", "레시피 조회 성공")
+
+                            // 첫 번째 레시피 데이터 가져오기
+                            val firstRecipe = resp.result.recipeList.firstOrNull()
+                            firstRecipe?.let {
+                                firstRecipeId = 2
+
+                                // 금주의 레시피 UI 업데이트
+                                // 이미지를 로드하는 라이브러리(Glide 등)를 사용해서 이미지 설정
+                                Glide.with(this@HomeFragment)
+                                    .load(it.imageUrl)
+                                    .into(binding.homeRecipeWeekIV)
+                            }
 
                             // ViewModel에 레시피 데이터 추가 (HomeRecipe를 Recipe2로 변환)
                             val recipeList = resp.result.recipeList.map { homeRecipe ->
@@ -137,84 +157,6 @@ class HomeFragment: Fragment() {
             })
         }
 
-        // 좋아요 구현
-        // 금주의 레시피 수정해야함
-        binding.homeWeekLikeIV.setOnClickListener {
-            val likeService = LikeRetrofitObj.getRetrofit().create(LikeItf::class.java)
-            if (token != null) {
-                if (!homeWeekLike) {
-                    likeService.likeRecipe("Bearer $token", 2).enqueue(object :
-                        Callback<LikeResponse> {
-                        override fun onResponse(call: Call<LikeResponse>, response: Response<LikeResponse>) {
-                            if (response.isSuccessful) {
-                                binding.homeWeekLikeIV.setImageResource(R.drawable.like_check)
-                                homeWeekLike = true
-                            } else {
-                                Log.e("Like/FAILURE", "Response code: ${response.code()}, Message: ${response.message()}")
-                            }
-                        }
-
-                        override fun onFailure(call: Call<LikeResponse>, t: Throwable) {
-                            Log.e("RETROFIT/FAILURE", t.message.toString())
-                        }
-                    })
-                } else {
-                    likeService.unlikeRecipe("Bearer $token", 2).enqueue(object : Callback<UnLikeResponse> {
-                        override fun onResponse(call: Call<UnLikeResponse>, response: Response<UnLikeResponse>) {
-                            if (response.isSuccessful) {
-                                binding.homeWeekLikeIV.setImageResource(R.drawable.like_no_check)
-                                homeWeekLike = false
-                            } else {
-                                Log.e("Like/FAILURE", "Response code: ${response.code()}, Message: ${response.message()}")
-                            }
-                        }
-
-                        override fun onFailure(call: Call<UnLikeResponse>, t: Throwable) {
-                            Log.e("RETROFIT/FAILURE", t.message.toString())
-                        }
-                    })
-                }
-            }
-        }
-
-        // 금주의 레시피 부분
-//        val likeService = LikeRetrofitObj.getRetrofit().create(LikeRetrofitltf::class.java)
-//
-//        if (token != null) {
-//            likeService.likeRecipe("Bearer $token", 2).enqueue(object : Callback<LikeResponse> {
-//                override fun onResponse(
-//                    call: Call<LikeResponse>,
-//                    response: Response<LikeResponse>
-//                ) {
-//                    Log.d("Like/SUCCESS", response.toString())
-//
-//                    val resp: LikeResponse = response.body()!!
-//                    if (resp != null) {
-//                        if (resp.isSuccess) {
-//                            binding.homeWeekLikeIV.setOnClickListener {
-//                                Log.d("Like/SUCCESS", "좋아요 누르기 성공")
-//                                if (!homeWeekLike) {
-//                                    binding.homeWeekLikeIV.setImageResource(R.drawable.like_check)
-//                                    homeWeekLike = true
-//                                } else {
-//                                    binding.homeWeekLikeIV.setImageResource(R.drawable.like_no_check)
-//                                    homeWeekLike = false
-//                                }
-//                            }
-//                        }else {
-//                            Log.e("Like/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
-//                        }
-//                    } else {
-//                        Log.e("Like/FAILURE", "Response body is null")
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<LikeResponse>, t: Throwable) {
-//                    Log.e("Like/FAILURE", t.message.toString())
-//                }
-//            })
-//        }
-
         return binding.root
     }
 
@@ -231,6 +173,16 @@ class HomeFragment: Fragment() {
         val recommendRecipeRVAdapter = HomeRecommendRecipeAdapter(viewModel, requireActivity().supportFragmentManager, requireActivity())
         binding.homeRecommendRV.adapter = recommendRecipeRVAdapter
         binding.homeRecommendRV.setHasFixedSize(true)
+
+        recommendRecipeRVAdapter.mItemClickListener = object : HomeRecommendRecipeAdapter.RecipeItemClickListener {
+            override fun onItemClick(recipe: Recipe) {
+                val recipeFragment = RecipeFragment.newInstance(recipe.recipeId)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, HomeFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
 
         // ViewModel의 데이터 변경을 관찰
         // ViewModel의 데이터 변경을 관찰

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentCommunityBinding
 import com.example.yorieter.mypage.MyCommentFragment
+import com.example.yorieter.mypage.adapter.MypostRVAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,9 +21,9 @@ import retrofit2.Response
 class CommunityFragment : Fragment() {
     lateinit var binding: FragmentCommunityBinding
     private var recipeDatas = ArrayList<Recipe>()
-    private lateinit var adapter : RecipeRVAdapter //adapter객체 먼저 선언해주기!
+    private lateinit var recipeadapter: RecipeRVAdapter //adapter객체 먼저 선언해주기!
 
-    private fun getToken(): String?{
+    private fun getToken(): String? {
         // SharedPreferences에서 토큰 값 가져오기
         val sharedPref = activity?.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         return sharedPref?.getString("token", null)
@@ -44,20 +45,22 @@ class CommunityFragment : Fragment() {
 //        }
 
         //리사이클러 뷰에 연결
-        adapter = RecipeRVAdapter(recipeDatas)
-        binding.recipeRv.adapter = adapter
-        binding.recipeRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recipeadapter = RecipeRVAdapter(context!!, recipeDatas)
+        binding.recipeRv.adapter = recipeadapter
+        binding.recipeRv.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        // 클릭 리스너 설정
-        adapter.mItemClickListener = object : RecipeRVAdapter.RecipeItemClickListener {
+        recipeadapter.mItemClickListener = object : RecipeRVAdapter.RecipeItemClickListener {
             override fun onItemClick(recipe: Recipe) {
+                // recipe 객체를 사용하여 처리
+                val selectedRecipeId = recipe.recipeId
+                val recipeFragment = RecipeFragment.newInstance(selectedRecipeId)
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.main_frm, RecipeFragment())
+                    .replace(R.id.main_frm, recipeFragment)
                     .addToBackStack(null)
                     .commit()
             }
         }
-
         return binding.root
     }
 
@@ -77,7 +80,7 @@ class CommunityFragment : Fragment() {
                         response.body()?.result?.recipeList?.let { recipes ->
                             recipeDatas.clear()
                             recipeDatas.addAll(recipes) // 받아온 데이터를 recipeDatas에 추가
-                            adapter.notifyDataSetChanged() // 데이터 변경 후 어댑터에 알리기
+                            recipeadapter.notifyDataSetChanged() // 데이터 변경 후 어댑터에 알리기
                         }
                     } else {
                         Log.e("API 오류", "Error code: ${response.code()} - ${response.message()}")

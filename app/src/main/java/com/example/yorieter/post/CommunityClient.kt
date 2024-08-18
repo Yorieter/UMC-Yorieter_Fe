@@ -22,5 +22,6 @@ data class Recipe(
     @SerializedName("imageUrl") val imageUrl: String,
     @SerializedName("ingredientNames") val ingredientNames: List<String>,
     @SerializedName("createdAt") val createdAt: String,
-    @SerializedName("updatedAt") val updatedAt: String
+    @SerializedName("updatedAt") val updatedAt: String,
+    var communityLike: Boolean
 )
