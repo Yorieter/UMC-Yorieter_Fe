@@ -112,10 +112,6 @@ class RecipeFragment : Fragment() {
                                     binding.recipeChipGroup.addView(chip)
                                 }
 
-                                // 칼로리 적용
-                                binding.caloryMainTxt.text =
-                                    resp.result.calories.toString() + "Kcal"
-
                                 // 레시피 내용 적용
                                 binding.recipeMain.text = resp.result.description
 

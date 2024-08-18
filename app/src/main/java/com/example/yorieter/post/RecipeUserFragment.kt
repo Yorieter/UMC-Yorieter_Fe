@@ -196,10 +196,6 @@ class RecipeUserFragment : Fragment() {
                                 }
                             }
 
-                            // 칼로리 적용
-                            //binding.caloryMainTxt.text = resp.result.calories.toString() + "Kcal"
-                            binding.caloryMainTxt.text = (resp.result.calories?.toString() ?: "N/A") + "Kcal"
-
                             // 레시피 내용 적용
                             //binding.recipeMain.text = resp.result.description
                             binding.recipeMain.text = resp.result.description ?: "No Recipe Description Available"
