@@ -24,7 +24,6 @@ class RecipeFragment : Fragment() {
 
     companion object {
         private const val ARG_RECIPE_ID = "recipeId"
-
         fun newInstance(recipeId: Int): RecipeFragment {
             val fragment = RecipeFragment()
             val args = Bundle()

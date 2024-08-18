@@ -85,17 +85,6 @@ class HomeFragment: Fragment() {
                 .commitAllowingStateLoss()
         }
 
-        // 좋아요 구현
-//        binding.homeWeekLikeIV.setOnClickListener {
-//            if (!homeWeekLike) {
-//                binding.homeWeekLikeIV.setImageResource(R.drawable.like_check)
-//                homeWeekLike = true
-//            } else {
-//                binding.homeWeekLikeIV.setImageResource(R.drawable.like_no_check)
-//                homeWeekLike = false
-//            }
-//        }
-
         // API Token
         val token = getToken()
 
