@@ -62,9 +62,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/text_round"
-                android:hint=" 제목:(15자 이내)"
+                android:hint="제목:(15자 이내)"
                 android:inputType="text"
                 android:textSize="15dp"
+                android:paddingLeft="12dp"
                 app:layout_constraintEnd_toEndOf="@id/guideline2"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,9 +78,10 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="15dp"
                 android:background="@drawable/text_round"
-                android:hint=" 식재료를 입력하세요: "
+                android:hint="식재료를 입력하세요: "
                 android:inputType="text"
                 android:textSize="15dp"
+                android:paddingLeft="12dp"
                 app:layout_constraintEnd_toEndOf="@id/guideline2"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintTop_toBottomOf="@+id/post_title" />
@@ -89,9 +91,10 @@
                 android:layout_width="320dp"
                 android:layout_height="230dp"
                 android:layout_marginTop="10dp"
-                android:hint=" 게시글을 입력하세요:"
+                android:hint="게시글을 입력하세요:"
                 android:textSize="15dp"
-                android:inputType="text"
+                android:imeOptions="actionNone"
+                android:paddingLeft="12dp"
                 android:background="@drawable/text_round"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintEnd_toEndOf="@id/guideline2"
@@ -129,6 +132,15 @@
 
 <!--            </LinearLayout>-->
 <!--          -->
+            <LinearLayout
+                android:id="@+id/layout_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/post_context"
+                app:layout_constraintStart_toStartOf="@id/guideline1"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="15dp">
+
             <ImageView
                 android:id="@+id/recipe_img_iv"
                 android:layout_width="80dp"
@@ -137,9 +149,9 @@
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/recipe"
+                android:visibility="gone"
                 />
-
+            </LinearLayout>
             <android.widget.Button
                 android:id="@+id/add_img_btn"
                 android:layout_width="300dp"
@@ -153,18 +165,17 @@
                 android:textColor="@color/subColor5"
                 app:layout_constraintStart_toStartOf="@id/guideline1"
                 app:layout_constraintEnd_toEndOf="@id/guideline2"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_img_iv" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_photo" />
 
             <android.widget.Button
                 android:id="@+id/add_post_btn"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/button_round"
                 android:text="업로드"
-                app:layout_constraintEnd_toEndOf="@id/guideline2"
+                app:layout_constraintEnd_toEndOf="@+id/add_img_btn"
                 app:layout_constraintTop_toBottomOf="@+id/add_img_btn"
                 app:layout_constraintBottom_toBottomOf="parent"/>
                          
