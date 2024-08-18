@@ -1,5 +1,6 @@
 package com.example.yorieter.post
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -29,6 +30,7 @@ class RecipeUserFragment : Fragment() {
     private val posteditviewModel: PostEditViewModel by activityViewModels()
 
     companion object {
+        private const val DELETE_RECIPE_REQUEST_CODE = 1
         private const val ARG_RECIPE_ID = "recipeId"
 
         fun newInstance(recipeId: Int): RecipeUserFragment {
@@ -218,6 +220,15 @@ class RecipeUserFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    // onActivityResult에서 결과 처리
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == DELETE_RECIPE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            // RecipeUserFragment 종료하고 MypostFragment로 돌아가기
+            parentFragmentManager.popBackStack()
+        }
     }
 
 }
