@@ -21,12 +21,12 @@
             android:id="@+id/recipe_nameTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:text="입맛 돌아오는 냉면"
             android:textColor="@color/black"
             android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_recipe_cover_imgCV" />
 
@@ -48,20 +48,6 @@
                 app:srcCompat="@drawable/food_example02" />
 
         </androidx.cardview.widget.CardView>
-
-        <ImageView
-            android:id="@+id/recipeLikeIV"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_recipe_cover_imgCV"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/mypage_ic_like1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

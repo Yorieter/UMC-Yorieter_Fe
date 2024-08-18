@@ -23,7 +23,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeRecommendRecipeAdapter(private val viewModel: RecipeViewModel, private val fragmentManager: FragmentManager, private val context: Context) : RecyclerView.Adapter<HomeRecommendRecipeAdapter.HomeRecommendRecipeHolder>() {
+class HomeRecommendRecipeAdapter(private val fragmentManager: FragmentManager, private val context: Context) : RecyclerView.Adapter<HomeRecommendRecipeAdapter.HomeRecommendRecipeHolder>() {
     private var recipes: List<Recipe> = listOf()
 
     companion object {
@@ -72,11 +72,6 @@ class HomeRecommendRecipeAdapter(private val viewModel: RecipeViewModel, private
             return sharedPref?.getString("token", null)
         }
 
-        private val token = getToken()
-
-//        val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-//        Log.d("전달받은 레시피 아이디 확인", recipeId.toString())
-
         fun bind(recipe: Recipe) {
             // 이미지 로드
             recipe.imageUrl?.let {
@@ -89,11 +84,6 @@ class HomeRecommendRecipeAdapter(private val viewModel: RecipeViewModel, private
             // 타이틀 적용
             binding.recipeNameTV.text = recipe.title
 
-            updateLikeButton(binding.recipeLikeIV, recipe.like)
-            binding.recipeLikeIV.setOnClickListener {
-                viewModel.clickLike(recipe.recipeId)
-            }
-
             //레시피 아이디 받아오기
 
             binding.recipeImgIV.setOnClickListener {
@@ -102,14 +92,6 @@ class HomeRecommendRecipeAdapter(private val viewModel: RecipeViewModel, private
                     .replace(R.id.main_frm, recipeFragment)
                     .addToBackStack(null)
                     .commit()
-            }
-        }
-
-        private fun updateLikeButton(likeIV: ImageView, isLiked: Boolean) {
-            if (isLiked) {
-                likeIV.setImageResource(R.drawable.like_check)
-            } else {
-                likeIV.setImageResource(R.drawable.like_no_check)
             }
         }
     }
