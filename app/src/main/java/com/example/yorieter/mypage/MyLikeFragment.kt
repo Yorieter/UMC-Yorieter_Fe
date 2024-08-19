@@ -71,9 +71,10 @@ class MyLikeFragment: Fragment() {
         // 리사이클러뷰에 어댑터를 연결
         binding.mylikeContentVp.adapter = mylikeRVAdapter
 
-        // GridLayoutManager 설정
-        val layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-        binding.mylikeContentVp.layoutManager = layoutManager
+//        // GridLayoutManager 설정
+//        val layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+//        binding.mylikeContentVp.layoutManager = layoutManager
+        binding.mylikeContentVp.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         // 리사이클러뷰에 간격 설정
         binding.mylikeContentVp.addItemDecoration(DividerItemDecoration(20)) // 20으로 설정
@@ -85,11 +86,11 @@ class MyLikeFragment: Fragment() {
                 val selectedRecipeId = mylikeDatas[position].recipeId
                 Log.d("MyLikeFragment 레시피 아이디", selectedRecipeId.toString())
                 // 레시피 프래그먼트로 아이디 전달
-//                val recipeFragment: RecipeFragment()
-//                parentFragmentManager.beginTransaction()
-//                    .replace(R.id.main_frm, recipeFragment)
-//                    .addToBackStack(null)
-//                    .commit()
+                val recipeFragment =  RecipeFragment.newInstance(selectedRecipeId)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_frm, recipeFragment)
+                    .addToBackStack(null)
+                    .commit()
             }
         }
 
@@ -101,7 +102,7 @@ class MyLikeFragment: Fragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val layoutManager = recyclerView.layoutManager as GridLayoutManager
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                 val totalItemCount = layoutManager.itemCount
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
 
@@ -147,25 +148,12 @@ class MyLikeFragment: Fragment() {
                                 Mylike(
                                     coverImg = recipe.imageUrl,
                                     title = recipe.title,
+                                    date = "작성일자: ${recipe.createdAt}",
                                     recipeId = recipe.recipeId)
                             }
                             mylikeDatas.addAll(newLikes)
 
                             mylikeRVAdapter.notifyDataSetChanged()
-
-
-                            // 추후에 레시피 좋아요 연동되면 적용하기!
-//                        // RecipeList에서 데이터를 Mylike로 변환하여 추가
-//                        val newLikes = resp.result.recipeList.map { recipe ->
-//                            Mylike2(recipe.title, recipe.createdAt)
-//                        }
-//                        mylikeDatas.addAll(newLikes) // 기존 데이터에 추가
-//
-//                        // 리사이클러뷰 업데이트
-//                        binding.mylikeContentVp.adapter?.notifyDataSetChanged()
-                            // 추후에 레시피 좋아요 연동되면 적용하기!
-
-
 
                         } else {
                             Log.e("MYLIKE/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
