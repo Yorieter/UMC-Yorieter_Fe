@@ -38,11 +38,10 @@
         android:id="@+id/mylike_content_vp"
         android:layout_width="match_parent"
         android:layout_height="680dp"
+        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_marginStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mylike_toolbar"
-        tools:listitem="@layout/item_mylike" />
+        app:layout_constraintTop_toBottomOf="@+id/mylike_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
