@@ -33,15 +33,66 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- 리사이클러뷰 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mylike_content_vp"
+    <!-- ShimmerFrameLayout -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
         android:layout_width="match_parent"
-        android:layout_height="680dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mylike_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/mylike_toolbar">
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="1"
+            android:orientation="vertical"
+            android:rowCount="6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mypost_toolbar">
+
+            <include layout="@layout/item_mylike_skeleton" />
+
+            <include layout="@layout/item_mylike_skeleton" />
+
+            <include layout="@layout/item_mylike_skeleton" />
+
+            <include layout="@layout/item_mylike_skeleton" />
+
+            <include layout="@layout/item_mylike_skeleton" />
+
+            <include layout="@layout/item_mylike_skeleton" />
+
+        </GridLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <!-- swiperefreshlayout -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mylike_toolbar">
+
+        <!-- 리사이클러뷰 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mylike_content_vp"
+            android:layout_width="match_parent"
+            android:layout_height="680dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mylike_toolbar" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
