@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentMyLikeBinding
 import com.example.yorieter.home.HomeFragment
@@ -25,6 +27,10 @@ import com.example.yorieter.mypage.dataclass.Mylike
 import com.example.yorieter.mypage.dataclass.Mylike2
 import com.example.yorieter.mypage.viewModel.MyLikeViewModel
 import com.example.yorieter.post.RecipeFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +43,7 @@ class MyLikeFragment: Fragment() {
     private val mylikeViewModel: MyLikeViewModel by activityViewModels()
     var currentPage = 1 // 현재 페이지 번호를 관리하는 변수
     private lateinit var mylikeRVAdapter: MylikeRVAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     // 토큰 값 가져오기
     private fun getToken(): String?{
@@ -65,6 +72,27 @@ class MyLikeFragment: Fragment() {
 //            add(Mylike(R.drawable.mypage_bookmark_image2, "지중해식 샐러드"))
 //        }
 //
+        // 스와이프 리프레쉬 레이아웃 초기화
+        swipeRefreshLayout = binding.swipeRefreshLayout
+        swipeRefreshLayout.setColorSchemeColors(
+            // 스와이프 리프레쉬 레이아웃 색깔 변경 -> 블랙, 화이트
+            ContextCompat.getColor(requireContext(), R.color.black),
+            ContextCompat.getColor(requireContext(), R.color.white)
+        )
+
+        // 스와이프 리프레쉬 레이아웃 관련 동작 설정
+        swipeRefreshLayout.setOnRefreshListener {
+            CoroutineScope(Dispatchers.Main).launch {
+                isLoading(true)
+                currentPage = 1 // 페이지를 1로 리셋
+                mylikeDatas.clear() // 데이터 초기화
+                loadMyLikedRecipes(currentPage)
+                delay(1500)
+                isLoading(false)
+                swipeRefreshLayout.isRefreshing = false // 새로고침 완료 시 리프레시 아이콘 감추기
+            }
+        }
+
         // 어댑터와 데이터 리스트(더미데이터) 연결
         mylikeRVAdapter = MylikeRVAdapter(mylikeDatas)
 
@@ -95,7 +123,7 @@ class MyLikeFragment: Fragment() {
         }
 
         // 초기 데이터 로드
-        loadMyLikedRecipes(currentPage)
+        //loadMyLikedRecipes(currentPage)
 
         // 스크롤 리스너 추가
         binding.mylikeContentVp.addOnScrollListener(object: RecyclerView.OnScrollListener(){
@@ -119,6 +147,14 @@ class MyLikeFragment: Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // 현재 페이지를 1로 리셋하고 데이터를 다시 로드
+        currentPage = 1
+        mylikeDatas.clear() // 기존 데이터를 초기화
+        loadMyLikedRecipes(currentPage)
     }
 
     private fun loadMyLikedRecipes(page: Int){
@@ -167,6 +203,20 @@ class MyLikeFragment: Fragment() {
                     Log.d("RETROFIT/FAILURE", t.message.toString())
                 }
             })
+        }
+    }
+
+    // 새로고침 상태 여부에 따른 shimmer effect 설정
+    private fun isLoading(isLoading: Boolean){
+        if(isLoading){
+            binding.shimmerLayout.startShimmer()
+            binding.shimmerLayout.visibility = View.VISIBLE
+            binding.mylikeContentVp.visibility = View.GONE
+        }
+        else {
+            binding.shimmerLayout.stopShimmer()
+            binding.shimmerLayout.visibility = View.GONE
+            binding.mylikeContentVp.visibility = View.VISIBLE
         }
     }
 
