@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:background="@color/ic_yorieter_background"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="1.0" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mysearch_toolbar"
@@ -54,12 +54,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:text="최근 검색"
-            android:textStyle="bold"
-            android:textSize="15sp"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/bar2"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/search_recipeRV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,7 +137,6 @@
                 android:id="@+id/ingredients_chip_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="15dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
