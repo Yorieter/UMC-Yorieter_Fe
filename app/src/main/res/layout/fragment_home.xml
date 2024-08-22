@@ -86,10 +86,11 @@
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="20dp"
                         android:text="오늘의 다이어트 레시피"
                         android:textSize="18sp"
                         android:textStyle="bold"
+                        android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -122,7 +123,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/food_example" />
+                        app:srcCompat="@drawable/mypage_mypost_basic_image" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -132,7 +133,6 @@
                 android:id="@+id/bar2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="10dp"
                 android:background="@color/gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -162,6 +162,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:text="레시피 추천"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -183,6 +185,7 @@
                         android:layout_marginEnd="30dp"
                         android:text="더보기"
                         android:textSize="10sp"
+                        android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -193,7 +196,9 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginStart="5dp"
+                        android:layout_marginEnd="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/home_moreTV"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/arrow_right" />

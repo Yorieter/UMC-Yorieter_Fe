@@ -95,7 +95,7 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
 
         private fun updateLikeUI(isLiked: Boolean) {
             binding.communityLikeIv.setImageResource(
-                if (isLiked) R.drawable.like_check else R.drawable.like_no_check
+                if (isLiked) R.drawable.recipe_like else R.drawable.recipe_like_new
             )
         }
 

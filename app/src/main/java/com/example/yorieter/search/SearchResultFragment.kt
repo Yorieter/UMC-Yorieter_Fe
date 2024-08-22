@@ -46,23 +46,6 @@ class SearchResultFragment: Fragment() {
     ): View? {
         binding = FragmentSearchResultBinding.inflate(inflater, container, false)
 
-//        recipeDatas.apply {
-//            add(
-//                Recipe(
-//                    13,
-//                    2,
-//                    "맛있는 샐러드",
-//                    "샐러드",
-//                    7,
-//                    "https://umc-yorieter.s3.ap-northeast-2.amazonaws.com/KakaoTalk_20240803_150023916.png",
-//                    listOf("양배추", "계란"),
-//                    "2024-08-11T14:02:32.366265",
-//                    "2024-08-11T14:40:15.783811",
-//                    false
-//                )
-//            )
-//        }
-
         // 선택한 chips 나타나게 함 / 선택하지 않았으면 안나타나게
         val selectedChips = arguments?.getString("selectedChips")
         val chipList: List<String>
@@ -71,16 +54,6 @@ class SearchResultFragment: Fragment() {
             binding.filteredChipGroup.visibility = View.GONE
             chipList = emptyList()
         } else {
-            // Convert the comma-separated string to a list
-//            selectedChips.split(", ").forEach { chipText ->
-//                val chip = Chip(requireContext()).apply {
-//                    text = chipText
-//                    isClickable = false
-//                    chipBackgroundColor = ContextCompat.getColorStateList(this.context, R.color.subColor1) // 배경 컬러 설정
-//                }
-//                binding.filteredChipGroup.addView(chip)
-//            }
-
             chipList = selectedChips.split(", ").map { it.trim() }
             chipList.forEach { chipText ->
                 val chip = Chip(requireContext()).apply {
@@ -90,14 +63,6 @@ class SearchResultFragment: Fragment() {
                 }
                 binding.filteredChipGroup.addView(chip)
             }
-
-//            // Pass the chip list to the adapter
-//            searchAdapter.setSearchParams(
-//                query = arguments?.getString("query"),
-//                selectedChips = chipList,
-//                minCalories = arguments?.getInt("minCalories", 0) ?: 0,
-//                maxCalories = arguments?.getInt("maxCalories", 0) ?: 0
-//            )
         }
 
         // 검색어 불러오기
@@ -146,7 +111,7 @@ class SearchResultFragment: Fragment() {
 
                             // 리사이클러 뷰 바인딩
                             adapter =
-                                SearchAdapter(recipeDatas, requireActivity().supportFragmentManager, requireActivity(), viewModel)
+                                SearchAdapter(recipeDatas, requireActivity().supportFragmentManager, requireActivity())
                             binding.searchResultRV.adapter = adapter
                             binding.searchResultRV.layoutManager =
                                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -208,7 +173,7 @@ class SearchResultFragment: Fragment() {
 
                             // 리사이클러 뷰 바인딩
                             adapter =
-                                SearchAdapter(recipeDatas, requireActivity().supportFragmentManager, requireActivity(), viewModel)
+                                SearchAdapter(recipeDatas, requireActivity().supportFragmentManager, requireActivity())
                             binding.searchResultRV.adapter = adapter
                             binding.searchResultRV.layoutManager =
                                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -227,6 +192,65 @@ class SearchResultFragment: Fragment() {
                 }
 
                 override fun onFailure(call: Call<SearchLogResponse>, t: Throwable) {
+                    Log.e("Search/FAILURE", t.message.toString())
+                }
+            })
+
+            // 재료를 입력해서 검색 가능
+            val request2Body = SearchRequest(
+                ingredientNames = listOf(searchWord)
+            )
+
+            val searchService = RestrofitImpl.getRetrofit().create(SearchItf::class.java)
+
+            searchService.search("Bearer $token", request2Body).enqueue(object :
+                Callback<SearchResponse> {
+                override fun onResponse(
+                    call: Call<SearchResponse>,
+                    response: Response<SearchResponse>
+                ) {
+                    Log.d("Search/SUCCESS", response.toString())
+                    val resp = response.body()
+                    if (resp != null) {
+                        if (resp.isSuccess) {
+                            Log.d("Search/Success", "레시피 검색 성공")
+
+                            // 서버로부터 받은 레시피 데이터를 RecyclerView에 추가
+                            val newRecipes = resp.result.recipeList.map { searchRecipe ->
+                                Recipe(
+                                    memberId = searchRecipe.memberId,
+                                    recipeId = searchRecipe.recipeId,
+                                    title = searchRecipe.title,
+                                    description = searchRecipe.description,
+                                    calories = searchRecipe.calories,
+                                    imageUrl = searchRecipe.imageUrl,
+                                    ingredientNames = searchRecipe.ingredientNames,
+                                    createdAt = searchRecipe.createdAt,
+                                    updatedAt = searchRecipe.updatedAt
+                                )
+                            }
+
+                            // 리사이클러 뷰 바인딩
+                            adapter =
+                                SearchAdapter(recipeDatas, requireActivity().supportFragmentManager, requireActivity())
+                            binding.searchResultRV.adapter = adapter
+                            binding.searchResultRV.layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+                            // 어댑터에 데이터 업데이트
+                            adapter.updateRecipes(newRecipes)
+                        } else {
+                            Log.e(
+                                "Search/FAILURE",
+                                "Response Code: ${resp.code}, Message: ${resp.message}"
+                            )
+                        }
+                    } else {
+                        Log.e("Search/FAILURE", "Response body is null")
+                    }
+                }
+
+                override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                     Log.e("Search/FAILURE", t.message.toString())
                 }
             })

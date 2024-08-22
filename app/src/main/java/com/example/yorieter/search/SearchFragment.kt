@@ -63,8 +63,8 @@ class SearchFragment: Fragment(), SearchWordAdapter.FragmentCallback {
 
         // 재료 chip 적용
         val ingredientsChipGroup: ChipGroup = binding.ingredientsChipGroup
-        val testList = listOf("계란", "양배추", "버섯", "바나나", "레몬", "딸기", "닭고기", "돼지 고기",
-            "브로콜리", "양상추", "오이", "토마토", "떡", "쌀", "라면", "기타")
+        val testList = listOf("계란", "토마토", "새우", "마늘", "통밀빵", "닭고기", "돼지 고기", "상추", "배추", "당근", "파프리카", "감자", "오리고기",
+            "아보카도", "두부면", "닭가슴살", "오트밀", "우유", "청경채", "무", "양파", "브로콜리", "양상추", "오이", "양배추")
 
         // chipGroup 설정
         testList.forEachIndexed { index, s ->

@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/food_example" />
+        app:srcCompat="@drawable/mypage_mypost_basic_image" />
 
     <TextView
         android:id="@+id/titleTV"
@@ -37,13 +37,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTV" />
 
-    <ImageView
-        android:id="@+id/like_IV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/mypage_ic_like1" />
 </androidx.constraintlayout.widget.ConstraintLayout>
