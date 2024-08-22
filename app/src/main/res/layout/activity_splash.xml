@@ -13,23 +13,23 @@
 
     <TextView
         android:id="@+id/splash_tv"
-        android:layout_width="198dp"
-        android:layout_height="50dp"
-        android:text="다이어트하는\n우리 모두를 위한 레시피 앱"
-        android:textColor="@color/mainColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="당신을 위한 건강한 다이어트 레시피 앱"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="18sp"
         android:gravity="center"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/yorieter_iv"/>
 
     <ImageView
         android:id="@+id/yorieter_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_yorieter2"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:src="@drawable/yorieter_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
