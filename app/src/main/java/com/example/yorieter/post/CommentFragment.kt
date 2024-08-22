@@ -222,11 +222,11 @@ class CommentFragment : Fragment()  {
         // Bundle을 MyCommentFragment에 전달
         myCommentFragment.arguments = bundle
 
-        // MyCommentFragment로 이동
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.main_frm, myCommentFragment)
-            .addToBackStack(null)
-            .commit()
+//        // MyCommentFragment로 이동
+//        parentFragmentManager.beginTransaction()
+//            .replace(R.id.main_frm, myCommentFragment)
+//            .addToBackStack(null)
+//            .commit()
 
     }
 }
