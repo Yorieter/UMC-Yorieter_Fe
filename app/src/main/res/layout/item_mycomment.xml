@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/item_mycomment_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="너무 유용한 레시피 잘 보고 갑니다!"
         android:textColor="@color/subColor5"
