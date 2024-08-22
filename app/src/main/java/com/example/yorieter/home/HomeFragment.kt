@@ -78,7 +78,7 @@ class HomeFragment: Fragment() {
         }
 
         binding.homeRecipeWeekIV.setOnClickListener {
-            val recipeFragment = RecipeFragment.newInstance(2)
+            val recipeFragment = RecipeFragment.newInstance(66)
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.homeFragment, recipeFragment)
                 .addToBackStack(null) // 백 스택 추가
