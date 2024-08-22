@@ -23,5 +23,6 @@ data class HomeRecipe(
     @SerializedName(value = "imageUrl") val imageUrl: String,
     @SerializedName(value = "ingredientNames") val ingredientNames: List<String>,
     @SerializedName(value = "createdAt") val createdAt: String,
-    @SerializedName(value = "updatedAt") val updatedAt: String
+    @SerializedName(value = "updatedAt") val updatedAt: String,
+    @SerializedName(value = "liked") var liked: Boolean
 )
