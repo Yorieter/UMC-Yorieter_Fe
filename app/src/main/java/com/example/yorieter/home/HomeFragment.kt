@@ -78,7 +78,7 @@ class HomeFragment: Fragment() {
         }
 
         binding.homeRecipeWeekIV.setOnClickListener {
-            val recipeFragment = RecipeFragment.newInstance(74)
+            val recipeFragment = RecipeFragment.newInstance(66)
             requireActivity().supportFragmentManager.beginTransaction()
                 .add(R.id.homeFragment, recipeFragment)
                 .addToBackStack(null) // 백 스택 추가
@@ -105,7 +105,7 @@ class HomeFragment: Fragment() {
                             // 첫 번째 레시피 데이터 가져오기
                             val firstRecipe = resp.result.recipeList.firstOrNull()
                             firstRecipe?.let {
-                                firstRecipeId = 74
+                                firstRecipeId = 66
 
                                 // 금주의 레시피 UI 업데이트
                                 // 이미지를 로드하는 라이브러리(Glide 등)를 사용해서 이미지 설정

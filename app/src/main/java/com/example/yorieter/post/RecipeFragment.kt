@@ -67,7 +67,7 @@ class RecipeFragment : Fragment() {
         binding.backRecipeBtn.setOnClickListener {
             //parentFragmentManager.popBackStack() // 이거 오류나는거 같음
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, HomeFragment())
+                .replace(R.id.main_frm, CommunityFragment())
                 .commitAllowingStateLoss()
         }
 
