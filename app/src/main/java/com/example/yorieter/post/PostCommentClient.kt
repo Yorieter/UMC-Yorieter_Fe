@@ -17,5 +17,7 @@ data class PostComment(
     @SerializedName(value = "memberId") var memberId: Int,
     @SerializedName(value = "recipeId") var recipeId: Int,
     @SerializedName(value = "parentCommentId") var parentCommentId: Int,
-    @SerializedName(value = "childComments") var childComments: List<String>
+    @SerializedName(value = "childComments") var childComments: List<String>,
+    @SerializedName(value = "memberNickname") var memberNickname: String,
+    @SerializedName(value = "memberProfile") var memberProfile: String
 )

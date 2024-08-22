@@ -21,5 +21,7 @@ data class Comment(
     @SerializedName("memberId") val memberId: Int,
     @SerializedName("recipeId") val recipeId: Int,
     @SerializedName("parentCommentId") val parentCommentId: Int,
-    @SerializedName("childComments") val childComments: List<String>
+    @SerializedName("childComments") val childComments: List<String>,
+    @SerializedName(value = "memberNickname") var memberNickname: String,
+    @SerializedName(value = "memberProfile") var memberProfile: String
 )
