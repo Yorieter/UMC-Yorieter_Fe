@@ -25,7 +25,9 @@ import retrofit2.Response
 
 class HomeRecommendRecipeAdapter(private val fragmentManager: FragmentManager, private val context: Context) : RecyclerView.Adapter<HomeRecommendRecipeAdapter.HomeRecommendRecipeHolder>() {
     private var recipes: List<Recipe> = listOf()
-
+    init {
+        setHasStableIds(true)
+    }
     companion object {
         private const val ARG_RECIPE_ID = "recipeId"
 
