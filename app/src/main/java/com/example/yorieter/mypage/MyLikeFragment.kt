@@ -94,7 +94,7 @@ class MyLikeFragment: Fragment() {
         }
 
         // 어댑터와 데이터 리스트(더미데이터) 연결
-        mylikeRVAdapter = MylikeRVAdapter(mylikeDatas)
+        mylikeRVAdapter = MylikeRVAdapter(context!!, mylikeDatas)
 
         // 리사이클러뷰에 어댑터를 연결
         binding.mylikeContentVp.adapter = mylikeRVAdapter
@@ -185,7 +185,8 @@ class MyLikeFragment: Fragment() {
                                     coverImg = recipe.imageUrl,
                                     title = recipe.title,
                                     date = "작성일자: ${recipe.createdAt}",
-                                    recipeId = recipe.recipeId)
+                                    recipeId = recipe.recipeId,
+                                    mypagelike = true)
                             }
                             mylikeDatas.addAll(newLikes)
 

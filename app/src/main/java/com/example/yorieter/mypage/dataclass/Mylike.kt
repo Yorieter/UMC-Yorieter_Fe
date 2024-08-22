@@ -4,5 +4,6 @@ data class Mylike(
     var coverImg: String? = null,
     var title: String? = "",
     var date: String? = "",
-    var recipeId: Int
+    var recipeId: Int,
+    var mypagelike: Boolean
 )
