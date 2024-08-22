@@ -91,8 +91,8 @@ class CommentFragment : Fragment()  {
                             resp.result?.forEach { comment ->
                                 commentDatas.add(
                                     CommentData(
-                                        comment_user_image = R.drawable.mypage_ic_yorieter_profile, // 고정된 이미지 사용
-                                        comment_user_name = "User ${comment.memberId}", // 멤버 ID로 이름 대체
+                                        comment_user_image = comment.memberProfile, // 고정된 이미지 사용
+                                        comment_user_name = comment.memberNickname, // 멤버 ID로 이름 대체
                                         comment_date = comment.createdAt, // 문자열 형태의 날짜
                                         comment_content = comment.content
                                     )
@@ -170,25 +170,28 @@ class CommentFragment : Fragment()  {
                         if (resp.isSuccess){
                             Log.d("COMMENT/SUCCESS", "댓글 등록 성공")
 
-                            // 서버로부터 받은 댓글 데이터를 RecyclerView에 추가
-                            val newComment = CommentData(
-                                comment_user_image = R.drawable.mypage_ic_yorieter_profile,  // 고정된 이미지 사용
-                                comment_user_name = "User ${resp.result.memberId}",  // 멤버 ID로 사용자 이름 대체
-                                comment_date = resp.result.updatedAt,  // 업데이트 날짜 사용
-                                comment_content = resp.result.content  // 댓글 내용
-                            )
+                            // 댓글을 추가한 후 댓글 목록을 다시 불러옵니다.
+                            loadComments()
+                            binding.commentBox.text.clear() // 댓글 입력 필드 초기화
 
-                            // RecyclerView의 데이터셋에 추가
-                            commentDatas.add(newComment)
-                            adapter.notifyItemInserted(commentDatas.size - 1)  // 새로운 아이템이 추가되었음을 알림
-                            binding.commentRv.scrollToPosition(commentDatas.size - 1)  // 가장 최신 댓글로 스크롤
-
-                            // 댓글 입력 필드 초기화
-                            binding.commentBox.text.clear()
+//                            // 서버로부터 받은 댓글 데이터를 RecyclerView에 추가
+//                            val newComment = CommentData(
+//                                comment_user_image = resp.result.memberProfile,  // 고정된 이미지 사용
+//                                comment_user_name = resp.result.memberNickname,  // 멤버 ID로 사용자 이름 대체
+//                                comment_date = resp.result.updatedAt,  // 업데이트 날짜 사용
+//                                comment_content = resp.result.content  // 댓글 내용
+//                            )
+//
+//                            // RecyclerView의 데이터셋에 추가
+//                            commentDatas.add(newComment)
+//                            adapter.notifyItemInserted(commentDatas.size - 1)  // 새로운 아이템이 추가되었음을 알림
+//                            binding.commentRv.scrollToPosition(commentDatas.size - 1)  // 가장 최신 댓글로 스크롤
+//
+//                            // 댓글 입력 필드 초기화
+//                            binding.commentBox.text.clear()
 
                             // 해당 레시피 아이디 저장하는 함수 호출
                             saveRecipeId(resp)
-
 
                         } else {
                             Log.e("COMMENT/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
@@ -202,6 +205,41 @@ class CommentFragment : Fragment()  {
                     Log.e("RETROFIT/FAILURE", t.message.toString())
                 }
 
+            })
+        }
+    }
+
+    private fun loadComments(){
+        val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
+        val token = getToken()
+
+        val commentService = PostRetrofitObj.getRetrofit().create(PostRetrofitItf::class.java)
+
+        if (token != null) {
+            commentService.getAllComment("Bearer $token", recipeId).enqueue(object: Callback<CommentsResponse> {
+                override fun onResponse(call: Call<CommentsResponse>, response: Response<CommentsResponse>) {
+                    val resp: CommentsResponse = response.body()!!
+                    if (resp.isSuccess) {
+                        commentDatas.clear() // 기존 데이터 지우기
+                        resp.result?.forEach { comment ->
+                            commentDatas.add(
+                                CommentData(
+                                    comment_user_image = comment.memberProfile,
+                                    comment_user_name = comment.memberNickname,
+                                    comment_date = comment.createdAt,
+                                    comment_content = comment.content
+                                )
+                            )
+                        }
+                        adapter.notifyDataSetChanged() // 데이터 변경 알림
+                    } else {
+                        Log.e("COMMENT/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
+                    }
+                }
+
+                override fun onFailure(call: Call<CommentsResponse>, t: Throwable) {
+                    Log.e("RETROFIT/FAILURE", t.message.toString())
+                }
             })
         }
     }
