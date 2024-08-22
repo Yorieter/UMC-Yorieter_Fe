@@ -93,6 +93,8 @@ class HomeRecommendRecipeAdapter(private val fragmentManager: FragmentManager, p
                     .addToBackStack(null)
                     .commit()
             }
+
+            //binding.recipeImgIV.clipToOutline = true
         }
     }
 

@@ -23,22 +23,19 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.95" />
 
-    <Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/myHomeMoreToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/ic_yorieter_background"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView"
+        <ImageView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/app_name"
-            android:textColor="@color/subColor5"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:src="@drawable/title"/>
 
         <ImageView
             android:id="@+id/homeBackIV"
@@ -59,8 +56,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/search2" />
-    </Toolbar>
+            app:srcCompat="@drawable/search_icon" />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_recommend_moreRV"

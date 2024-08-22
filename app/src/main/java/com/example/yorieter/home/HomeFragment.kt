@@ -173,7 +173,6 @@ class HomeFragment: Fragment() {
         }
 
         // ViewModel의 데이터 변경을 관찰
-        // ViewModel의 데이터 변경을 관찰
         viewModel.recipes.observe(viewLifecycleOwner, { recipes ->
             // 레시피 리스트를 최대 6개로 제한
             val limitedRecipes = recipes.take(6)
