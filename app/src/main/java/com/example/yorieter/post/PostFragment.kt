@@ -254,14 +254,14 @@ class PostFragment: Fragment() {
                             val recipeFragment = RecipeFragment.newInstance(recipeId)
                             parentFragmentManager.beginTransaction()
                                 .setCustomAnimations(
-                                    R.anim.slide_in_right,
-                                    R.anim.slide_in_left
+                                    R.anim.fade_in,
+                                    R.anim.fade_out
                                 )
                                 .replace(R.id.main_frm, recipeFragment)
                                 .addToBackStack(null)
                                 .commitAllowingStateLoss()
 
-                            Toast.makeText(requireContext(), "게시글 작성 완료:", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "레시피가 작성되었습니다!", Toast.LENGTH_SHORT).show()
                         } else {
                             Log.e("POST/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
                         }
