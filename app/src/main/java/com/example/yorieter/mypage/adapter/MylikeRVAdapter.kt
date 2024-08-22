@@ -27,18 +27,19 @@ class MylikeRVAdapter(private val mylikeList: ArrayList<Mylike>): RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: MylikeRVAdapter.ViewHolder, position: Int) {
-        holder.bind(mylikeList[position], position)
+        holder.bind(mylikeList[position])
     }
 
     override fun getItemCount(): Int = mylikeList.size
 
     inner class ViewHolder(val binding: ItemMylikeBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(mylike: Mylike, pos: Int){
+        fun bind(mylike: Mylike){
             Glide.with(binding.itemMylikeIv.context)
                 .load(mylike.coverImg)
                 .error(R.drawable.mypage_ic_yorieter_profile)
                 .into(binding.itemMylikeIv)
-            binding.itemMylikeTitleTv.text = mylike.title ?: "제목 없음"
+            binding.itemMylikeTitleTv.text = mylike.title
+            binding.mylikeDate.text = mylike.date
 
             itemView.setOnClickListener {
                 itemClickListner?.onItemClick(it, adapterPosition)

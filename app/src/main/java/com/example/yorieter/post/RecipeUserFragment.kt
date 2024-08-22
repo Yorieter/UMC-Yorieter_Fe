@@ -96,12 +96,22 @@ class RecipeUserFragment : Fragment() {
 //        }
 
         binding.commentPageBtn.setOnClickListener {
+            val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
+            Log.d("RecipeUserFragment 레시피 아이디 전달 받음", recipeId.toString())
+
+            // Bundle 생성 및 레시피 아이디 추가
+            val bundle = Bundle()
+            bundle.putInt("recipeId", recipeId)
+
+            val commentFragment = CommentFragment()
+            commentFragment.arguments = bundle
+
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.slide_in_right,
                     R.anim.slide_in_left,
                 )
-                .replace(R.id.main_frm, CommentFragment()) // 댓글 프래그먼트로 이동
+                .replace(R.id.main_frm, commentFragment) // 댓글 프래그먼트로 이동
                 .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }

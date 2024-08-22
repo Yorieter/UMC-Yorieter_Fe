@@ -360,8 +360,8 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_mypage_bottom"
         android:layout_width="wrap_content"
-        android:layout_height="210dp"
-        android:layout_marginStart="180dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="260dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -378,10 +378,8 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:gravity="left"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="70dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/lottie_mypage_bottom"
-        app:layout_constraintTop_toTopOf="@+id/lottie_mypage_bottom"/>
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="@+id/agreement_tv"
+        app:layout_constraintTop_toBottomOf="@+id/agreement_tv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

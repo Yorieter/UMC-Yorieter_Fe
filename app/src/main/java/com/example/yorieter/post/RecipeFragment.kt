@@ -100,6 +100,7 @@ class RecipeFragment : Fragment() {
                                 // 사진 적용
                                 Glide.with(this@RecipeFragment)
                                     .load(resp.result.imageUrl)
+                                    .error(R.drawable.mypage_ic_yorieter_profile) // 에러 시 표시할 이미지
                                     .into(binding.foodPhoto)
 
                                 // 식재료 적용
