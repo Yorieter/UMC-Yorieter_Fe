@@ -18,6 +18,11 @@ class CommentRVAdapter (private val commentlist : ArrayList<CommentData>) : Recy
 
         return MyViewHolder(binding)
     }
+    interface CommentItemClickListener {
+        fun onItemClick(recipe: Recipe)
+    }
+
+    var mItemClickListener: CommentItemClickListener ? = null
 
     override fun onBindViewHolder(holder: CommentRVAdapter.MyViewHolder, position: Int) {
         holder.bind(commentlist[position])

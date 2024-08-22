@@ -47,6 +47,10 @@ class RecipeFragment : Fragment() {
     ): View? {
         binding = FragmentRecipeBinding.inflate(inflater, container, false)
 
+        // 전달받은 레시피 아이디 가져오기
+        val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
+        Log.d("전달받은 레시피 아이디 확인", recipeId.toString())
+
 //        binding.backRecipeBtn.setOnClickListener {
 //            parentFragmentManager.beginTransaction()
 //                .setCustomAnimations(
@@ -59,25 +63,23 @@ class RecipeFragment : Fragment() {
 //        }
 
         binding.backRecipeBtn.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            parentFragmentManager.popBackStack() // 이거 오류나는거 같음
         }
 
         binding.commentPageBtn.setOnClickListener {
+            val commentFragment = CommentFragment.newInstance(recipeId)
+
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.slide_in_right,
-                    R.anim.slide_in_left,
+                    R.anim.slide_in_left
                 )
-                .replace(R.id.main_frm, CommentFragment()) // 댓글 프래그먼트로 이동
+                .replace(R.id.main_frm, commentFragment) // newInstance로 생성된 댓글 프래그먼트로 이동
                 .addToBackStack(null) // 백 스택 추가
                 .commitAllowingStateLoss()
         }
 
         val token = getToken()
-
-        // 전달받은 레시피 아이디 가져오기
-        val recipeId = arguments?.getInt(ARG_RECIPE_ID) ?: -1
-        Log.d("전달받은 레시피 아이디 확인", recipeId.toString())
 
         val homeService = PostRetrofitObj.getRetrofit().create(PostRetrofitItf::class.java)
 

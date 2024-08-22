@@ -43,8 +43,6 @@ class PostFragment: Fragment() {
     private val PICK_IMAGE_REQUEST = 1
     private var title : String = ""
     private var description : String = ""
-    private var calories : Int = 0
-    private var image : String = ""
     private val postViewModel : PostViewModel by activityViewModels()
     private var selectedImageUri: Uri? = null // 선택된 이미지의 URI를 저장하기 위한 변수
 
@@ -99,15 +97,14 @@ class PostFragment: Fragment() {
         binding.addPostBtn.setOnClickListener {
             //parseIngredients(ingredientInput)
             addPosts()
-
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.slide_in_right,
-                    R.anim.slide_in_left,
-                )
-                .replace(R.id.main_frm, RecipeFragment()) // 내가 작성한 화면으로 이동
-                .addToBackStack(null) // 백 스택 추가
-                .commitAllowingStateLoss()
+//            parentFragmentManager.beginTransaction()
+//                .setCustomAnimations(
+//                    R.anim.slide_in_right,
+//                    R.anim.slide_in_left,
+//                )
+//                .replace(R.id.main_frm, RecipeFragment()) // 내가 작성한 화면으로 이동
+//                .addToBackStack(null) // 백 스택 추가
+//                .commitAllowingStateLoss()
         }
 
         return binding.root
@@ -253,6 +250,17 @@ class PostFragment: Fragment() {
                         if(resp.isSuccess) { // 응답 성공 시
                             val recipeId = resp.result.recipeId // 레시피 번호 받아오기
                             Log.d("POST/SUCCESS", "레시피 작성 성공")
+
+                            val recipeFragment = RecipeFragment.newInstance(recipeId)
+                            parentFragmentManager.beginTransaction()
+                                .setCustomAnimations(
+                                    R.anim.slide_in_right,
+                                    R.anim.slide_in_left
+                                )
+                                .replace(R.id.main_frm, recipeFragment)
+                                .addToBackStack(null)
+                                .commitAllowingStateLoss()
+
                             Toast.makeText(requireContext(), "게시글 작성 완료:", Toast.LENGTH_SHORT).show()
                         } else {
                             Log.e("POST/FAILURE", "응답 코드: ${resp.code}, 응답메시지: ${resp.message}")
