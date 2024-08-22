@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.yorieter.R
@@ -109,6 +110,7 @@ class RecipeFragment : Fragment() {
                                     chip.text = ingredient
                                     chip.isClickable = false
                                     chip.isCheckable = false
+                                    chip.chipBackgroundColor = ContextCompat.getColorStateList(requireContext(), R.color.mainColor) // Background color
                                     binding.recipeChipGroup.addView(chip)
                                 }
 
