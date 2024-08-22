@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.yorieter.R
 import com.example.yorieter.databinding.FragmentRecipeBinding
 import com.example.yorieter.home.API.HomeRecipesResponse
+import com.example.yorieter.home.HomeFragment
 import com.example.yorieter.mypage.EditProfileFragment
 import com.example.yorieter.mypage.MyCommentFragment
 import com.example.yorieter.mypage.adapter.MypostRVAdapter
@@ -64,7 +65,10 @@ class RecipeFragment : Fragment() {
 //        }
 
         binding.backRecipeBtn.setOnClickListener {
-            parentFragmentManager.popBackStack() // 이거 오류나는거 같음
+            //parentFragmentManager.popBackStack() // 이거 오류나는거 같음
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, HomeFragment())
+                .commitAllowingStateLoss()
         }
 
         binding.commentPageBtn.setOnClickListener {
