@@ -23,5 +23,5 @@ data class Recipe(
     @SerializedName("ingredientNames") val ingredientNames: List<String>,
     @SerializedName("createdAt") val createdAt: String,
     @SerializedName("updatedAt") val updatedAt: String,
-    var communityLike: Boolean
+    @SerializedName("liked") var liked: Boolean
 )

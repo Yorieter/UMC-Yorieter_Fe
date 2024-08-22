@@ -79,11 +79,11 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
 
             // 초기 좋아요 상태 설정
             val isLiked = getLikeState(recipe.recipeId)
-            recipe.communityLike = isLiked
+            recipe.liked = isLiked
             updateLikeUI(isLiked)
 
             binding.communityLikeIv.setOnClickListener {
-                if (!recipe.communityLike) {
+                if (!recipe.liked) {
                     updateLikeUI(true)  // UI를 먼저 업데이트
                     likeRecipe(recipe.recipeId, recipe)
                 } else {
@@ -107,7 +107,7 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
                 likeService.recipesLike("Bearer $token", recipeId).enqueue(object : Callback<CommunitylikeResponse> {
                     override fun onResponse(call: Call<CommunitylikeResponse>, response: Response<CommunitylikeResponse>) {
                         if (response.isSuccessful) {
-                            recipe.communityLike = true
+                            recipe.liked = true
                             saveLikeState(recipeId, true)
                             updateLikeUI(true)
                             Log.d("좋아요/SUCCESS", "좋아요 성공")
@@ -131,7 +131,7 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
                 likeService.recipeDelete("Bearer $token", recipeId).enqueue(object : Callback<CommunitylikeResponse> {
                     override fun onResponse(call: Call<CommunitylikeResponse>, response: Response<CommunitylikeResponse>) {
                         if (response.isSuccessful) {
-                            recipe.communityLike = false
+                            recipe.liked = false
                             saveLikeState(recipeId, false)
                             updateLikeUI(false)
                             Log.d("좋아요/SUCCESS", "좋아요 취소 성공")
@@ -157,9 +157,9 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
                     "RECIPE409" -> {
                         // 이미 상태가 일치하는 경우
                         Log.e("좋아요/ERROR", "이미 좋아요 상태가 맞습니다.")
-                        recipe.communityLike = !recipe.communityLike
-                        saveLikeState(recipe.recipeId, recipe.communityLike)
-                        updateLikeUI(recipe.communityLike)
+                        recipe.liked = !recipe.liked
+                        saveLikeState(recipe.recipeId, recipe.liked)
+                        updateLikeUI(recipe.liked)
                     }
                     else -> {
                         Log.e("좋아요/ERROR", "Error: $errorBody")
