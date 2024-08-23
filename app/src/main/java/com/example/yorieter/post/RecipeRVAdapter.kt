@@ -57,9 +57,9 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(recipelist[position])
-//        holder.itemView.setOnClickListener {
-//            mItemClickListener?.onItemClick(recipelist[position])
-//        }
+        holder.itemView.setOnClickListener {
+            mItemClickListener?.onItemClick(recipelist[position])
+        }
     }
 
     override fun getItemCount(): Int = recipelist.size
