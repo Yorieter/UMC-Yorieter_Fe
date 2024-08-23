@@ -57,9 +57,9 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(recipelist[position])
-        holder.itemView.setOnClickListener {
-            mItemClickListener?.onItemClick(recipelist[position])
-        }
+//        holder.itemView.setOnClickListener {
+//            mItemClickListener?.onItemClick(recipelist[position])
+//        }
     }
 
     override fun getItemCount(): Int = recipelist.size
@@ -109,7 +109,7 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
                         if (response.isSuccessful) {
                             recipe.liked = true
                             saveLikeState(recipeId, true)
-                            updateLikeUI(true)
+                            //updateLikeUI(true)
                             Log.d("좋아요/SUCCESS", "좋아요 성공")
                         } else {
                             handleLikeError(response, recipe)
@@ -118,6 +118,7 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
 
                     override fun onFailure(call: Call<CommunitylikeResponse>, t: Throwable) {
                         Log.e("좋아요 API/FAILURE", "Network failure: ${t.message}")
+                        updateLikeUI(!recipe.liked) // 실패 시 원래 상태로 복구
                     }
                 })
             }
@@ -133,7 +134,7 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
                         if (response.isSuccessful) {
                             recipe.liked = false
                             saveLikeState(recipeId, false)
-                            updateLikeUI(false)
+                            //updateLikeUI(false)
                             Log.d("좋아요/SUCCESS", "좋아요 취소 성공")
                         } else {
                             handleLikeError(response, recipe)
@@ -142,6 +143,7 @@ class RecipeRVAdapter(private val context: Context, private val recipelist: Arra
 
                     override fun onFailure(call: Call<CommunitylikeResponse>, t: Throwable) {
                         Log.e("좋아요 API/FAILURE", "Network failure: ${t.message}")
+                        updateLikeUI(!recipe.liked) // 실패 시 원래 상태로 복구
                     }
                 })
             }
