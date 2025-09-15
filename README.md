@@ -58,6 +58,6 @@
 **Android**
 | <img src="https://avatars.githubusercontent.com/u/101084007?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/148409705?v=4" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/122617471?v=4" width="100" height="100"> |
 |:---:|:---:|:---:|
-| [홍다빈](https://github.com/dabeen02) | [김민수](https://github.com/mingsoo2) | [이소연](https://github.com/silviasylee03) |
+| [홍다빈](https://github.com/dabeen02) | [김민수](https://github.com/mingsoo2) | [이소연](https://github.com/BBungya) |
 
 ***
